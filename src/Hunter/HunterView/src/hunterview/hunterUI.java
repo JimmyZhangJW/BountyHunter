@@ -66,8 +66,8 @@ public class hunterUI extends javax.swing.JPanel {
         huntingPanel = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        LeaderBoardList = new javax.swing.JList<>();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
 
         setLayout(null);
@@ -263,24 +263,22 @@ public class hunterUI extends javax.swing.JPanel {
 
         jPanel2.setOpaque(false);
 
-        LeaderBoardList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "1:Arkodo", "2:Leo", "3:Oppp", "4:Gereal", "5:sdsda" };
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        LeaderBoardList.setOpaque(false);
-        //jScrollPane3.setOpaque(false);
-        jScrollPane3.setViewportView(LeaderBoardList);
+        jScrollPane4.setViewportView(jList1);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("LeaderBoard", jPanel2);
@@ -322,7 +320,6 @@ public class hunterUI extends javax.swing.JPanel {
     private javax.swing.JList<String> ItemList;
     private javax.swing.JLabel JustItemLabel;
     private javax.swing.JLabel JustMissionLabel;
-    private javax.swing.JList<String> LeaderBoardList;
     private javax.swing.JLabel LevelField;
     private javax.swing.JList<String> MissionList;
     private javax.swing.JScrollPane MissionsScrollRanel;
@@ -337,12 +334,13 @@ public class hunterUI extends javax.swing.JPanel {
     private javax.swing.JPanel huntingPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel rankLabel;
     // End of variables declaration//GEN-END:variables
