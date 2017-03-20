@@ -12,3 +12,5 @@
 hs_err_pid*
 /.idea/
 .idea/
+/src/Hunter/HunterView/nbproject/private/
+/src/Hunter/HunterView/build/
