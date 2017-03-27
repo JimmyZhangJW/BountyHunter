@@ -14,3 +14,6 @@ hs_err_pid*
 .idea/
 /src/Hunter/HunterView/nbproject/private/
 /src/Hunter/HunterView/build/
+/CPSC304Project/nbproject/private/
+/src2/nbproject/private/
+/src2/build/

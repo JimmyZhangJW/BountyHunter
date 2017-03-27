@@ -42,7 +42,10 @@ public class hunterUI extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        CoverPanel = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        TeamPanel = new javax.swing.JPanel();
+        huntingPanel = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         StatusPanel = new javax.swing.JPanel();
         WelcomeField = new javax.swing.JLabel();
         balanceField = new javax.swing.JLabel();
@@ -61,18 +64,43 @@ public class hunterUI extends javax.swing.JPanel {
         ItemList = new javax.swing.JList<>();
         JustItemLabel = new javax.swing.JLabel();
         JustMissionLabel = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        TeamPanel = new javax.swing.JPanel();
-        huntingPanel = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
-        jLabel1 = new javax.swing.JLabel();
 
         setLayout(null);
 
-        CoverPanel.setBackground(new Color(0,0,0,50));
+        TeamPanel.setOpaque(false);
+
+        javax.swing.GroupLayout TeamPanelLayout = new javax.swing.GroupLayout(TeamPanel);
+        TeamPanel.setLayout(TeamPanelLayout);
+        TeamPanelLayout.setHorizontalGroup(
+            TeamPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 490, Short.MAX_VALUE)
+        );
+        TeamPanelLayout.setVerticalGroup(
+            TeamPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 632, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("ManageTeam", TeamPanel);
+
+        huntingPanel.setOpaque(false);
+
+        javax.swing.GroupLayout huntingPanelLayout = new javax.swing.GroupLayout(huntingPanel);
+        huntingPanel.setLayout(huntingPanelLayout);
+        huntingPanelLayout.setHorizontalGroup(
+            huntingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 490, Short.MAX_VALUE)
+        );
+        huntingPanelLayout.setVerticalGroup(
+            huntingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 632, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("HuntingMissions", huntingPanel);
+
+        jPanel1.setOpaque(false);
 
         StatusPanel.setBackground(new java.awt.Color(54, 47, 47));
         StatusPanel.setForeground(new java.awt.Color(204, 102, 0));
@@ -216,47 +244,21 @@ public class hunterUI extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        TeamPanel.setOpaque(false);
-
-        javax.swing.GroupLayout TeamPanelLayout = new javax.swing.GroupLayout(TeamPanel);
-        TeamPanel.setLayout(TeamPanelLayout);
-        TeamPanelLayout.setHorizontalGroup(
-            TeamPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 496, Short.MAX_VALUE)
-        );
-        TeamPanelLayout.setVerticalGroup(
-            TeamPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 554, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("ManageTeam", TeamPanel);
-
-        huntingPanel.setOpaque(false);
-
-        javax.swing.GroupLayout huntingPanelLayout = new javax.swing.GroupLayout(huntingPanel);
-        huntingPanel.setLayout(huntingPanelLayout);
-        huntingPanelLayout.setHorizontalGroup(
-            huntingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 496, Short.MAX_VALUE)
-        );
-        huntingPanelLayout.setVerticalGroup(
-            huntingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 554, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("HuntingMissions", huntingPanel);
-
-        jPanel1.setOpaque(false);
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 496, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(StatusPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(207, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 554, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(StatusPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab(" ItemMissions", jPanel1);
@@ -274,40 +276,18 @@ public class hunterUI extends javax.swing.JPanel {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("LeaderBoard", jPanel2);
 
-        javax.swing.GroupLayout CoverPanelLayout = new javax.swing.GroupLayout(CoverPanel);
-        CoverPanel.setLayout(CoverPanelLayout);
-        CoverPanelLayout.setHorizontalGroup(
-            CoverPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(CoverPanelLayout.createSequentialGroup()
-                .addComponent(StatusPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1))
-        );
-        CoverPanelLayout.setVerticalGroup(
-            CoverPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CoverPanelLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(StatusPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jTabbedPane1)
-        );
-
+        add(jTabbedPane1);
+        jTabbedPane1.setBounds(290, 0, 511, 573);
         jTabbedPane1.getAccessibleContext().setAccessibleName("HuntingMissions");
-
-        add(CoverPanel);
-        CoverPanel.setBounds(0, 0, 800, 600);
-
-        jLabel1.setIcon(new javax.swing.ImageIcon("/Users/jingweizhang/Downloads/u=3614819154,3895031968&fm=214&gp=0.jpg")); // NOI18N
-        add(jLabel1);
-        jLabel1.setBounds(0, 0, 800, 600);
     }// </editor-fold>//GEN-END:initComponents
 
     private void depositButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_depositButtonActionPerformed
@@ -316,7 +296,6 @@ public class hunterUI extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel CoverPanel;
     private javax.swing.JList<String> ItemList;
     private javax.swing.JLabel JustItemLabel;
     private javax.swing.JLabel JustMissionLabel;
@@ -332,7 +311,6 @@ public class hunterUI extends javax.swing.JPanel {
     private javax.swing.JButton depositButton;
     private javax.swing.JLabel experienceLabel;
     private javax.swing.JPanel huntingPanel;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
