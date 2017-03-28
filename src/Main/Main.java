@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Main {
 
@@ -22,7 +23,7 @@ public class Main {
             Connection con = DriverManager.getConnection(
                     "jdbc:oracle:thin:@localhost:1522:ug", "ora_j5k0b", "a36579143");
 
-	    // Verify the connection is open. Then close it.
+	    // Verify the connection is open. Then close it.           
             boolean conOpen = !con.isClosed();
             System.out.println("Closing connection");
             con.close();
