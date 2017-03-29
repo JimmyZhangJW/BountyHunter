@@ -33,7 +33,7 @@ public class Connector {
                 System.out.println("Making connection");
                 // Use this connection string when SSH tunneling from your laptop
                 con = DriverManager.getConnection(
-                    "jdbc:oracle:thin:@localhost:1522:ug", "ora_j5k0b", "a36579143");
+                    "jdbc:oracle:thin:@localhost:1522:ug", ORA_ACCOUNT, ORA_PASSWORD);
             }catch (SQLException e) {
                 StringWriter sw = new StringWriter();
                 e.printStackTrace(new PrintWriter(sw));
