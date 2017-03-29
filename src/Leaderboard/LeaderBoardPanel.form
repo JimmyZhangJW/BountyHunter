@@ -84,7 +84,7 @@
                           <Component id="jLabel10" alignment="3" min="-2" pref="15" max="-2" attributes="0"/>
                           <Component id="mHunterSortbyCombo" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="16" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="jScrollPane2" min="-2" pref="472" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
