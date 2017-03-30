@@ -1,7 +1,8 @@
 package Main;
 
 import java.sql.*;
-import javax.swing.JFrame;
+import javax.swing.*;
+
 import Hunter.*;
 import Main.Connect;
 import java.util.logging.Level;
@@ -39,7 +40,9 @@ public class Main {
         }
         
         System.out.println();
-        JFrame hunterGui=new HunterGUI();
+        //JFrame hunterGui=new HunterGUI();
+        JPanel te = new TeamExisited();
+        te.setVisible(true);
         //hunterGui.setVisible(true);
         
         
