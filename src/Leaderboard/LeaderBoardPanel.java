@@ -259,24 +259,59 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mHunterSortbyComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mHunterSortbyComboActionPerformed
-        String selection = (String) mHunterSortbyCombo.getSelectedItem();
+        updateHunterTable();
+    }//GEN-LAST:event_mHunterSortbyComboActionPerformed
+
+    private void mHunterSearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mHunterSearchTextActionPerformed
+        updateHunterTable();
+    }//GEN-LAST:event_mHunterSearchTextActionPerformed
+
+    private void mTeamSearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mTeamSearchTextActionPerformed
+        updateTeamTable();
+    }//GEN-LAST:event_mTeamSearchTextActionPerformed
+
+    private void mTeamSortbyComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mTeamSortbyComboActionPerformed
+        updateTeamTable();
+    }//GEN-LAST:event_mTeamSortbyComboActionPerformed
+
+    private void mItemSortbyComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mItemSortbyComboActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mItemSortbyComboActionPerformed
+
+    private void updateTeamTable(){
+                String selection = (String) mTeamSortbyCombo.getSelectedItem();
+        String searchText = (String) mTeamSearchText.getText();
         Connection con = getConnection();
         Statement stmt;
+        if(selection.equals("Number of Members")){
+            selection = "numMembers";
+        }else{
+            selection = "AVGEXP";
+        }
         try {
             stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(
-                    "SELECT H.NAME, H.AGE, H.GENDER, H.EXPERIENCE, H.GOLDBALANCE " +
-                    "FROM HUNTER H " +
-                    "ORDER BY H." +  selection + " DESC");
-            DefaultTableModel tableModel = (DefaultTableModel) mHunterLeaderboardTable.getModel();
+                    "SELECT A.TEAMNAME, B.CPTNAME, A.AVGEXP, A.numMembers " +
+                    "FROM " +
+                    "(SELECT T.TEAMNAME, AVG(H.EXPERIENCE) AvgExp, COUNT(H.HUNTERID) numMembers " +
+                    "FROM HUNTER H, TEAM T " +
+                    "WHERE H.TEAMNAME = T.TEAMNAME " +
+                    "GROUP BY T.TEAMNAME ) A " +
+                    "INNER JOIN " +
+                    "(SELECT T.TEAMNAME, H.NAME CPTNAME " +
+                    "FROM ora_j5k0b.HUNTER H, ora_j5k0b.TEAM T " +
+                    "WHERE T.HUNTERID = H.HUNTERID)  B " +
+                    "ON A.TEAMNAME = B.TEAMNAME " +
+                    "WHERE A.TEAMNAME LIKE '%" + searchText + "%' " +
+                    "ORDER BY A." + selection + " DESC");
+            DefaultTableModel tableModel = (DefaultTableModel) mTeamLeaderboardTable.getModel();
             tableModel.setRowCount(0);
             while(rs.next()){
-                String[] data = new String[5];
+                String[] data = new String[4];
                 data[0] = rs.getString(1); //NAME
-                data[1] = rs.getString(2); //AGE
-                data[2] = rs.getString(3); //GENDER
-                data[3] = rs.getString(4); //EXPERIENCE
-                data[4] = rs.getString(5); //GOLDBALANCE
+                data[1] = rs.getString(2); //CPTNAME
+                data[2] = rs.getString(3); //AVGEXP
+                data[3] = rs.getString(4); //numMemebers
                 tableModel.addRow(data);
             }
             tableModel.fireTableDataChanged();
@@ -284,9 +319,9 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
             Logger.getLogger(LeaderBoardPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         closeConnection();
-    }//GEN-LAST:event_mHunterSortbyComboActionPerformed
-
-    private void mHunterSearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mHunterSearchTextActionPerformed
+    }
+    
+    private void updateHunterTable(){
         String searchText = (String) mHunterSearchText.getText();
         System.out.println(searchText);
         String selection = (String) mHunterSortbyCombo.getSelectedItem();
@@ -315,59 +350,7 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
             Logger.getLogger(LeaderBoardPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         closeConnection();
-        
-    }//GEN-LAST:event_mHunterSearchTextActionPerformed
-
-    private void mTeamSearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mTeamSearchTextActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_mTeamSearchTextActionPerformed
-
-    private void mTeamSortbyComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mTeamSortbyComboActionPerformed
-        String selection = (String) mTeamSortbyCombo.getSelectedItem();
-        Connection con = getConnection();
-        Statement stmt;
-        if(selection.equals("Number of Members")){
-            selection = "numMembers";
-        }else{
-            selection = "AVGEXP";
-        }
-        try {
-            stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(
-                    "SELECT A.TEAMNAME, B.CPTNAME, A.AVGEXP, A.numMembers " +
-                    "FROM " +
-                    "(SELECT T.TEAMNAME, AVG(H.EXPERIENCE) AvgExp, COUNT(H.HUNTERID) numMembers " +
-                    "FROM HUNTER H, TEAM T " +
-                    "WHERE H.TEAMNAME = T.TEAMNAME " +
-                    "GROUP BY T.TEAMNAME ) A " +
-                    "INNER JOIN " +
-                    "(SELECT T.TEAMNAME, H.NAME CPTNAME " +
-                    "FROM ora_j5k0b.HUNTER H, ora_j5k0b.TEAM T " +
-                    "WHERE T.HUNTERID = H.HUNTERID)  B " +
-                    "ON A.TEAMNAME = B.TEAMNAME " +
-                    "ORDER BY A." + selection + " DESC");
-            DefaultTableModel tableModel = (DefaultTableModel) mTeamLeaderboardTable.getModel();
-            tableModel.setRowCount(0);
-            while(rs.next()){
-                String[] data = new String[4];
-                data[0] = rs.getString(1); //NAME
-                data[1] = rs.getString(2); //CPTNAME
-                data[2] = rs.getString(3); //AVGEXP
-                data[3] = rs.getString(4); //numMemebers
-                tableModel.addRow(data);
-            }
-            tableModel.fireTableDataChanged();
-        } catch (SQLException ex) {
-            Logger.getLogger(LeaderBoardPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        closeConnection();
-    }//GEN-LAST:event_mTeamSortbyComboActionPerformed
-
-    private void mItemSortbyComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mItemSortbyComboActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_mItemSortbyComboActionPerformed
-
-
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
