@@ -284,6 +284,35 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
 
     private void mHunterSearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mHunterSearchTextActionPerformed
         // TODO add your handling code here:
+        String searchText = (String) mHunterSearchText.getText();
+        System.out.println(searchText);
+        String selection = (String) mHunterSortbyCombo.getSelectedItem();
+        Connection con = getConnection();
+        Statement stmt;
+        try {
+            stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(
+                    "SELECT H.NAME, H.AGE, H.GENDER, H.EXPERIENCE, H.GOLDBALANCE " +
+                    "FROM HUNTER H " +
+                    "WHERE H.NAME LIKE '%" + searchText + "%' " +
+                    "ORDER BY H." +  selection + " DESC");
+            DefaultTableModel tableModel = (DefaultTableModel) mHunterLeaderboardTable.getModel();
+            tableModel.setRowCount(0);
+            while(rs.next()){
+                String[] data = new String[5];
+                data[0] = rs.getString(1); //NAME
+                data[1] = rs.getString(2); //AGE
+                data[2] = rs.getString(3); //GENDER
+                data[3] = rs.getString(4); //EXPERIENCE
+                data[4] = rs.getString(5); //GOLDBALANCE
+                tableModel.addRow(data);
+            }
+            tableModel.fireTableDataChanged();
+        } catch (SQLException ex) {
+            Logger.getLogger(LeaderBoardPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        closeConnection();
+        
     }//GEN-LAST:event_mHunterSearchTextActionPerformed
 
     private void mTeamSearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mTeamSearchTextActionPerformed
