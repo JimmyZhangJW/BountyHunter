@@ -5,6 +5,11 @@
  */
 package Hunter;
 
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.GroupLayout;
+import javax.swing.LayoutStyle;
+
 /**
  *
  * @author jingweizhang
@@ -25,199 +30,252 @@ public class TeamExisited extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // Generated using JFormDesigner Evaluation license - Bob Fcku
     private void initComponents() {
+        teamNameLabel = new JLabel();
+        teamName = new JLabel();
+        teamMemberList = new JScrollPane();
+        jList1 = new JList<>();
+        levelLabel = new JLabel();
+        rankLabel = new JLabel();
+        teamLevel = new JLabel();
+        teamRank = new JLabel();
+        teamMemberLabel = new JLabel();
+        currentMissionList = new JScrollPane();
+        jList2 = new JList<>();
+        currentMissionLabel = new JLabel();
+        memberNameLabel = new JLabel();
+        memberName = new JLabel();
+        memberLevelLabel = new JLabel();
+        memberLevel = new JLabel();
+        memberRankLabel = new JLabel();
+        memberRank = new JLabel();
+        experienceLabel = new JLabel();
+        memberExp = new JLabel();
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
+        //======== this ========
 
-        jLabel1.setText("TeamName:");
+        // JFormDesigner evaluation mark
+        setBorder(new javax.swing.border.CompoundBorder(
+            new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
+                "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
+                javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
+                java.awt.Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
 
-        jLabel2.setText("Gecko Express ");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList1);
+        //---- teamNameLabel ----
+        teamNameLabel.setText("TeamName:");
 
-        jLabel3.setText("TeamLevel: ");
+        //---- teamName ----
+        teamName.setText("Gecko Express ");
 
-        jLabel4.setText("TeamRank: ");
+        //======== teamMemberList ========
+        {
 
-        jLabel5.setText("XXX");
+            //---- jList1 ----
+            jList1.setModel(new AbstractListModel<String>() {
+                String[] values = {
+                    "Item 1",
+                    "Item 2",
+                    "Item 3",
+                    "Item 4",
+                    "Item 5"
+                };
+                @Override
+                public int getSize() { return values.length; }
+                @Override
+                public String getElementAt(int i) { return values[i]; }
+            });
+            teamMemberList.setViewportView(jList1);
+        }
 
-        jLabel6.setText("XX");
+        //---- levelLabel ----
+        levelLabel.setText("TeamLevel: ");
 
-        jLabel7.setText("Team Members:");
+        //---- rankLabel ----
+        rankLabel.setText("TeamRank: ");
 
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(jList2);
+        //---- teamLevel ----
+        teamLevel.setText("XXX");
 
-        jLabel8.setText("CURRENT MISSIONS:");
+        //---- teamRank ----
+        teamRank.setText("XX");
 
-        jLabel9.setText("Name:");
+        //---- teamMemberLabel ----
+        teamMemberLabel.setText("Team Members:");
 
-        jLabel10.setText("Jingwei Zhang");
+        //======== currentMissionList ========
+        {
 
-        jLabel11.setText("Level:");
+            //---- jList2 ----
+            jList2.setModel(new AbstractListModel<String>() {
+                String[] values = {
+                    "Item 1",
+                    "Item 2",
+                    "Item 3",
+                    "Item 4",
+                    "Item 5"
+                };
+                @Override
+                public int getSize() { return values.length; }
+                @Override
+                public String getElementAt(int i) { return values[i]; }
+            });
+            currentMissionList.setViewportView(jList2);
+        }
 
-        jLabel12.setText("XXX");
+        //---- currentMissionLabel ----
+        currentMissionLabel.setText("CURRENT MISSIONS:");
 
-        jLabel13.setText("Rank:");
+        //---- memberNameLabel ----
+        memberNameLabel.setText("Name:");
 
-        jLabel14.setText("XXX");
+        //---- memberName ----
+        memberName.setText("Jingwei Zhang");
 
-        jLabel15.setText("Experience:");
+        //---- memberLevelLabel ----
+        memberLevelLabel.setText("Level:");
 
-        jLabel16.setFont(new java.awt.Font("Lucida Grande", 0, 8)); // NOI18N
-        jLabel16.setText("2333/45000");
+        //---- memberLevel ----
+        memberLevel.setText("XXX");
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        //---- memberRankLabel ----
+        memberRankLabel.setText("Rank:");
+
+        //---- memberRank ----
+        memberRank.setText("XXX");
+
+        //---- experienceLabel ----
+        experienceLabel.setText("Experience:");
+
+        //---- memberExp ----
+        memberExp.setFont(new Font("Lucida Grande", Font.PLAIN, 8));
+        memberExp.setText("2333/45000");
+
+        GroupLayout layout = new GroupLayout(this);
+        setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel2))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel5))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel6))
-                            .addComponent(jLabel7))
-                        .addGap(18, 18, 18))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel11))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel10))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel12))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel13)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel14))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel15)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel16)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(0, 87, Short.MAX_VALUE)))
-                .addContainerGap())
+            layout.createParallelGroup()
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup()
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(teamNameLabel)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(teamName))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(levelLabel)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(teamLevel))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(rankLabel)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(teamRank))
+                                .addComponent(teamMemberLabel))
+                            .addGap(18, 18, 18))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(teamMemberList, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup()
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup()
+                                        .addComponent(memberNameLabel)
+                                        .addComponent(memberLevelLabel))
+                                    .addGroup(layout.createParallelGroup()
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(memberName))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(memberLevel))))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup()
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(memberRankLabel)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(memberRank))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(experienceLabel)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(memberExp)))
+                                    .addGap(0, 0, Short.MAX_VALUE)))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)))
+                    .addGroup(layout.createParallelGroup()
+                        .addComponent(currentMissionList)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(currentMissionLabel)
+                            .addGap(0, 8, Short.MAX_VALUE)))
+                    .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel6))
-                        .addGap(97, 97, 97)
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel10))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel11)
-                                    .addComponent(jLabel12))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel13)
-                                    .addComponent(jLabel14))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel15)
-                                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE))))
-                .addGap(40, 40, 40))
+            layout.createParallelGroup()
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(teamNameLabel)
+                        .addComponent(teamName)
+                        .addComponent(currentMissionLabel))
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup()
+                        .addComponent(currentMissionList, GroupLayout.PREFERRED_SIZE, 293, GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(levelLabel)
+                                .addComponent(teamLevel))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(rankLabel)
+                                .addComponent(teamRank))
+                            .addGap(97, 97, 97)
+                            .addComponent(teamMemberLabel)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(layout.createParallelGroup()
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(memberNameLabel)
+                                        .addComponent(memberName))
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(memberLevelLabel)
+                                        .addComponent(memberLevel))
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(memberRankLabel)
+                                        .addComponent(memberRank))
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(experienceLabel)
+                                        .addComponent(memberExp, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE))
+                                    .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(teamMemberList, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))))
+                    .addGap(40, 40, 40))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JList<String> jList2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    // Generated using JFormDesigner Evaluation license - Bob Fcku
+    private JLabel teamNameLabel;
+    private JLabel teamName;
+    private JScrollPane teamMemberList;
+    private JList<String> jList1;
+    private JLabel levelLabel;
+    private JLabel rankLabel;
+    private JLabel teamLevel;
+    private JLabel teamRank;
+    private JLabel teamMemberLabel;
+    private JScrollPane currentMissionList;
+    private JList<String> jList2;
+    private JLabel currentMissionLabel;
+    private JLabel memberNameLabel;
+    private JLabel memberName;
+    private JLabel memberLevelLabel;
+    private JLabel memberLevel;
+    private JLabel memberRankLabel;
+    private JLabel memberRank;
+    private JLabel experienceLabel;
+    private JLabel memberExp;
     // End of variables declaration//GEN-END:variables
 }

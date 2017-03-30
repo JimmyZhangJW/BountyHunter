@@ -25,8 +25,8 @@ import java.util.logging.Logger;
 public class Connect {
     
        // --- FILL THESE IN ---
-    static String ORA_ACCOUNT = "ora_n9k0b";
-    static String ORA_PASSWORD = "a46778156";
+    static String ORA_ACCOUNT = "ora_l5l0b";
+    static String ORA_PASSWORD = "a55941158";
     
     private static Connection con;
     
