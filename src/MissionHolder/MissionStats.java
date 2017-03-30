@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -33,7 +34,7 @@ public class MissionStats extends javax.swing.JFrame {
     public MissionStats(int id) {
         initComponents();
         this.id=id;
-        
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         con=Connector.getConnection();
         setcurrentMissionTable();
     }

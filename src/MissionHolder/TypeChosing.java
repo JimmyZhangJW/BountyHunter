@@ -5,6 +5,9 @@
  */
 package MissionHolder;
 
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+
 /**
  *
  * @author MalcolmChen
@@ -17,7 +20,7 @@ public class TypeChosing extends javax.swing.JFrame {
     public TypeChosing(int id) {
         this.id=id;
         initComponents();
-        
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
     }
 
     /**

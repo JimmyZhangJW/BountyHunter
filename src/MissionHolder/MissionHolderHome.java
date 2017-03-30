@@ -6,12 +6,14 @@
 package MissionHolder;
 
 
+import Leaderboard.LeaderBoardPanel;
 import Main.Connector;
 import Main.signup;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JFrame;
 
 /**
  *
@@ -91,12 +93,12 @@ public class MissionHolderHome extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         rank = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        mNewMissionButton = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        mMissionStatsButton = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        mLeaderBoardButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         AddMoneyButton = new javax.swing.JButton();
         MoneyToAddText = new javax.swing.JTextField();
@@ -130,20 +132,20 @@ public class MissionHolderHome extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(246, 245, 245));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 0, 0)), "Operations", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Lucida Grande", 0, 24), new java.awt.Color(0, 153, 153))); // NOI18N
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MissionHolder/vision_mission.jpg"))); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        mNewMissionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MissionHolder/vision_mission.jpg"))); // NOI18N
+        mNewMissionButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                mNewMissionButtonActionPerformed(evt);
             }
         });
 
         jLabel6.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         jLabel6.setText("LeaderBoards");
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MissionHolder/stat.png"))); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        mMissionStatsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MissionHolder/stat.png"))); // NOI18N
+        mMissionStatsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                mMissionStatsButtonActionPerformed(evt);
             }
         });
 
@@ -153,10 +155,10 @@ public class MissionHolderHome extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         jLabel5.setText("Mission Stats");
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MissionHolder/leaderboard-300x300.png"))); // NOI18N
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        mLeaderBoardButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MissionHolder/leaderboard-300x300.png"))); // NOI18N
+        mLeaderBoardButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                mLeaderBoardButtonActionPerformed(evt);
             }
         });
 
@@ -171,36 +173,42 @@ public class MissionHolderHome extends javax.swing.JFrame {
                         .addComponent(jLabel4))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(49, 49, 49)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(142, 142, 142)
+                        .addComponent(mNewMissionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(114, 114, 114)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mMissionStatsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
+                        .addGap(12, 12, 12)
                         .addComponent(jLabel5)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(137, 137, 137)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addGap(52, 52, 52))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(mLeaderBoardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(40, 40, 40))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6))
-                .addGap(28, 28, 28))
+                .addGap(36, 36, 36)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(mNewMissionButton)
+                        .addComponent(mLeaderBoardButton))
+                    .addComponent(mMissionStatsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel6))
+                        .addGap(28, 28, 28))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel5)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         jPanel2.setBackground(new java.awt.Color(246, 245, 245));
@@ -212,10 +220,10 @@ public class MissionHolderHome extends javax.swing.JFrame {
                 AddMoneyButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(AddMoneyButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 80, 90, 33));
+        jPanel2.add(AddMoneyButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 80, 110, 33));
 
         MoneyToAddText.setForeground(new java.awt.Color(102, 102, 102));
-        MoneyToAddText.setText("Enter money");
+        MoneyToAddText.setToolTipText("Enter Money");
         MoneyToAddText.setMinimumSize(new java.awt.Dimension(13, 26));
         MoneyToAddText.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -270,7 +278,7 @@ public class MissionHolderHome extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(77, 77, 77)
                                 .addComponent(NameText, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
@@ -360,23 +368,25 @@ public class MissionHolderHome extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void mMissionStatsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mMissionStatsButtonActionPerformed
         // TODO add your handling code here:
-        MissionStats hihi=new MissionStats(id);
-        hihi.setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
+        MissionStats missionStatPanel =new MissionStats(id);
+        missionStatPanel.setVisible(true);
+    }//GEN-LAST:event_mMissionStatsButtonActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void mLeaderBoardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mLeaderBoardButtonActionPerformed
+        JFrame frame = new JFrame();
+        LeaderBoardPanel lb = new LeaderBoardPanel();
+        frame.add(lb);
+        frame.setSize(1200,600);
+        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        frame.setVisible(true);
+    }//GEN-LAST:event_mLeaderBoardButtonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-       
-        TypeChosing haha=new TypeChosing(id);
-        haha.setVisible(true);
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void mNewMissionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mNewMissionButtonActionPerformed
+        TypeChosing createMissionPanel = new TypeChosing(id);
+        createMissionPanel.setVisible(true);        
+    }//GEN-LAST:event_mNewMissionButtonActionPerformed
 
     private void AddMoneyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddMoneyButtonActionPerformed
         // TODO add your handling code here:
@@ -420,9 +430,6 @@ public class MissionHolderHome extends javax.swing.JFrame {
     private javax.swing.JTextField MoneyToAddText;
     private javax.swing.JLabel NameText;
     private javax.swing.JLabel agetext;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -437,6 +444,9 @@ public class MissionHolderHome extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JButton mLeaderBoardButton;
+    private javax.swing.JButton mMissionStatsButton;
+    private javax.swing.JButton mNewMissionButton;
     private javax.swing.JLabel rank;
     private javax.swing.JButton refresh;
     // End of variables declaration//GEN-END:variables
