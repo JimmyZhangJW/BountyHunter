@@ -5,6 +5,16 @@
  */
 package Leaderboard;
 
+import static Main.Connector.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
 /**
  *
  * @author omar
@@ -55,7 +65,7 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
 
         jLabel10.setText("Sort by:");
 
-        mHunterSortbyCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Level", "Gold" }));
+        mHunterSortbyCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Experience", "GoldBalance" }));
         mHunterSortbyCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mHunterSortbyComboActionPerformed(evt);
@@ -72,10 +82,10 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
 
         mHunterLeaderboardTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null}
             },
             new String [] {
-                "Ranking", "Name", "Exp", "Level", "Gold", "Age", "Gender"
+                "Name", "Age", "Gender", "Exp", "Gold"
             }
         ));
         jScrollPane2.setViewportView(mHunterLeaderboardTable);
@@ -95,20 +105,20 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel10)
                         .addGap(18, 18, 18)
-                        .addComponent(mHunterSortbyCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(mHunterSortbyCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         mHunterLeaderboardPanelLayout.setVerticalGroup(
             mHunterLeaderboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mHunterLeaderboardPanelLayout.createSequentialGroup()
-                .addGap(55, 55, 55)
+                .addGap(29, 29, 29)
                 .addGroup(mHunterLeaderboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(mHunterSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(mHunterSortbyCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -245,7 +255,31 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mHunterSortbyComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mHunterSortbyComboActionPerformed
-        // TODO add your handling code here:
+        String selection = (String) mHunterSortbyCombo.getSelectedItem();
+        Connection con = getConnection();
+        Statement stmt;
+        try {
+            stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(
+                    "SELECT H.NAME, H.AGE, H.GENDER, H.EXPERIENCE, H.GOLDBALANCE " +
+                    "FROM HUNTER H " +
+                    "ORDER BY H." +  selection + " DESC");
+            DefaultTableModel tableModel = (DefaultTableModel) mHunterLeaderboardTable.getModel();
+            tableModel.setRowCount(0);
+            while(rs.next()){
+                String[] data = new String[5];
+                data[0] = rs.getString(1); //NAME
+                data[1] = rs.getString(2); //AGE
+                data[2] = rs.getString(3); //GENDER
+                data[3] = rs.getString(4); //EXPERIENCE
+                data[4] = rs.getString(5); //GOLDBALANCE
+                tableModel.addRow(data);
+            }
+            tableModel.fireTableDataChanged();
+        } catch (SQLException ex) {
+            Logger.getLogger(LeaderBoardPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        closeConnection();
     }//GEN-LAST:event_mHunterSortbyComboActionPerformed
 
     private void mHunterSearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mHunterSearchTextActionPerformed
