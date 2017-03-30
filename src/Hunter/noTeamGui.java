@@ -1,9 +1,12 @@
 package Hunter;
 
+import Main.Connect;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 
 public class noTeamGui {
     private JPanel mainWindow;
@@ -20,6 +23,7 @@ public class noTeamGui {
     }
 
     public noTeamGui() {
+        Connection c = Connect.getConnection();
         joinTeamButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //TODO WRITE UPDATE JOIN CODE QUERY HERE
