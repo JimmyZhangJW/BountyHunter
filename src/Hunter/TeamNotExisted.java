@@ -29,9 +29,20 @@ public class TeamNotExisted extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // Generated using JFormDesigner Evaluation license - Bob Fcku
     private void initComponents() {
         jScrollPane1 = new JScrollPane();
         jList1 = new JList<>();
+
+        //======== this ========
+
+        // JFormDesigner evaluation mark
+        setBorder(new javax.swing.border.CompoundBorder(
+            new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
+                "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
+                javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
+                java.awt.Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
+
 
         //======== jScrollPane1 ========
         {

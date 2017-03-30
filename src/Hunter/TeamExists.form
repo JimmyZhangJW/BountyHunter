@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Hunter.TeamExists">
-  <grid id="27dc6" binding="mainWindow" layout-manager="GridLayoutManager" row-count="2" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-    <margin top="2" left="2" bottom="2" right="2"/>
+  <grid id="27dc6" binding="mainWindow" layout-manager="GridBagLayout">
     <constraints>
-      <xy x="20" y="20" width="500" height="400"/>
+      <xy x="20" y="20" width="530" height="400"/>
     </constraints>
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="3a2ba" binding="teamInfoPanel" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="0" left="0" bottom="0" right="0"/>
+      <grid id="3a2ba" binding="teamInfoPanel" layout-manager="GridBagLayout">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="236" height="74"/>
           </grid>
+          <gridbag weightx="1.0" weighty="1.0"/>
         </constraints>
         <properties/>
         <border type="none"/>
@@ -21,6 +20,7 @@
           <component id="41f95" class="javax.swing.JLabel" binding="teamNameLabel">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="1.0"/>
             </constraints>
             <properties>
               <text value="Team Name:"/>
@@ -29,6 +29,7 @@
           <component id="8c17a" class="javax.swing.JLabel" binding="teamLevelLabel">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="1.0"/>
             </constraints>
             <properties>
               <text value="Team Level:"/>
@@ -37,6 +38,7 @@
           <component id="dfe88" class="javax.swing.JLabel" binding="teamRankLabel">
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="1.0"/>
             </constraints>
             <properties>
               <text value="Team Rank:"/>
@@ -45,6 +47,7 @@
           <component id="9926e" class="javax.swing.JLabel" binding="teamName">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="1.0"/>
             </constraints>
             <properties>
               <text value="&lt;team name&gt;"/>
@@ -53,6 +56,7 @@
           <component id="eb3ea" class="javax.swing.JLabel" binding="teamLevel">
             <constraints>
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="1.0"/>
             </constraints>
             <properties>
               <text value="&lt;team level&gt;"/>
@@ -61,6 +65,7 @@
           <component id="5e09a" class="javax.swing.JLabel" binding="teamRank">
             <constraints>
               <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="1.0"/>
             </constraints>
             <properties>
               <text value="&lt;team rank&gt;"/>
@@ -68,10 +73,10 @@
           </component>
         </children>
       </grid>
-      <grid id="c89f5" binding="currentMissionsPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="0" left="0" bottom="0" right="0"/>
+      <grid id="c89f5" binding="currentMissionsPanel" layout-manager="GridBagLayout">
         <constraints>
           <grid row="0" column="3" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="1.0" weighty="1.0"/>
         </constraints>
         <properties/>
         <border type="none"/>
@@ -79,6 +84,7 @@
           <component id="251ce" class="javax.swing.JLabel" binding="currentMissionLabel">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="0.0"/>
             </constraints>
             <properties>
               <text value="Current Missions "/>
@@ -87,6 +93,7 @@
           <scrollpane id="3dfc2" binding="currentMissionPane">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="1.0"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -99,25 +106,18 @@
           </scrollpane>
         </children>
       </grid>
-      <grid id="382d9" binding="teamMemberPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="0" left="0" bottom="0" right="0"/>
+      <grid id="382d9" binding="teamMemberPanel" layout-manager="GridBagLayout">
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="1.0" weighty="1.0"/>
         </constraints>
         <properties/>
         <border type="none"/>
         <children>
-          <component id="7ec02" class="javax.swing.JLabel" binding="teamMemberLabel">
-            <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Team Members:"/>
-            </properties>
-          </component>
           <scrollpane id="58567" binding="teamMemberPane">
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="1.0"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -128,98 +128,95 @@
               </component>
             </children>
           </scrollpane>
-        </children>
-      </grid>
-      <grid id="8a3b5" binding="memberInfoPanel" layout-manager="GridLayoutManager" row-count="8" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="0" left="0" bottom="0" right="0"/>
-        <constraints>
-          <grid row="1" column="1" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties/>
-        <border type="none"/>
-        <children>
-          <component id="7dc0a" class="javax.swing.JLabel" binding="memberNameLabel">
+          <grid id="8a3b5" binding="memberInfoPanel" layout-manager="GridBagLayout">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="1.0"/>
             </constraints>
-            <properties>
-              <text value="Member Name:"/>
-            </properties>
-          </component>
-          <component id="fbb9c" class="javax.swing.JLabel" binding="memberLevelLabel">
-            <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Member Level:"/>
-            </properties>
-          </component>
-          <component id="f09a7" class="javax.swing.JLabel" binding="memberRankLabel">
-            <constraints>
-              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Member Rank:"/>
-            </properties>
-          </component>
-          <component id="a221f" class="javax.swing.JLabel" binding="memberExpLabel">
-            <constraints>
-              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Member Exp:"/>
-            </properties>
-          </component>
-          <vspacer id="6ef4">
-            <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </vspacer>
-          <vspacer id="38e54">
-            <constraints>
-              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </vspacer>
-          <vspacer id="2519a">
-            <constraints>
-              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </vspacer>
-          <vspacer id="1d788">
-            <constraints>
-              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </vspacer>
-          <component id="522dc" class="javax.swing.JLabel" binding="memberName">
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="7dc0a" class="javax.swing.JLabel" binding="memberNameLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <text value="Member Name:"/>
+                </properties>
+              </component>
+              <component id="fbb9c" class="javax.swing.JLabel" binding="memberLevelLabel">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <text value="Member Level:"/>
+                </properties>
+              </component>
+              <component id="f09a7" class="javax.swing.JLabel" binding="memberRankLabel">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <text value="Member Rank:"/>
+                </properties>
+              </component>
+              <component id="a221f" class="javax.swing.JLabel" binding="memberExpLabel">
+                <constraints>
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <text value="Member Exp:"/>
+                </properties>
+              </component>
+              <component id="522dc" class="javax.swing.JLabel" binding="memberName">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <text value="&lt;member name&gt;"/>
+                </properties>
+              </component>
+              <component id="ecd6" class="javax.swing.JLabel" binding="memberLevel">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <text value="&lt;member level&gt;"/>
+                </properties>
+              </component>
+              <component id="6b74c" class="javax.swing.JLabel" binding="memberRank">
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <text value="&lt;member rank&gt;"/>
+                </properties>
+              </component>
+              <component id="fd9cf" class="javax.swing.JLabel" binding="memberExp">
+                <constraints>
+                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <text value="&lt;member exp&gt;"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <component id="7ec02" class="javax.swing.JLabel" binding="teamMemberLabel">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="0.0"/>
             </constraints>
             <properties>
-              <text value="&lt;member name&gt;"/>
-            </properties>
-          </component>
-          <component id="ecd6" class="javax.swing.JLabel" binding="memberLevel">
-            <constraints>
-              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="&lt;member level&gt;"/>
-            </properties>
-          </component>
-          <component id="6b74c" class="javax.swing.JLabel" binding="memberRank">
-            <constraints>
-              <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="&lt;member rank&gt;"/>
-            </properties>
-          </component>
-          <component id="fd9cf" class="javax.swing.JLabel" binding="memberExp">
-            <constraints>
-              <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="&lt;member exp&gt;"/>
+              <text value="Team Members:"/>
             </properties>
           </component>
         </children>

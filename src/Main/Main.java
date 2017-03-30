@@ -31,20 +31,18 @@ public class Main {
 //        }catch(Exception e){
 //            System.err.print("Error: "+e);
 //        }
-       
+/*
         Connection con = Connect.getConnection();
         try {
             Statement stmt = con.createStatement();
         } catch (SQLException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        */
         System.out.println();
-        //JFrame hunterGui=new HunterGUI();
-        JPanel te = new TeamExisited();
-        te.setVisible(true);
-        //hunterGui.setVisible(true);
-        
+        TeamExists te = new TeamExists();
+        System.out.print("Made Team Exists");
+
         
     }
 }
