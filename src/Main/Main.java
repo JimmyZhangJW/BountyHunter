@@ -8,17 +8,18 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import Leaderboard.LeaderBoardPanel;
+import static Main.Connector.closeConnection;
+import static Main.Connector.getConnection;
+
 import javax.swing.JFrame;
 
 public class Main {
     
     public static void main(String[] args) {
-       
-        
         Connection con=Connector.getConnection();
         
         JFrame mainframe = new signup();
         mainframe.setVisible(true);
-
     }
 }

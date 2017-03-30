@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
  *
  * @author omar
@@ -16,8 +15,8 @@ import java.util.logging.Logger;
 public class Connector {
     
        // --- FILL THESE IN ---
-    static String ORA_ACCOUNT = "ora_b9j0b";
-    static String ORA_PASSWORD = "a25724155";
+    static String ORA_ACCOUNT = "ora_j5k0b";
+    static String ORA_PASSWORD = "a36579143";
     
     private static Connection con;
     
