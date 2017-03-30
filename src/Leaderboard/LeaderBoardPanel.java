@@ -358,7 +358,7 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
                     "GROUP BY T.TEAMNAME ) A " +
                     "INNER JOIN " +
                     "(SELECT T.TEAMNAME, H.NAME CPTNAME " +
-                    "FROM ora_j5k0b.HUNTER H, ora_j5k0b.TEAM T " +
+                    "FROM HUNTER H, TEAM T " +
                     "WHERE T.HUNTERID = H.HUNTERID)  B " +
                     "ON A.TEAMNAME = B.TEAMNAME " +
                     "WHERE A.TEAMNAME LIKE '%" + searchText + "%' " +
