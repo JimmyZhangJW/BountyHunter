@@ -23,6 +23,21 @@ public class HunterGUI extends javax.swing.JFrame {
 
     
 
+    private int findTheExp(int exp){
+        if(exp>100000000){
+            return 990000000;
+        }else if(exp>30000000){
+            return 100000000;
+        }else if(exp>5000000){
+            return 30000000;
+        }else if(exp>2000000){
+            return 5000000;
+        }else if(exp>50000){
+            return 2000000;
+        }else {
+            return 10000;
+        }
+    }
     private static String calculateLevel(int exp) {
         if(exp<10000){
             return "F";
@@ -45,7 +60,9 @@ public class HunterGUI extends javax.swing.JFrame {
      * Creates new form HunterGUI
      */
     public HunterGUI() {
+        int id=0;
         initComponents();
+        display(id);
     }
 
     /**
@@ -563,6 +580,7 @@ public class HunterGUI extends javax.swing.JFrame {
             }
         });
         
+        
     }
     
     public void display(int hid){
@@ -582,18 +600,17 @@ public class HunterGUI extends javax.swing.JFrame {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM HUNTER"+
                     " WHERE HUNTERID=0"); 
-//                                             "WHERE HUNTERID=0");
             while(rs.next()){
                 hname=rs.getString("NAME");
                 exp=rs.getInt("EXPERIENCE");
                 goldbalance=rs.getInt("GOLDBALANCE");
-                BalanceLabel.setText(String.valueOf(goldbalance));
+                BalanceLabel.setText("GoldBalance: "+String.valueOf(goldbalance));
                 level=calculateLevel(exp);
-                NameLabel.setText("Welcome "+hname);
-                LevelLabel.setText(level);
+                NameLabel.setText("Welcome  "+hname);
+                LevelLabel.setText("Level: "+level);
+
+                ExperienceLabel.setText(String.valueOf(exp)+"/"+String.valueOf(findTheExp(exp)));
             }
-            
-            
             System.out.println(rs);
         } catch (SQLException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);

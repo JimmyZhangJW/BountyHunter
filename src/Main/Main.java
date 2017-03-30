@@ -40,7 +40,7 @@ public class Main {
         
         System.out.println();
         JFrame hunterGui=new HunterGUI();
-        //hunterGui.setVisible(true);
+        hunterGui.setVisible(true);
         
         
     }
