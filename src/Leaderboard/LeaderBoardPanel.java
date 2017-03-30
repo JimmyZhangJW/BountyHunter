@@ -42,6 +42,7 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
                         break;
                     case(2):
                         updateGeneralTable();
+                        updateGeneralStats();
                         break;
                 }
           }
@@ -211,7 +212,7 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
                     .addComponent(jLabel2)
                     .addGroup(mTeamLeaderboardPanelLayout.createSequentialGroup()
                         .addGap(1, 1, 1)
-                        .addComponent(mTeamSortbyCombo)))
+                        .addComponent(mTeamSortbyCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(26, 26, 26)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 472, Short.MAX_VALUE)
                 .addContainerGap())
@@ -333,7 +334,7 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_mTeamSortbyComboActionPerformed
 
     private void mItemSortbyComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mItemSortbyComboActionPerformed
-        // TODO add your handling code here:
+        updateGeneralTable();
     }//GEN-LAST:event_mItemSortbyComboActionPerformed
 
     private void updateTeamTable(){
@@ -410,7 +411,7 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
         closeConnection();
     }
     
-    private void updateGeneralTable(){
+    private void updateGeneralStats(){
         Connection con = getConnection();
         Statement stmt;
         try {
@@ -433,6 +434,38 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
             rs.next();
             mAverageHunterExpText.setText(rs.getString(1));
             
+        } catch (SQLException ex) {
+            Logger.getLogger(LeaderBoardPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        closeConnection();
+    }
+    
+    private void updateGeneralTable(){
+        String selection = (String) mItemSortbyCombo.getSelectedItem();
+        Connection con = getConnection();
+        Statement stmt;
+        try {
+            stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(
+                    "SELECT H.NAME, H.AGE, H.GENDER, H.EXPERIENCE, H.GOLDBALANCE " +
+                    "FROM HUNTER H " +
+                    "WHERE NOT EXISTS( " +
+                    "(SELECT I.ITEMID FROM ITEM I WHERE I.ITEMRANK = '"+ selection + "' ) " +
+                    "MINUS " +
+                    "(SELECT I2.ITEMID FROM ITEM I2 " +
+                    "WHERE I2.HUNTERID = H.HUNTERID AND I2.ITEMRANK = '"+ selection +"' ))");
+            DefaultTableModel tableModel = (DefaultTableModel) mItemLeaderboardTable.getModel();
+            tableModel.setRowCount(0);
+            while(rs.next()){
+                String[] data = new String[5];
+                data[0] = rs.getString(1); //NAME
+                data[1] = rs.getString(2); //AGE
+                data[2] = rs.getString(3); //GENDER
+                data[3] = rs.getString(4); //EXPERIENCE
+                data[4] = rs.getString(5); //GOLDBALANCE
+                tableModel.addRow(data);
+            }
+            tableModel.fireTableDataChanged();
         } catch (SQLException ex) {
             Logger.getLogger(LeaderBoardPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
