@@ -5,7 +5,7 @@
  */
 package MissionHolder;
 
-import Main.DatabaseConnect;
+import Main.Connector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +20,6 @@ import javax.swing.JOptionPane;
  */
 public class HuntingMission extends javax.swing.JFrame {
     private static int huntingId=1000;
-    private DatabaseConnect myconnect=new DatabaseConnect("ora_b9j0b","a25724155");
     private Connection con;
     private Statement stmt;
     private ResultSet rs;
@@ -32,8 +31,8 @@ public class HuntingMission extends javax.swing.JFrame {
     public HuntingMission(int id) {
         this.id=id;
         initComponents();
-        myconnect.connect();
-        con=myconnect.getConnection();
+        
+        con=Connector.getConnection();
     }
 
     /**

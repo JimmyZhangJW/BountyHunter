@@ -5,7 +5,8 @@
  */
 package MissionHolder;
 
-import Main.DatabaseConnect;
+
+import Main.Connector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class mangageMission extends javax.swing.JFrame {
     private static int itemMission=1000;
-    private DatabaseConnect myconnect=new DatabaseConnect("ora_b9j0b","a25724155");
+   
     private Connection con;
     private Statement stmt;
     private ResultSet rs;
@@ -32,8 +33,8 @@ public class mangageMission extends javax.swing.JFrame {
     public mangageMission(int id) {
         initComponents();
         this.id=id;
-        myconnect.connect();
-        con=myconnect.getConnection();
+        
+        con=Connector.getConnection();
         setcurrentMissionTable();
     }
 

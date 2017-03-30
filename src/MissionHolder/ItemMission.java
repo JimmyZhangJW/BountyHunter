@@ -21,7 +21,7 @@ import javax.swing.JOptionPane;
  */
 public class ItemMission extends javax.swing.JFrame {
     private static int itemMission=2000;
-    private DatabaseConnect myconnect=new DatabaseConnect("ora_b9j0b","a25724155");
+    
     private Connection con;
     private Statement stmt;
     private ResultSet rs;
@@ -33,9 +33,8 @@ public class ItemMission extends javax.swing.JFrame {
     public ItemMission(int id) {
         this.id=id;
         initComponents();
-        myconnect.connect();
-        con=myconnect.getConnection();
-        
+       
+        con=Connector.getConnection();
     }
 
     /**

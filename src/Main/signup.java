@@ -17,7 +17,7 @@ import java.sql.Statement;
  * @author MalcolmChen
  */
 public class signup extends javax.swing.JFrame {
-    DatabaseConnect myconnect;
+    
     Statement mysql;
     /**
      * Creates new form signup
@@ -33,8 +33,7 @@ public class signup extends javax.swing.JFrame {
         int yPos = (dim.height / 2) - (this.getHeight() / 2);
         this.setLocation(xPos, yPos);
         
-        myconnect=new DatabaseConnect("ora_b9j0b","a25724155");
-        myconnect.connect();
+        
         
     }
 

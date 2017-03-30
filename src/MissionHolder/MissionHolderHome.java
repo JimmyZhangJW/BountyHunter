@@ -5,7 +5,8 @@
  */
 package MissionHolder;
 
-import Main.DatabaseConnect;
+
+import Main.Connector;
 import Main.signup;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -18,7 +19,7 @@ import java.sql.Statement;
  */
 public class MissionHolderHome extends javax.swing.JFrame {
     private int id;
-    private DatabaseConnect myconnect=new DatabaseConnect("ora_b9j0b","a25724155");
+    
     private Connection con;
     private Statement stmt;
     private ResultSet rs;
@@ -28,8 +29,7 @@ public class MissionHolderHome extends javax.swing.JFrame {
      */
     public MissionHolderHome(int id) {
         this.id=id;
-        myconnect.connect();
-        con=myconnect.getConnection();
+        con=Connector.getConnection();
         
         initComponents();
         setById(id);

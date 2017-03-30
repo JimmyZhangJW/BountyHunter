@@ -14,8 +14,8 @@ public class Main {
     
     public static void main(String[] args) {
        
-        DatabaseConnect myconnect=new DatabaseConnect("ora_b9j0b","a25724155");
-        myconnect.connect();
+        
+        Connection con=Connector.getConnection();
         
         JFrame mainframe = new signup();
         mainframe.setVisible(true);
