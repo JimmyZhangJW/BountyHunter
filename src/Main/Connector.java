@@ -1,3 +1,9 @@
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Main;
 
 import java.io.PrintWriter;
@@ -15,9 +21,10 @@ import java.util.logging.Logger;
 public class Connector {
     
        // --- FILL THESE IN ---
+
     static String ORA_ACCOUNT = "ora_j5k0b";
     static String ORA_PASSWORD = "a36579143";
-    
+
     private static Connection con;
     
     static public Connection getConnection(){
@@ -59,3 +66,4 @@ public class Connector {
         System.out.println("4) Try downloading the new JDBC Driver 'classes12.jar' http://www.oracle.com/technetwork/apps-tech/jdbc-10201-088211.html (youll need to create a free account)");
     }
 }
+
