@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package Hunter;
-import Main.Connect;
+import Main.Connector;
 import Main.Main;
 import java.awt.Color;
 import static java.lang.System.err;
@@ -637,7 +637,7 @@ public class HunterGUI extends javax.swing.JFrame {
         Object[] items;
         
         
-        Connection con = Connect.getConnection();
+        Connection con = Connector.getConnection();
         try {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM HUNTER"+

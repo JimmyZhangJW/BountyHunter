@@ -1,13 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Main;
 
 import java.io.PrintWriter;
@@ -22,11 +12,11 @@ import java.util.logging.Logger;
  *
  * @author omar
  */
-public class Connect {
+public class Connector {
     
        // --- FILL THESE IN ---
-    static String ORA_ACCOUNT = "ora_n9k0b";
-    static String ORA_PASSWORD = "a46778156";
+    static String ORA_ACCOUNT = "ora_j5k0b";
+    static String ORA_PASSWORD = "a36579143";
     
     private static Connection con;
     
@@ -57,7 +47,7 @@ public class Connect {
             con.close();
             con = null;
         } catch (SQLException ex) {
-            Logger.getLogger(Connect.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
