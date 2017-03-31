@@ -138,7 +138,9 @@
             <children>
               <component id="caef1" class="javax.swing.JList" binding="teamMemberList">
                 <constraints/>
-                <properties/>
+                <properties>
+                  <selectionMode value="0"/>
+                </properties>
               </component>
             </children>
           </scrollpane>

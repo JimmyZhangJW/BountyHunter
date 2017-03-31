@@ -13,6 +13,7 @@ public class noTeamGui extends JFrame {
     private JButton joinTeamButton;
     private JPanel teamList;
     private JPanel buttonPanel;
+    private JTextField textField1;
 
     public noTeamGui() {
         Connection c = getConnection();
@@ -85,6 +86,47 @@ public class noTeamGui extends JFrame {
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         buttonPanel.add(joinTeamButton, gbc);
+        final JPanel panel1 = new JPanel();
+        panel1.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        mainWindow.add(panel1, gbc);
+        final JLabel label1 = new JLabel();
+        label1.setText("Label");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        panel1.add(label1, gbc);
+        final JPanel spacer3 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        panel1.add(spacer3, gbc);
+        final JLabel label2 = new JLabel();
+        label2.setText("Label");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.anchor = GridBagConstraints.WEST;
+        panel1.add(label2, gbc);
+        textField1 = new JTextField();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel1.add(textField1, gbc);
+        final JLabel label3 = new JLabel();
+        label3.setText("Label");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.anchor = GridBagConstraints.WEST;
+        panel1.add(label3, gbc);
     }
 
     /**
