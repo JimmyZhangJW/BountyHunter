@@ -31,10 +31,7 @@ public class signup extends javax.swing.JFrame {
         Dimension dim = tk.getScreenSize();
         int xPos = (dim.width / 2) - (this.getWidth() / 2);
         int yPos = (dim.height / 2) - (this.getHeight() / 2);
-        this.setLocation(xPos, yPos);
-        
-        
-        
+        this.setLocation(xPos, yPos);  
     }
 
     /**
@@ -55,7 +52,7 @@ public class signup extends javax.swing.JFrame {
         jSeparator3 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        mSignInButton = new javax.swing.JButton();
         SignAs = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -95,13 +92,13 @@ public class signup extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(57, 113, 177));
         jLabel3.setText("As:");
 
-        jButton1.setOpaque(true);
-        jButton1.setBackground(new java.awt.Color(0, 102, 102));
-        jButton1.setText("Sign in");
-        jButton1.setContentAreaFilled(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        mSignInButton.setOpaque(true);
+        mSignInButton.setBackground(new java.awt.Color(0, 102, 102));
+        mSignInButton.setText("Sign in");
+        mSignInButton.setContentAreaFilled(false);
+        mSignInButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                mSignInButtonActionPerformed(evt);
             }
         });
 
@@ -129,7 +126,7 @@ public class signup extends javax.swing.JFrame {
                     .addComponent(jSeparator3)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(45, 45, 45)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(mSignInButton, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(108, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(76, 76, 76)
@@ -158,7 +155,7 @@ public class signup extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(mSignInButton, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(79, Short.MAX_VALUE))
         );
 
@@ -179,7 +176,7 @@ public class signup extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -200,7 +197,6 @@ public class signup extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 430, 430));
 
-        jLabel6.setIcon(new javax.swing.ImageIcon("/Users/MalcolmChen/Downloads/trim.jpg")); // NOI18N
         jLabel6.setText("jLabel6");
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(-290, 0, 720, 430));
 
@@ -215,20 +211,20 @@ public class signup extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jPasswordField1ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void mSignInButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mSignInButtonActionPerformed
         String signas = SignAs.getSelectedItem().toString();
         this.setVisible(false);
-        if (signas == "Mission Holder") {
-              MissionHolderHome haha=new MissionHolderHome(Integer.parseInt(fullname.getText()));
-              haha.setVisible(true);
-        }else if(signas == "Hunter"){
+        if (signas.equals("Mission Holder")) {
+              MissionHolderHome mhHome =new MissionHolderHome(Integer.parseInt(fullname.getText()));
+              mhHome.setVisible(true);
+        }else if(signas.equals("Hunter")){
         
-        }else if(signas == "Admin"){
+        }else if(signas.equals("Admin")){
         
         }
 
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_mSignInButtonActionPerformed
 
     private void SignAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignAsActionPerformed
         // TODO add your handling code here:
@@ -238,7 +234,6 @@ public class signup extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> SignAs;
     private javax.swing.JTextField fullname;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -251,5 +246,6 @@ public class signup extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JButton mSignInButton;
     // End of variables declaration//GEN-END:variables
 }

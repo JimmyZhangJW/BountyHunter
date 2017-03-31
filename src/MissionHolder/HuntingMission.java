@@ -78,7 +78,7 @@ public class HuntingMission extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         jLabel7.setText("$");
 
-        jLabel4.setText("Difficult:");
+        jLabel4.setText("Difficulty:");
 
         jLabel2.setText("Mission Description:");
 

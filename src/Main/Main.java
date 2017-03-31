@@ -16,9 +16,7 @@ import javax.swing.JFrame;
 
 public class Main {
     
-    public static void main(String[] args) {
-        Connection con=Connector.getConnection();
-        
+    public static void main(String[] args) {        
         JFrame mainframe = new signup();
         mainframe.setVisible(true);
     }
