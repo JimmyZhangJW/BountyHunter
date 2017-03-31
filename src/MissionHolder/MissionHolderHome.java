@@ -429,9 +429,17 @@ public class MissionHolderHome extends javax.swing.JFrame {
             rs.next();
             int currentBalance = rs.getInt(1);
             int newBalance = currentBalance + addMoney;
-            getReputation(newBalance);
+            String rep = getReputation(newBalance);
+            if(!isBalanceInRepTable(newBalance)){
+                stmt = con.createStatement();
+                stmt.executeUpdate("INSERT INTO MISSIONHOLDER_REPUTATION VALUES ("+newBalance+", '"+rep+"')");
+            }
+    
             stmt = con.createStatement();
             stmt.executeUpdate("UPDATE MISSIONHOLDER SET GOLDBALANCE =" + newBalance +" WHERE MISSIONHOLDERID=" + id);
+            
+            BalanceText.setText("Balance: "+newBalance);
+            rank.setText(rep);
 
         } catch (SQLException err) {
             System.out.print(err);
@@ -455,19 +463,33 @@ public class MissionHolderHome extends javax.swing.JFrame {
     }//GEN-LAST:event_refreshActionPerformed
 
     public static String getReputation(int balance){
-            if(balance>10000000){
-                return "S";
-            }else if(balance>100000){
-                return "A";
-            }else if(balance>50000){
-               return "B";
-            }else if(balance>10000){
-                return "C";
-            }else if(balance>5000){
-                return "D";
-            }else{
-                return "";
-            }
+        if(balance>10000000){
+            return "S";
+        }else if(balance>100000){
+            return "A";
+        }else if(balance>50000){
+           return "B";
+        }else if(balance>10000){
+            return "C";
+        }else{
+            return "D";
+        }
+    }
+    
+    private  boolean isBalanceInRepTable(int balance){
+        con = getConnection();
+        
+        try {
+            stmt = con.createStatement();
+            stmt.executeQuery("SELECT R.GOLDBALANCE FROM MISSIONHOLDER_REPUTATION R WHERE R.GOLDBALANCE = " + balance);
+            rs = stmt.getResultSet();
+            return rs.next();
+        } catch (SQLException err) {
+            System.out.print(err);
+            drawErrorDialog(err.toString(), "SQL Exception");
+
+        }
+        return false;
     }
             
     // Variables declaration - do not modify//GEN-BEGIN:variables
