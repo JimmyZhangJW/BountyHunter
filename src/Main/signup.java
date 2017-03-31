@@ -17,6 +17,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -237,6 +238,8 @@ public class signup extends javax.swing.JFrame {
                         MissionHolderHome mhHome=new MissionHolderHome(Integer.parseInt(fullname.getText()));
                         this.setVisible(false);
                         mhHome.setVisible(true);
+                    } else{
+                        drawErrorDialog("That Mission Holder Id does not exist", "Invalid ID");
                     }
                     break;
                 case("Hunter"):
@@ -244,11 +247,16 @@ public class signup extends javax.swing.JFrame {
                         HunterGUI hunterGUI = new HunterGUI(Integer.parseInt(fullname.getText()));
                         this.setVisible(false);
                         hunterGUI.setVisible(true);
+                    } else {
+                        drawErrorDialog("That Hunter Id does not exist", "Invalid ID");
                     }
                     break;
                 case("Admin"):
                     break; 
             }
+        } else{
+            drawErrorDialog("IDs must be a positive Integer"
+                    , "Invalid ID");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -258,19 +266,22 @@ public class signup extends javax.swing.JFrame {
    
     public static boolean isNumeric(String str){
         for (char c : str.toCharArray()){
-            if (!Character.isDigit(c)) return false;
+            if (!Character.isDigit(c)) 
+                return false;
         }
         return true;
     }
     
     public static boolean isValidMissionHolderId(String id ){
         Connection con = getConnection();
-        
+
         try{
             Statement stmt= con.createStatement();
             ResultSet rs=stmt.executeQuery("select name from missionholder where  MISSIONHOLDERID="+id);
-            if(!rs.next())
+            if(!rs.next()){
+                closeConnection();
                 return false;
+            }
            
         }catch(SQLException err){
             System.out.print(err);
@@ -286,8 +297,10 @@ public class signup extends javax.swing.JFrame {
         try{
             Statement stmt= con.createStatement();
             ResultSet rs=stmt.executeQuery("select name from hunter where hunterID="+id);
-            if(!rs.next())
+            if(!rs.next()){
+                closeConnection();
                 return false;
+            }
            
         }catch(SQLException err){
             System.out.print(err);
@@ -295,6 +308,11 @@ public class signup extends javax.swing.JFrame {
         
         closeConnection();
         return true;
+    }
+    
+    public static void drawErrorDialog(String message, String title){
+    JOptionPane.showMessageDialog(new JFrame(), message, title,
+        JOptionPane.ERROR_MESSAGE);
     }
 
 
