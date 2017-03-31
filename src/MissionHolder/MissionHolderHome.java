@@ -403,7 +403,6 @@ public class MissionHolderHome extends javax.swing.JFrame {
             rs = stmt.executeQuery(balanceQuery);
             rs.next();
             int currentBalance =rs.getInt(1);
-            System.out.print("haha");
             int newBalance=currentBalance+addMoney;
             String updateBalance="UPDATE missionholder SET GOLDBALANCE="+newBalance+" WHERE MISSIONHOLDERID=" + id;
             stmt.executeUpdate(updateBalance);
