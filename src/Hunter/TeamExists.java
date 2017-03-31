@@ -44,8 +44,8 @@ public class TeamExists extends JFrame {
         $$$setupUI$$$();
         this.add(mainWindow);
         this.setVisible(true);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(464, 500);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setSize(434, 550);
         this.setResizable(false);
         Connection c = getConnection();
         ResultSet rs;
@@ -101,7 +101,8 @@ public class TeamExists extends JFrame {
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth = 4;
+        gbc.gridwidth = 2;
+        gbc.gridheight=3;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
