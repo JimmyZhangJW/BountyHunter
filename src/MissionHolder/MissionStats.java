@@ -14,6 +14,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
@@ -41,6 +47,7 @@ public class MissionStats extends javax.swing.JFrame {
         setCurrentItemMissionTable();
         setCurrentMonsterMissionTable();
         setCompleteMissionTable();
+        setFailedMissionTable();
     }
     
     private void setCurrentItemMissionTable(){
@@ -133,6 +140,57 @@ public class MissionStats extends javax.swing.JFrame {
             System.out.print(err);
             drawErrorDialog(err.toString(), "SQL Exception");
         }
+    }
+    
+    private void setFailedMissionTable(){
+        DefaultTableModel failTable =(DefaultTableModel)mFailedTable.getModel();
+        Object itemData[]=new Object[7];
+        
+        try{
+            stmt= con.createStatement();
+            String Query="(SELECT M.ITEMMISSIONID ID, M.DESCRIPTION, M.DEADLINE\n" +
+"FROM ITEM_FORAGING_MISSION M " +
+"WHERE M.MISSIONHOLDERID = "+ id +"  AND M.COMPLETETIME IS NULL ) " +
+"UNION(  " +
+"SELECT M2.HUNTINGMISSIONID ID, M2.DESCRIPTION , M2.DEADLINE " +
+"FROM HUNTING_MISSIONS M2 " +
+"WHERE M2.MISSIONHOLDERID = "+id+" AND M2.COMPLETIONTIME IS NULL)";
+
+            failTable.setRowCount(0);
+            rs=stmt.executeQuery(Query);
+            while(rs.next()){
+                if(isPastDeadline(rs.getString(3))){
+                    itemData[0]=rs.getString(1); // ID
+                    itemData[1]=rs.getString(2); // Description
+                    itemData[2] = rs.getString(3); // Deadline
+                    failTable.addRow(itemData);
+                }
+            }
+
+        }catch(SQLException err){
+            System.out.print(err);
+            drawErrorDialog(err.toString(), "SQL Exception");
+        }
+    }
+    
+    public static boolean isPastDeadline(String date){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+       
+        Date checkDate;
+        Date currentDate;
+        
+        try {
+            checkDate = sdf.parse(date);
+            currentDate = sdf.parse(sdf.format(Calendar.getInstance().getTime()));
+            System.out.println("current : " + currentDate);
+            System.out.println("checking : " + checkDate);
+            return currentDate.after(checkDate);
+            
+        } catch (ParseException ex) {
+            Logger.getLogger(MissionStats.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }
+        return false;
     }
     
     /**

@@ -392,7 +392,7 @@ public class MissionHolderHome extends javax.swing.JFrame {
 
     private void mMissionStatsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mMissionStatsButtonActionPerformed
         // TODO add your handling code here:
-        MissionStats missionStatPanel =new MissionStats(id);
+        MissionStats missionStatPanel = new MissionStats(id);
         missionStatPanel.setVisible(true);
     }//GEN-LAST:event_mMissionStatsButtonActionPerformed
 
