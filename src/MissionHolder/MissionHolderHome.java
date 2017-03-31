@@ -11,6 +11,8 @@ import Main.Connector;
 import static Main.Connector.closeConnection;
 import static Main.Connector.getConnection;
 import Main.signup;
+import static Main.signup.drawErrorDialog;
+import static Main.signup.isNumeric;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -143,7 +145,7 @@ public class MissionHolderHome extends javax.swing.JFrame {
         });
 
         jLabel6.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        jLabel6.setText("LeaderBoards");
+        jLabel6.setText("Leader Boards");
 
         mMissionStatsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MissionHolder/stat.png"))); // NOI18N
         mMissionStatsButton.addActionListener(new java.awt.event.ActionListener() {
@@ -420,8 +422,14 @@ public class MissionHolderHome extends javax.swing.JFrame {
     }//GEN-LAST:event_mNewMissionButtonActionPerformed
 
     private void AddMoneyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddMoneyButtonActionPerformed
-        // TODO add your handling code here:
-        int addMoney = Integer.parseInt(MoneyToAddText.getText());
+        int addMoney;
+        
+        if(isNumeric(MoneyToAddText.getText())){
+           addMoney = Integer.parseInt(MoneyToAddText.getText());
+        }else{
+            drawErrorDialog("Please enter a positive Integer", "Invalid balance change");
+            return;
+        }
         
         con = getConnection();
         
@@ -432,6 +440,7 @@ public class MissionHolderHome extends javax.swing.JFrame {
             rs.next();
             int currentBalance =rs.getInt(1);
             int newBalance=currentBalance+addMoney;
+            stmt= con.createStatement();
             String updateBalance="UPDATE missionholder SET GOLDBALANCE="+newBalance+" WHERE MISSIONHOLDERID=" + id;
             stmt.executeUpdate(updateBalance);
             rs=stmt.executeQuery(balanceQuery);

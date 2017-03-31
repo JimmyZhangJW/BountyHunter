@@ -6,6 +6,8 @@
 package MissionHolder;
 
 import Main.Connector;
+import static Main.Connector.getConnection;
+import static Main.signup.drawErrorDialog;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,69 +37,71 @@ public class MissionStats extends javax.swing.JFrame {
         initComponents();
         this.id=id;
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        con=Connector.getConnection();
-        setcurrentMissionTable();
+        con= getConnection();
+        setCurrentItemMissionTable();
+        setCurrentMonsterMissionTable();
     }
     
-    public void setcurrentMissionTable(){
-        DefaultTableModel item1=(DefaultTableModel)ItemTable1.getModel();
-        DefaultTableModel hunter1=(DefaultTableModel) huntingtable1.getModel();
-        Object item1data[]=new Object[6];
+    private void setCurrentItemMissionTable(){
+        DefaultTableModel itemTable =(DefaultTableModel)ItemTable1.getModel();
+        Object itemData[]=new Object[7];
         try{
             stmt= con.createStatement();
-            String imissionQuery="select * from Item_Foraging_Mission where  missionHolderID="+id;
+            String imissionQuery="SELECT M.ITEMMISSIONID, "
+                    + "M.DESCRIPTION, I.ITEMNAME, M.STARTTIME, M.DEADLINE, "
+                    + "M.ACCEPTTIME " +
+                    "FROM ITEM_FORAGING_MISSION M, IMISSION_HAS_ITEM mHI, ITEM I " +
+                    "WHERE "+ "M.MISSIONHOLDERID  = "+id 
+                    + " AND mHI.ITEMMISSIONID = M.ITEMMISSIONID AND "
+                    + "I.ITEMID = mHI.ITEMID AND M.ACCEPTTIME IS NOT NULL";
+         
+            
             rs=stmt.executeQuery(imissionQuery);
             while(rs.next()){
-                item1data[0]=rs.getInt(1);
-                item1data[1]=rs.getInt(2);
-                item1data[2]=rs.getString("startTime");
-                item1data[3]=rs.getString("deadline");
-                item1data[4]=rs.getString("acceptTime");
-                int missionid=rs.getInt(1);
-                String itemQuery="select ItemId from IMission_has_Item where itemMissionId="+missionid;
-                rs2=stmt.executeQuery(itemQuery);
-                rs2.next();
-                int itemid=rs2.getInt("ItemId");
-                String itemNameQuery="select itemName from item where itemID="+itemid;
-                rs2=stmt.executeQuery(itemNameQuery);
-                rs2.next();
-                item1data[5]=rs2.getString(1);
-                item1.addRow(item1data);
+                itemData[0]=rs.getString(1); // itemMissionID
+                itemData[1]=rs.getString(2); // Description
+                itemData[2] = rs.getString(3); //itemName
+                itemData[3]=rs.getString("startTime");
+                itemData[4]=rs.getString("deadline");
+                itemData[5]=rs.getString("acceptTime");
+                itemTable.addRow(itemData);
                
             }
-             //for current HunterMission
-            String hmissionQuery="select * from Hunting_missions where  missionHolderID="+id;
-            ResultSet rs = stmt.executeQuery(hmissionQuery);
-            
-            while(rs.next()){
-                item1data[0]=rs.getInt(1);
-                Integer count = null;
-                count=rs.getInt(2);
-                item1data[1]=count;
-                item1data[2]=rs.getString("startTime");
-                item1data[3]=rs.getString("deadline");
-                item1data[4]=rs.getString("acceptTime");
-                int missionid=rs.getInt(1);
-                String monsQuery="select monsterid from MMission_has_Monster where huntingMissionId="+missionid;
-                rs2=stmt.executeQuery(monsQuery);
-                rs2.next();
-                int monsid=rs2.getInt("monsterid");
-                String itemNameQuery="select name from Monster where monsterid="+monsid;
-                rs2=stmt.executeQuery(itemNameQuery);
-                rs2.next();
-                item1data[5]=rs2.getString(1);
-                hunter1.addRow(item1data);
-               
-            }    
-                
-           
-            
-            
+
         }catch(SQLException err){
             System.out.print(err);
+            drawErrorDialog(err.toString(), "SQL Exception");
         }
     }
 
+    private void setCurrentMonsterMissionTable(){
+        DefaultTableModel hunterTable =(DefaultTableModel) huntingtable1.getModel();
+        Object itemData[]=new Object[7];
+        try{
+            stmt= con.createStatement();
+            String hMissionQuery="SELECT M.HUNTINGMISSIONID, M.DESCRIPTION, mon.NAME, M.STARTTIME, M.DEADLINE, M.ACCEPTTIME " +
+                    "FROM HUNTING_MISSIONS M, MMISSION_HAS_MONSTER mHM, MONSTER mon " +
+                    "WHERE M.MISSIONHOLDERID =" +id+" AND mHM.HUNTINGMISSIONID = M.HUNTINGMISSIONID "
+                    + "AND mon.MONSTERID = mHM.MONSTERID AND M.ACCEPTTIME IS NOT NULL";
+         
+            
+            rs=stmt.executeQuery(hMissionQuery);
+            while(rs.next()){
+                itemData[0]=rs.getString(1); // HuntingMissionID
+                itemData[1]=rs.getString(2); // Description
+                itemData[2] = rs.getString(3); //Monster Name
+                itemData[3]=rs.getString("startTime");
+                itemData[4]=rs.getString("deadline");
+                itemData[5]=rs.getString("acceptTime");
+                hunterTable.addRow(itemData);
+            }
+
+        }catch(SQLException err){
+            System.out.print(err);
+            drawErrorDialog(err.toString(), "SQL Exception");
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -139,7 +143,7 @@ public class MissionStats extends javax.swing.JFrame {
         ));
         jScrollPane5.setViewportView(jTable5);
 
-        jTabbedPane2.addTab("tab1", jScrollPane5);
+        jTabbedPane2.addTab("Completed", jScrollPane5);
 
         jTable6.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -154,7 +158,7 @@ public class MissionStats extends javax.swing.JFrame {
         ));
         jScrollPane6.setViewportView(jTable6);
 
-        jTabbedPane2.addTab("tab2", jScrollPane6);
+        jTabbedPane2.addTab("Failed", jScrollPane6);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -170,14 +174,14 @@ public class MissionStats extends javax.swing.JFrame {
             .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Current Mission", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Lucida Grande", 0, 24), new java.awt.Color(0, 153, 153))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Active Missions", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Lucida Grande", 0, 24), new java.awt.Color(0, 153, 153))); // NOI18N
 
         ItemTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Hunter ID", "Start Time", "Deadline", "Accept Time", "Item"
+                "ID", "Description", "Item", "Start Time", "Deadline", "Accept Time"
             }
         ) {
             Class[] types = new Class [] {
@@ -207,7 +211,7 @@ public class MissionStats extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Hunter ID", "Start Time", "Deadline", "Accept Time", "Monster"
+                "ID", "Description", "Monster", "Start Time", "Deadline", "Accept Time"
             }
         ) {
             Class[] types = new Class [] {
