@@ -1,11 +1,8 @@
 package Hunter;
 
-import Main.Connect;
-
 import javax.swing.*;
 import java.awt.*;
 import java.sql.Connection;
-import java.sql.ResultSet;
 
 
 public class TeamExists extends JFrame {
