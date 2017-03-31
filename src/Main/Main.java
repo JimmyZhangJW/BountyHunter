@@ -3,7 +3,7 @@ package Main;
 import java.sql.*;
 import javax.swing.JFrame;
 import Hunter.*;
-import Main.Connect;
+import Main.Connector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,7 +31,7 @@ public class Main {
 //            System.err.print("Error: "+e);
 //        }
        
-        Connection con = Connect.getConnection();
+        Connection con = Connector.getConnection();
         try {
             Statement stmt = con.createStatement();
         } catch (SQLException ex) {

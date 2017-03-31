@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  *
  * @author omar
  */
-public class Connect {
+public class Connector {
     
        // --- FILL THESE IN ---
     static String ORA_ACCOUNT = "ora_n9k0b";
@@ -57,7 +57,7 @@ public class Connect {
             con.close();
             con = null;
         } catch (SQLException ex) {
-            Logger.getLogger(Connect.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
