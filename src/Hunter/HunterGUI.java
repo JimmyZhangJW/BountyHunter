@@ -21,6 +21,21 @@ public class HunterGUI extends javax.swing.JFrame {
 
     
 
+    private int findTheExp(int exp){
+        if(exp>100000000){
+            return 990000000;
+        }else if(exp>30000000){
+            return 100000000;
+        }else if(exp>5000000){
+            return 30000000;
+        }else if(exp>2000000){
+            return 5000000;
+        }else if(exp>50000){
+            return 2000000;
+        }else {
+            return 10000;
+        }
+    }
     private static String calculateLevel(int exp) {
         if(exp<10000){
             return "F";
@@ -43,7 +58,9 @@ public class HunterGUI extends javax.swing.JFrame {
      * Creates new form HunterGUI
      */
     public HunterGUI() {
+        int id=0;
         initComponents();
+        display(id);
     }
 
     /**
@@ -66,14 +83,18 @@ public class HunterGUI extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         ExpProgressBar = new javax.swing.JProgressBar();
         ExperienceLabel = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        TeamLabel = new javax.swing.JLabel();
+        TeamRankingLabel = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         currentMissionsList = new javax.swing.JList<>();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         itemsList = new javax.swing.JList<>();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        jTextArea3 = new javax.swing.JTextArea();
+        AcceptButton = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
@@ -148,11 +169,11 @@ public class HunterGUI extends javax.swing.JFrame {
         ExperienceLabel.setFont(new java.awt.Font("Lucida Grande", 0, 10)); // NOI18N
         ExperienceLabel.setText("4560/6402");
 
-        jLabel8.setFont(new java.awt.Font("Malayalam Sangam MN", 0, 13)); // NOI18N
-        jLabel8.setText("Team: Gecko Express ");
+        TeamLabel.setFont(new java.awt.Font("Malayalam Sangam MN", 0, 13)); // NOI18N
+        TeamLabel.setText("Team: Gecko Express ");
 
-        jLabel9.setFont(new java.awt.Font("Malayalam Sangam MN", 0, 13)); // NOI18N
-        jLabel9.setText("Team Ranking: 001 ");
+        TeamRankingLabel.setFont(new java.awt.Font("Malayalam Sangam MN", 0, 13)); // NOI18N
+        TeamRankingLabel.setText("Team Ranking: 001 ");
 
         jLabel10.setText("CurrentMissions:");
 
@@ -178,38 +199,62 @@ public class HunterGUI extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(itemsList);
 
+        jTextArea3.setColumns(20);
+        jTextArea3.setRows(5);
+        jScrollPane10.setViewportView(jTextArea3);
+
+        AcceptButton.setText("Accept");
+        AcceptButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AcceptButtonActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("Forfeit");
+
         javax.swing.GroupLayout StatusPanelLayout = new javax.swing.GroupLayout(StatusPanel);
         StatusPanel.setLayout(StatusPanelLayout);
         StatusPanelLayout.setHorizontalGroup(
             StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, StatusPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, StatusPanelLayout.createSequentialGroup()
-                        .addComponent(BalanceLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(DepositBtn))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, StatusPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(4, 4, 4)
-                        .addComponent(ExperienceLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ExpProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, StatusPanelLayout.createSequentialGroup()
+                .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(StatusPanelLayout.createSequentialGroup()
+                        .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane2)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, StatusPanelLayout.createSequentialGroup()
+                                .addComponent(BalanceLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(DepositBtn))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, StatusPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(4, 4, 4)
+                                .addComponent(ExperienceLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ExpProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(StatusPanelLayout.createSequentialGroup()
                         .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(NameLabel, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(TeamLabel, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(TeamRankingLabel, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, StatusPanelLayout.createSequentialGroup()
                                 .addComponent(LevelLabel)
                                 .addGap(27, 27, 27)
                                 .addComponent(RankingLabel)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(StatusPanelLayout.createSequentialGroup()
+                        .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(StatusPanelLayout.createSequentialGroup()
+                                .addComponent(AcceptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))))))
         );
         StatusPanelLayout.setVerticalGroup(
             StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,15 +276,23 @@ public class HunterGUI extends javax.swing.JFrame {
                         .addComponent(jLabel6))
                     .addComponent(ExpProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8)
+                .addComponent(TeamLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel9)
+                .addComponent(TeamRankingLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel11)
+                .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(StatusPanelLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel11))
+                    .addGroup(StatusPanelLayout.createSequentialGroup()
+                        .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(AcceptButton)
+                            .addComponent(jButton4))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -255,7 +308,9 @@ public class HunterGUI extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 463, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -311,7 +366,7 @@ public class HunterGUI extends javax.swing.JFrame {
                             .addComponent(jLabel21)
                             .addComponent(jLabel22))
                         .addContainerGap())
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel3Layout.setVerticalGroup(
@@ -364,7 +419,7 @@ public class HunterGUI extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel23)
@@ -478,7 +533,7 @@ public class HunterGUI extends javax.swing.JFrame {
             .addGroup(MainPanelLayout.createSequentialGroup()
                 .addComponent(StatusPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 512, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         MainPanelLayout.setVerticalGroup(
@@ -521,6 +576,10 @@ public class HunterGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void AcceptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AcceptButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AcceptButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -561,6 +620,7 @@ public class HunterGUI extends javax.swing.JFrame {
             }
         });
         
+        
     }
     
     public void display(int hid){
@@ -575,23 +635,35 @@ public class HunterGUI extends javax.swing.JFrame {
         Object[] items;
         
         
-        Connection con = Connect.getConnection();
+        Connection con = Connector.getConnection();
         try {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM HUNTER"+
                     " WHERE HUNTERID=0"); 
-//                                             "WHERE HUNTERID=0");
             while(rs.next()){
                 hname=rs.getString("NAME");
                 exp=rs.getInt("EXPERIENCE");
                 goldbalance=rs.getInt("GOLDBALANCE");
-                BalanceLabel.setText(String.valueOf(goldbalance));
+                BalanceLabel.setText("GoldBalance: "+String.valueOf(goldbalance));
                 level=calculateLevel(exp);
-                NameLabel.setText("Welcome "+hname);
-                LevelLabel.setText(level);
+                NameLabel.setText("Welcome  "+hname);
+                LevelLabel.setText("Level: "+level);
+                ExperienceLabel.setText(String.valueOf(exp)+"/"+String.valueOf(findTheExp(exp)));
+                ExpProgressBar.setMinimum(0);
+                ExpProgressBar.setMaximum(100);
+                double ratio = (100*9286/10000);
+                System.out.println(exp);
+                System.out.println(findTheExp(exp));
+                System.out.println(ratio);
+                ExpProgressBar.setValue((int) ratio);
+                team=rs.getString("TEAMNAME");
+                if(team!=null){
+                    TeamLabel.setText("TeamName: "+team);
+                }else{
+                    TeamLabel.setText("No Team");
+                    TeamRankingLabel.setVisible(false);
+                }
             }
-            
-            
             System.out.println(rs);
         } catch (SQLException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -601,6 +673,7 @@ public class HunterGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AcceptButton;
     private javax.swing.JLabel BackgroundLabel;
     private javax.swing.JLabel BalanceLabel;
     private javax.swing.JButton DepositBtn;
@@ -611,10 +684,13 @@ public class HunterGUI extends javax.swing.JFrame {
     private javax.swing.JLabel NameLabel;
     private javax.swing.JLabel RankingLabel;
     private javax.swing.JPanel StatusPanel;
+    private javax.swing.JLabel TeamLabel;
+    private javax.swing.JLabel TeamRankingLabel;
     private javax.swing.JList<String> currentMissionsList;
     private javax.swing.JList<String> itemsList;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -632,8 +708,6 @@ public class HunterGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList3;
     private javax.swing.JList<String> jList4;
     private javax.swing.JList<String> jList5;
@@ -645,6 +719,7 @@ public class HunterGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -656,5 +731,6 @@ public class HunterGUI extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextArea jTextArea3;
     // End of variables declaration//GEN-END:variables
 }
