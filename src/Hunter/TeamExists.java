@@ -82,6 +82,8 @@ public class TeamExists extends JFrame {
                 rs[10] = completion
                 rs[11] = forefeit
          */
+
+        c.close();
     }
 
     /**
