@@ -11,7 +11,8 @@ import java.util.logging.Logger;
 public class Main {
 
     public static void main(String[] args) {        
-        JFrame mainframe = new signup();
-        mainframe.setVisible(true);
+/*        JFrame mainframe = new signup();
+        mainframe.setVisible(true);*/
+        TeamExists te = new TeamExists(4);
     }
 }
