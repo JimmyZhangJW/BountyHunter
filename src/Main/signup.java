@@ -6,11 +6,16 @@
 package Main;
 
 import Hunter.HunterGUI;
+import static Main.Connector.closeConnection;
+import static Main.Connector.getConnection;
 import java.awt.Color;
 import javax.swing.JFrame;
 import java.awt.Toolkit;
 import java.awt.Dimension;
 import MissionHolder.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
@@ -43,6 +48,7 @@ public class signup extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -58,10 +64,9 @@ public class signup extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jPanel2.setBackground(new java.awt.Color(32, 33, 35));
 
@@ -160,7 +165,15 @@ public class signup extends javax.swing.JFrame {
                 .addContainerGap(79, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(428, 0, 380, 430));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 101;
+        gridBagConstraints.ipady = 104;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 428, 0, 0);
+        getContentPane().add(jPanel2, gridBagConstraints);
 
         jPanel1.setBackground(new Color(0,0,0,200));
 
@@ -177,7 +190,7 @@ public class signup extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -196,11 +209,13 @@ public class signup extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 430, 430));
-
-        jLabel6.setIcon(new javax.swing.ImageIcon("/Users/MalcolmChen/Downloads/trim.jpg")); // NOI18N
-        jLabel6.setText("jLabel6");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(-290, 0, 720, 430));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = -4;
+        gridBagConstraints.ipady = 189;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        getContentPane().add(jPanel1, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -214,24 +229,74 @@ public class signup extends javax.swing.JFrame {
     }//GEN-LAST:event_jPasswordField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String signas = SignAs.getSelectedItem().toString();
-        this.setVisible(false);
-        if (signas.equals("Mission Holder")) {
-              MissionHolderHome mhHome=new MissionHolderHome(Integer.parseInt(fullname.getText()));
-              mhHome.setVisible(true);
-        }else if(signas.equals("Hunter")){
-              HunterGUI hunterGUI = new HunterGUI(Integer.parseInt(fullname.getText()));
-              hunterGUI.setVisible(true);
-        }else if(signas.equals("Admin")){
-        
+        String signAs = SignAs.getSelectedItem().toString();
+        if(isNumeric(fullname.getText())){
+            switch(signAs){
+                case("Mission Holder"):
+                    if(isValidMissionHolderId(fullname.getText())){
+                        MissionHolderHome mhHome=new MissionHolderHome(Integer.parseInt(fullname.getText()));
+                        this.setVisible(false);
+                        mhHome.setVisible(true);
+                    }
+                    break;
+                case("Hunter"):
+                    if(isValidHunterId(fullname.getText())){
+                        HunterGUI hunterGUI = new HunterGUI(Integer.parseInt(fullname.getText()));
+                        this.setVisible(false);
+                        hunterGUI.setVisible(true);
+                    }
+                    break;
+                case("Admin"):
+                    break; 
+            }
         }
-
-
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void SignAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignAsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_SignAsActionPerformed
+   
+    public static boolean isNumeric(String str){
+        for (char c : str.toCharArray()){
+            if (!Character.isDigit(c)) return false;
+        }
+        return true;
+    }
+    
+    public static boolean isValidMissionHolderId(String id ){
+        Connection con = getConnection();
+        
+        try{
+            Statement stmt= con.createStatement();
+            ResultSet rs=stmt.executeQuery("select name from missionholder where  MISSIONHOLDERID="+id);
+            if(!rs.next())
+                return false;
+           
+        }catch(SQLException err){
+            System.out.print(err);
+        }
+        
+        closeConnection();
+        return true;
+    }
+    
+    public static boolean isValidHunterId(String id ){
+        Connection con = getConnection();
+        
+        try{
+            Statement stmt= con.createStatement();
+            ResultSet rs=stmt.executeQuery("select name from hunter where hunterID="+id);
+            if(!rs.next())
+                return false;
+           
+        }catch(SQLException err){
+            System.out.print(err);
+        }
+        
+        closeConnection();
+        return true;
+    }
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -243,7 +308,6 @@ public class signup extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField jPasswordField1;
