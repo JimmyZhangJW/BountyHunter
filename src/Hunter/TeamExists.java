@@ -1,5 +1,6 @@
 package Hunter;
 
+import static Main.Connector.getConnection;
 import javax.swing.*;
 import java.awt.*;
 import java.sql.Connection;
@@ -43,7 +44,7 @@ public class TeamExists extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(464, 500);
         this.setResizable(false);
-        Connection c = Connect.getConnection();
+        Connection c = getConnection();
         /*TODO
         With the passed in Result set (should be just singleton) find out Name,Level,Rank and the missions they are on. Oh fuck
          */
