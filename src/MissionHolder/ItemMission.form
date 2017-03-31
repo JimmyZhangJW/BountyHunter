@@ -94,7 +94,7 @@
                                       <Component id="submit" min="-2" max="-2" attributes="0"/>
                                       <Component id="jButton2" min="-2" pref="125" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="0" pref="6" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -240,6 +240,7 @@
           </Properties>
           <Events>
             <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="deadlineFocusGained"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deadlineActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="createmoney">

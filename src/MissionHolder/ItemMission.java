@@ -116,6 +116,11 @@ public class ItemMission extends javax.swing.JFrame {
                 deadlineFocusGained(evt);
             }
         });
+        deadline.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deadlineActionPerformed(evt);
+            }
+        });
 
         createmoney.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         createmoney.setText("-------");
@@ -168,7 +173,7 @@ public class ItemMission extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(submit)
                                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 6, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
@@ -300,6 +305,10 @@ public class ItemMission extends javax.swing.JFrame {
         
         setVisible(false);
     }//GEN-LAST:event_submitActionPerformed
+
+    private void deadlineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deadlineActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deadlineActionPerformed
 
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
