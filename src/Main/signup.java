@@ -5,12 +5,19 @@
  */
 package Main;
 
+import Hunter.HunterGUI;
+import static Main.Connector.closeConnection;
+import static Main.Connector.getConnection;
 import java.awt.Color;
 import javax.swing.JFrame;
 import java.awt.Toolkit;
 import java.awt.Dimension;
 import MissionHolder.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -31,10 +38,7 @@ public class signup extends javax.swing.JFrame {
         Dimension dim = tk.getScreenSize();
         int xPos = (dim.width / 2) - (this.getWidth() / 2);
         int yPos = (dim.height / 2) - (this.getHeight() / 2);
-        this.setLocation(xPos, yPos);
-        
-        
-        
+        this.setLocation(xPos, yPos);   
     }
 
     /**
@@ -226,23 +230,91 @@ public class signup extends javax.swing.JFrame {
     }//GEN-LAST:event_jPasswordField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String signas = SignAs.getSelectedItem().toString();
-        this.setVisible(false);
-        if (signas == "Mission Holder") {
-              MissionHolderHome haha=new MissionHolderHome(Integer.parseInt(fullname.getText()));
-              haha.setVisible(true);
-        }else if(signas == "Hunter"){
-        
-        }else if(signas == "Admin"){
-        
+        String signAs = SignAs.getSelectedItem().toString();
+        if(isNumeric(fullname.getText())){
+            switch(signAs){
+                case("Mission Holder"):
+                    if(isValidMissionHolderId(fullname.getText())){
+                        MissionHolderHome mhHome=new MissionHolderHome(Integer.parseInt(fullname.getText()));
+                        this.setVisible(false);
+                        mhHome.setVisible(true);
+                    } else{
+                        drawErrorDialog("That Mission Holder Id does not exist", "Invalid ID");
+                    }
+                    break;
+                case("Hunter"):
+                    if(isValidHunterId(fullname.getText())){
+                        HunterGUI hunterGUI = new HunterGUI(Integer.parseInt(fullname.getText()));
+                        this.setVisible(false);
+                        hunterGUI.setVisible(true);
+                    } else {
+                        drawErrorDialog("That Hunter Id does not exist", "Invalid ID");
+                    }
+                    break;
+                case("Admin"):
+                    break; 
+            }
+        } else{
+            drawErrorDialog("IDs must be a positive Integer"
+                    , "Invalid ID");
         }
-
-
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void SignAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignAsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_SignAsActionPerformed
+   
+    public static boolean isNumeric(String str){
+        for (char c : str.toCharArray()){
+            if (!Character.isDigit(c)) 
+                return false;
+        }
+        return true;
+    }
+    
+    public static boolean isValidMissionHolderId(String id ){
+        Connection con = getConnection();
+
+        try{
+            Statement stmt= con.createStatement();
+            ResultSet rs=stmt.executeQuery("select name from missionholder where  MISSIONHOLDERID="+id);
+            if(!rs.next()){
+                closeConnection();
+                return false;
+            }
+           
+        }catch(SQLException err){
+            System.out.print(err);
+        }
+        
+        closeConnection();
+        return true;
+    }
+    
+    public static boolean isValidHunterId(String id ){
+        Connection con = getConnection();
+        
+        try{
+            Statement stmt= con.createStatement();
+            ResultSet rs=stmt.executeQuery("select name from hunter where hunterID="+id);
+            if(!rs.next()){
+                closeConnection();
+                return false;
+            }
+           
+        }catch(SQLException err){
+            System.out.print(err);
+        }
+        
+        closeConnection();
+        return true;
+    }
+    
+    public static void drawErrorDialog(String message, String title){
+    JOptionPane.showMessageDialog(new JFrame(), message, title,
+        JOptionPane.ERROR_MESSAGE);
+    }
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

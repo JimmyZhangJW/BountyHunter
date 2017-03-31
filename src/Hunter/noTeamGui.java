@@ -15,7 +15,9 @@ public class noTeamGui extends JFrame {
     private JPanel buttonPanel;
 
     public noTeamGui() {
+      
         Connection c = getConnection();
+
         joinTeamButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //TODO WRITE UPDATE JOIN CODE QUERY HERE
