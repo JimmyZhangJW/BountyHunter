@@ -626,6 +626,16 @@ public class HunterGUI extends javax.swing.JFrame {
         
         
     }
+//    public void renderCurMissions(int hid){
+//        try{
+//           Connection con = Connector.getConnection();
+//           Statement stmt = con.createStatement();
+//           ResultSet rs2 = stmt.executeQuery("SELECT * FROM HUNTER_MISSIONS"+
+//                    " WHERE HUNTERID="+hid); 
+//       }catch(SQLException ex){
+//           Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+//       }
+//    }
     
     public void display(int hid){
         String hname;
@@ -672,7 +682,8 @@ public class HunterGUI extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
+        
+       //renderCurMissions(hid);
         
     }
 
