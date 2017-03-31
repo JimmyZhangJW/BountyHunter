@@ -12,9 +12,13 @@
 hs_err_pid*
 /.idea/
 .idea/
+<<<<<<< HEAD
 /src/Hunter/HunterView/nbproject/private/
 /src/Hunter/HunterView/build/
 /CPSC304Project/nbproject/private/
 /src2/nbproject/private/
 /src2/build/
 /src/JavaApplication6/nbproject/private/
+=======
+/finalproject/nbproject/private/
+>>>>>>> master
