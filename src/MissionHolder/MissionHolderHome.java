@@ -8,6 +8,8 @@ package MissionHolder;
 
 import Leaderboard.LeaderBoardPanel;
 import Main.Connector;
+import static Main.Connector.closeConnection;
+import static Main.Connector.getConnection;
 import Main.signup;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -31,15 +33,16 @@ public class MissionHolderHome extends javax.swing.JFrame {
      */
     public MissionHolderHome(int id) {
         this.id=id;
-        con=Connector.getConnection();
+        con = getConnection();
         
         initComponents();
-        setById(id);
-        
+        setById(id);        
     }
     
     public void setById(int id){
         IDtext.setText("id: "+id);
+        
+        con = getConnection();
         
         try{
             stmt= con.createStatement();
@@ -74,8 +77,8 @@ public class MissionHolderHome extends javax.swing.JFrame {
         }catch(SQLException err){
             System.out.print(err);
         }
-    
-    
+        
+        closeConnection();
     }
     
     
@@ -391,7 +394,11 @@ public class MissionHolderHome extends javax.swing.JFrame {
     private void AddMoneyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddMoneyButtonActionPerformed
         // TODO add your handling code here:
         int addMoney = Integer.parseInt(MoneyToAddText.getText());
+        
+        con = getConnection();
+        
         try {
+            stmt= con.createStatement();
             String balanceQuery = "select GOLDBALANCE from missionholder where  MISSIONHOLDERID=" + id;
             rs = stmt.executeQuery(balanceQuery);
             rs.next();
@@ -406,6 +413,7 @@ public class MissionHolderHome extends javax.swing.JFrame {
         } catch (SQLException err) {
             System.out.print(err);
         }
+        closeConnection();
     }//GEN-LAST:event_AddMoneyButtonActionPerformed
 
     private void MoneyToAddTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MoneyToAddTextActionPerformed
