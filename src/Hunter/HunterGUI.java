@@ -4,10 +4,10 @@
  * and open the template in the editor.
  */
 package Hunter;
+
 import Main.Connector;
 import Main.Main;
 import java.awt.Color;
-import static java.lang.System.err;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
