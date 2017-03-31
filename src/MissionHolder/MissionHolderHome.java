@@ -215,7 +215,6 @@ public class MissionHolderHome extends javax.swing.JFrame {
         );
 
         jPanel2.setBackground(new java.awt.Color(246, 245, 245));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         AddMoneyButton.setText("AddMoney");
         AddMoneyButton.addActionListener(new java.awt.event.ActionListener() {
@@ -223,7 +222,6 @@ public class MissionHolderHome extends javax.swing.JFrame {
                 AddMoneyButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(AddMoneyButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 80, 110, 33));
 
         MoneyToAddText.setForeground(new java.awt.Color(102, 102, 102));
         MoneyToAddText.setToolTipText("Enter Money");
@@ -238,16 +236,46 @@ public class MissionHolderHome extends javax.swing.JFrame {
                 MoneyToAddTextActionPerformed(evt);
             }
         });
-        jPanel2.add(MoneyToAddText, new org.netbeans.lib.awtextra.AbsoluteConstraints(138, 76, 90, 40));
 
         BalanceText.setText("Balance: ");
-        jPanel2.add(BalanceText, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
 
         agetext.setText("Age: ");
-        jPanel2.add(agetext, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
 
         IDtext.setText("ID: ");
-        jPanel2.add(IDtext, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 98, -1));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(IDtext, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(agetext)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(BalanceText)
+                        .addGap(63, 63, 63)
+                        .addComponent(MoneyToAddText, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addComponent(AddMoneyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(IDtext)
+                .addGap(25, 25, 25)
+                .addComponent(agetext)
+                .addGap(11, 11, 11)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(BalanceText))
+                    .addComponent(MoneyToAddText, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(AddMoneyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        );
 
         refresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MissionHolder/075fbc8094149.560b71bb6d238.png"))); // NOI18N
         refresh.setBorder(null);
@@ -305,7 +333,7 @@ public class MissionHolderHome extends javax.swing.JFrame {
                         .addGap(4, 4, 4)
                         .addComponent(NameText, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())

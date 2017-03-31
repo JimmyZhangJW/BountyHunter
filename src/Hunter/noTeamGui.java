@@ -1,6 +1,6 @@
 package Hunter;
 
-import Main.Connector;
+import static Main.Connector.getConnection;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,7 +15,9 @@ public class noTeamGui extends JFrame {
     private JPanel buttonPanel;
 
     public noTeamGui() {
-        Connection c = Connector.getConnection();
+      
+        Connection c = getConnection();
+
         joinTeamButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //TODO WRITE UPDATE JOIN CODE QUERY HERE
