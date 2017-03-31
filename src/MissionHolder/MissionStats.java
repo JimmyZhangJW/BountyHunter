@@ -40,6 +40,7 @@ public class MissionStats extends javax.swing.JFrame {
         con= getConnection();
         setCurrentItemMissionTable();
         setCurrentMonsterMissionTable();
+        setCompleteMissionTable();
     }
     
     private void setCurrentItemMissionTable(){
@@ -55,7 +56,7 @@ public class MissionStats extends javax.swing.JFrame {
                     + " AND mHI.ITEMMISSIONID = M.ITEMMISSIONID AND "
                     + "I.ITEMID = mHI.ITEMID AND M.ACCEPTTIME IS NOT NULL";
          
-            
+            itemTable.setRowCount(0);
             rs=stmt.executeQuery(imissionQuery);
             while(rs.next()){
                 itemData[0]=rs.getString(1); // itemMissionID
@@ -84,7 +85,7 @@ public class MissionStats extends javax.swing.JFrame {
                     "WHERE M.MISSIONHOLDERID =" +id+" AND mHM.HUNTINGMISSIONID = M.HUNTINGMISSIONID "
                     + "AND mon.MONSTERID = mHM.MONSTERID AND M.ACCEPTTIME IS NOT NULL";
          
-            
+            hunterTable.setRowCount(0);
             rs=stmt.executeQuery(hMissionQuery);
             while(rs.next()){
                 itemData[0]=rs.getString(1); // HuntingMissionID
@@ -94,6 +95,38 @@ public class MissionStats extends javax.swing.JFrame {
                 itemData[4]=rs.getString("deadline");
                 itemData[5]=rs.getString("acceptTime");
                 hunterTable.addRow(itemData);
+            }
+
+        }catch(SQLException err){
+            System.out.print(err);
+            drawErrorDialog(err.toString(), "SQL Exception");
+        }
+    }
+    
+    private void setCompleteMissionTable(){
+        DefaultTableModel compTable =(DefaultTableModel)mCompletedMissionTable.getModel();
+        Object itemData[]=new Object[7];
+        
+        try{
+            stmt= con.createStatement();
+            String Query="(SELECT M.ITEMMISSIONID ID, M.DESCRIPTION, M.ACCEPTTIME, M.DEADLINE, M.COMPLETETIME, H.NAME " +
+                            "FROM ITEM_FORAGING_MISSION M, HUNTER H " +
+                            "WHERE M.MISSIONHOLDERID = "+id+" AND M.ACCEPTTIME IS NOT NULL AND M.COMPLETETIME IS NOT NULL AND M.HUNTERID = H.HUNTERID) " +
+                            "UNION( " +
+                            "SELECT M2.HUNTINGMISSIONID ID, M2.DESCRIPTION, M2.ACCEPTTIME, M2.DEADLINE, M2.COMPLETIONTIME, H.NAME " +
+                            "FROM HUNTING_MISSIONS M2, HUNTER H " +
+                            "WHERE M2.MISSIONHOLDERID = "+id+" AND M2.ACCEPTTIME IS NOT NULL AND M2.COMPLETIONTIME IS NOT NULL AND M2.HUNTERID = H.HUNTERID)";
+
+            compTable.setRowCount(0);
+            rs=stmt.executeQuery(Query);
+            while(rs.next()){
+                itemData[0]=rs.getString(1); // ID
+                itemData[1]=rs.getString(2); // Description
+                itemData[2] = rs.getString(3); // AcceptTime
+                itemData[3]=rs.getString(4); // Deadline
+                itemData[4]=rs.getString(5); // Complete time
+                itemData[5]=rs.getString(6); // Hunter Name
+                compTable.addRow(itemData);
             }
 
         }catch(SQLException err){
@@ -114,9 +147,9 @@ public class MissionStats extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
+        mCompletedMissionTable = new javax.swing.JTable();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jTable6 = new javax.swing.JTable();
+        mFailedTable = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -130,33 +163,41 @@ public class MissionStats extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Mission History", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Lucida Grande", 0, 24), new java.awt.Color(0, 0, 153))); // NOI18N
 
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+        mCompletedMissionTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Description", "Accept Time", "Deadline", "Completion Time", "Hunter"
             }
-        ));
-        jScrollPane5.setViewportView(jTable5);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane5.setViewportView(mCompletedMissionTable);
 
         jTabbedPane2.addTab("Completed", jScrollPane5);
 
-        jTable6.setModel(new javax.swing.table.DefaultTableModel(
+        mFailedTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Description", "Deadline"
             }
         ));
-        jScrollPane6.setViewportView(jTable6);
+        jScrollPane6.setViewportView(mFailedTable);
 
         jTabbedPane2.addTab("Failed", jScrollPane6);
 
@@ -310,8 +351,8 @@ public class MissionStats extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTable jTable5;
-    private javax.swing.JTable jTable6;
+    private javax.swing.JTable mCompletedMissionTable;
+    private javax.swing.JTable mFailedTable;
     private javax.swing.JButton mManageMissionButton;
     private javax.swing.JButton mMissionStatsBackButton;
     // End of variables declaration//GEN-END:variables

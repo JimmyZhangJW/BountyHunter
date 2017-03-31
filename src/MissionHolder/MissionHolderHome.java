@@ -63,19 +63,8 @@ public class MissionHolderHome extends javax.swing.JFrame {
             rs.next();
             int balance=rs.getInt(1);
             BalanceText.setText("Balance: "+balance);
-            if(balance>10000000){
-                rank.setText("S");
-            }else if(balance>100000){
-                rank.setText("A");
-            }else if(balance>50000){
-                rank.setText("B");
-            }else if(balance>10000){
-                rank.setText("C");
-            }else if(balance>5000){
-                rank.setText("D");
-            }else{
-                rank.setText("-");
-            }
+            rank.setText(getReputation(balance));
+
         }catch(SQLException err){
             System.out.print(err);
         }
@@ -434,20 +423,20 @@ public class MissionHolderHome extends javax.swing.JFrame {
         con = getConnection();
         
         try {
-            stmt= con.createStatement();
-            String balanceQuery = "select GOLDBALANCE from missionholder where  MISSIONHOLDERID=" + id;
-            rs = stmt.executeQuery(balanceQuery);
+            stmt = con.createStatement();
+            stmt.executeQuery("SELECT GOLDBALANCE FROM MISSIONHOLDER WHERE MISSIONHOLDERID = " + id);
+            rs = stmt.getResultSet();
             rs.next();
-            int currentBalance =rs.getInt(1);
-            int newBalance=currentBalance+addMoney;
-            stmt= con.createStatement();
-            String updateBalance="UPDATE missionholder SET GOLDBALANCE="+newBalance+" WHERE MISSIONHOLDERID=" + id;
-            stmt.executeUpdate(updateBalance);
-            rs=stmt.executeQuery(balanceQuery);
-            rs.next();
-            BalanceText.setText("Balance: "+rs.getInt(1));
+            int currentBalance = rs.getInt(1);
+            int newBalance = currentBalance + addMoney;
+            getReputation(newBalance);
+            stmt = con.createStatement();
+            stmt.executeUpdate("UPDATE MISSIONHOLDER SET GOLDBALANCE =" + newBalance +" WHERE MISSIONHOLDERID=" + id);
+
         } catch (SQLException err) {
             System.out.print(err);
+            drawErrorDialog(err.toString(), "SQL Exception");
+
         }
         closeConnection();
     }//GEN-LAST:event_AddMoneyButtonActionPerformed
@@ -465,8 +454,22 @@ public class MissionHolderHome extends javax.swing.JFrame {
         setById(id);
     }//GEN-LAST:event_refreshActionPerformed
 
-   
-
+    public static String getReputation(int balance){
+            if(balance>10000000){
+                return "S";
+            }else if(balance>100000){
+                return "A";
+            }else if(balance>50000){
+               return "B";
+            }else if(balance>10000){
+                return "C";
+            }else if(balance>5000){
+                return "D";
+            }else{
+                return "";
+            }
+    }
+            
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddMoneyButton;
     private javax.swing.JLabel BalanceText;
