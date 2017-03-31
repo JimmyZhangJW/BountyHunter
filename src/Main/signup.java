@@ -5,6 +5,7 @@
  */
 package Main;
 
+import Hunter.HunterGUI;
 import java.awt.Color;
 import javax.swing.JFrame;
 import java.awt.Toolkit;
@@ -31,10 +32,7 @@ public class signup extends javax.swing.JFrame {
         Dimension dim = tk.getScreenSize();
         int xPos = (dim.width / 2) - (this.getWidth() / 2);
         int yPos = (dim.height / 2) - (this.getHeight() / 2);
-        this.setLocation(xPos, yPos);
-        
-        
-        
+        this.setLocation(xPos, yPos);   
     }
 
     /**
@@ -218,12 +216,13 @@ public class signup extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String signas = SignAs.getSelectedItem().toString();
         this.setVisible(false);
-        if (signas == "Mission Holder") {
-              MissionHolderHome haha=new MissionHolderHome(Integer.parseInt(fullname.getText()));
-              haha.setVisible(true);
-        }else if(signas == "Hunter"){
-        
-        }else if(signas == "Admin"){
+        if (signas.equals("Mission Holder")) {
+              MissionHolderHome mhHome=new MissionHolderHome(Integer.parseInt(fullname.getText()));
+              mhHome.setVisible(true);
+        }else if(signas.equals("Hunter")){
+              HunterGUI hunterGUI = new HunterGUI(Integer.parseInt(fullname.getText()));
+              hunterGUI.setVisible(true);
+        }else if(signas.equals("Admin")){
         
         }
 
