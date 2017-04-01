@@ -358,6 +358,11 @@ public class MissionStats extends javax.swing.JFrame {
         });
 
         mManageMissionButton.setText("Manage");
+        mManageMissionButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mManageMissionButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -396,6 +401,14 @@ public class MissionStats extends javax.swing.JFrame {
         // TODO add your handling code here:
         setVisible(false);
     }//GEN-LAST:event_mMissionStatsBackButtonActionPerformed
+
+    private void mManageMissionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mManageMissionButtonActionPerformed
+        // TODO add your handling code here:
+        setVisible(false);
+        manageMission manageWindow=new manageMission(id);
+        manageWindow.setVisible(true);
+        
+    }//GEN-LAST:event_mManageMissionButtonActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
