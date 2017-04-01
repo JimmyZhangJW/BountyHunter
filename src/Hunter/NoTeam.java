@@ -35,22 +35,25 @@ public class NoTeam extends JFrame {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 Connection connection = getConnection();
+
                 Statement statement;
                 ResultSet rs;
                 ResultSet rs2;
-                try {
-                    statement = connection.createStatement();
-                    rs = statement.executeQuery("SELECT * FROM TEAM");
-                    while (rs.next()) {
-                        teamName.setText(rs.getString(1));
-                        teamRank.setText(rs.getString(2));
-                        int id = rs.getInt(3);
-                        rs2 = statement.executeQuery("SELECT name FROM HUNTER WHERE HUNTERID = " + id);
-                        rs2.next();
-                        teamCaptain.setText(rs2.getString(1));
+                if (e.getValueIsAdjusting()) {
+                    try {
+                        statement = connection.createStatement();
+                        rs = statement.executeQuery("SELECT * FROM TEAM WHERE TEAMNAME = '" + teamList.getSelectedValue() + "'");
+                        while (rs.next()) {
+                            teamName.setText(rs.getString(1));
+                            teamRank.setText(rs.getString(2));
+                            int id = rs.getInt(3);
+                            rs2 = statement.executeQuery("SELECT name FROM HUNTER WHERE HUNTERID = " + id);
+                            rs2.next();
+                            teamCaptain.setText(rs2.getString(1));
+                        }
+                    } catch (Exception excp) {
+                        excp.printStackTrace();
                     }
-                } catch (SQLException excp) {
-                    excp.printStackTrace();
                 }
             }
         });
