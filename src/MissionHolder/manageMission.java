@@ -478,16 +478,6 @@ public class manageMission extends javax.swing.JFrame {
         // TODO add your handling code here:
         String mid=idtext.getText();
         
-        try{
-            stmt = con.createStatement();
-            String deleteQuery="";
-            if(tabbed.getSelectedIndex()==0){
-                deleteQuery = "delete from Item_Foraging_Mission where itemMissionId=" + mid;
-            }else{
-                deleteQuery = "delete from Hunting_missions where huntingMissionID=" + mid;
-            }
-            int row = stmt.executeUpdate(deleteQuery);
-            System.out.print("row" + row);
             //TODO
             DefaultTableModel modelTable;
             int index;
@@ -509,10 +499,7 @@ public class manageMission extends javax.swing.JFrame {
                 itembox.removeItemAt(0);
             }
 
-        }catch(SQLException err){
-            System.out.print(err);
-            drawErrorDialog(err.toString(), "SQL Exception");
-        }
+
         
         
     }//GEN-LAST:event_jButton2ActionPerformed
