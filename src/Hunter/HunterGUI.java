@@ -14,6 +14,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -70,10 +73,11 @@ public class HunterGUI extends javax.swing.JFrame {
     /**
      * Creates new form HunterGUI
      */
+    int id;
+    int exp=0;
+    int balance=0;
     public HunterGUI(int hid) {
-        int id=hid;
-        int exp=0;
-        int balance=0;
+        id=hid;
         initComponents();
         display(id);
         filltheHMList();
@@ -156,11 +160,12 @@ public class HunterGUI extends javax.swing.JFrame {
         jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(800, 400));
+        setMinimumSize(new java.awt.Dimension(800, 600));
         setSize(new java.awt.Dimension(800, 600));
         getContentPane().setLayout(null);
 
         MainPanel.setOpaque(false);
+        MainPanel.setPreferredSize(new java.awt.Dimension(800, 600));
 
         StatusPanel.setOpaque(false);
 
@@ -220,7 +225,14 @@ public class HunterGUI extends javax.swing.JFrame {
             @Override
             public void valueChanged(ListSelectionEvent arg0){
                 if(!arg0.getValueIsAdjusting()){
-                    MissionDescriptionText.setText(currentMissionsList.getSelectedValue().toString());
+                    if(currentMissionsList.getSelectedValue()==null){
+
+                    }else{
+                        int id =Integer.valueOf(currentMissionsList.getSelectedValue().toString().split("#")[1]);
+                        String what = currentMissionsList.getSelectedValue().toString().split("#")[0];
+                        MissionDescriptionText.setText(findDescription(what,id));
+                    }
+
                 }
             }
         });
@@ -286,9 +298,15 @@ public class HunterGUI extends javax.swing.JFrame {
             @Override
             public void valueChanged(ListSelectionEvent arg0){
                 if(!arg0.getValueIsAdjusting()){
-                    String id = (String) ItemMissionsList.getSelectedValue().split("#")[1];
+                    String id = (String) ItemMissionsList.getSelectedValue();
+                    if(id==null){
+
+                    }else{
+                        String tempid = id.split("#")[1];
+                        imChangedUpdate(Integer.valueOf(tempid));
+                    }
                     //System.out.print(ItemMissionsList.getSelectedValue());
-                    imChangedUpdate(Integer.valueOf(id));
+
                 }
             }
         });
@@ -313,30 +331,35 @@ public class HunterGUI extends javax.swing.JFrame {
 
         ImDescriptionsText.setEditable(false);
         ImDescriptionsText.setColumns(20);
-        ImDescriptionsText.setRows(5);
+        ImDescriptionsText.setRows(100);
         jScrollPane8.setViewportView(ImDescriptionsText);
 
         IMAcceptButton.setLabel("Accept");
+        IMAcceptButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                IMAcceptButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout ItemMissonsPanelLayout = new javax.swing.GroupLayout(ItemMissonsPanel);
         ItemMissonsPanel.setLayout(ItemMissonsPanelLayout);
         ItemMissonsPanelLayout.setHorizontalGroup(
             ItemMissonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ItemMissonsPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(ItemMissonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(ItemMissonsPanelLayout.createSequentialGroup()
-                        .addGroup(ItemMissonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(IMNameLabel)
-                            .addComponent(ImDiffLabel)
-                            .addComponent(ImExpRewardLabel)
-                            .addComponent(IMGoldRewardLabel)
-                            .addComponent(ImReleaseTimeLabel)
-                            .addComponent(ImRddlLabel))
-                        .addContainerGap())
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
-                    .addComponent(IMAcceptButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(ItemMissonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(ImExpRewardLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(IMGoldRewardLabel)
+                        .addComponent(ImReleaseTimeLabel)
+                        .addComponent(ImDiffLabel)
+                        .addComponent(IMNameLabel))
+                    .addComponent(ImRddlLabel)
+                    .addComponent(IMAcceptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         ItemMissonsPanelLayout.setVerticalGroup(
             ItemMissonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -346,18 +369,26 @@ public class HunterGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ImDiffLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ImExpRewardLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ImExpRewardLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(IMGoldRewardLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ImReleaseTimeLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ImRddlLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ImRddlLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(IMAcceptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+
+        IMAcceptButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                String id = (String) ItemMissionsList.getSelectedValue().split("#")[1];
+                System.out.print("Pressed!!!"+id);
+                acceptItemMission(Integer.valueOf(id));
+            }
+        });
 
         TabbedPanel.addTab("ItemMissions", ItemMissonsPanel);
 
@@ -373,9 +404,14 @@ public class HunterGUI extends javax.swing.JFrame {
             @Override
             public void valueChanged(ListSelectionEvent arg0){
                 if(!arg0.getValueIsAdjusting()){
-                    String temp = (String) HMList.getSelectedValue().split("#")[1];
-                    int id = Integer.valueOf(temp);
-                    hmChangedUpdate(id);
+                    String temp = (String) HMList.getSelectedValue();
+                    if(temp ==null){
+
+                    }else{
+                        int id = Integer.valueOf(temp.split("#")[1]);
+                        hmChangedUpdate(id);
+                    }
+
                 }
             }
         });
@@ -385,7 +421,7 @@ public class HunterGUI extends javax.swing.JFrame {
 
         HMdescText.setEditable(false);
         HMdescText.setColumns(20);
-        HMdescText.setRows(5);
+        HMdescText.setRows(100);
         jScrollPane7.setViewportView(HMdescText);
 
         HmDiffLabel.setForeground(new java.awt.Color(255, 255, 255));
@@ -416,18 +452,18 @@ public class HunterGUI extends javax.swing.JFrame {
             HuntingMissionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(HuntingMissionPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(HuntingMissionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(HuntingMissionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(HmNameLabel)
                     .addComponent(HmDiffLabel)
                     .addComponent(HmexpRewardLabel)
                     .addComponent(HmGoldRewardLabel)
                     .addComponent(HmddlRlabel)
                     .addComponent(HMReleaseTimeLabel)
-                    .addComponent(HMAcceptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(HMAcceptButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(59, 59, Short.MAX_VALUE))
         );
         HuntingMissionPanelLayout.setVerticalGroup(
             HuntingMissionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -446,17 +482,18 @@ public class HunterGUI extends javax.swing.JFrame {
                         .addComponent(HMReleaseTimeLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(HmddlRlabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(HMAcceptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        HMAcceptButton.getAccessibleContext().setAccessibleName("");
+        HMAcceptButton.getAccessibleContext().setAccessibleName("\"\"");
         HMAcceptButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
-                System.out.print("Pressed!!!");
+                String id = (String) HMList.getSelectedValue().split("#")[1];
+                acceptHuntingMission(Integer.valueOf(id));
             }
         });
 
@@ -511,6 +548,7 @@ public class HunterGUI extends javax.swing.JFrame {
 
         TabbedPanel.addTab("LeaderBoard", LeaderBoardPanel);
 
+        TurnInButton.setText("Turn in");
         TurnInButton.setLabel("Turn In");
         TurnInButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -525,10 +563,6 @@ public class HunterGUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, StatusPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(StatusPanelLayout.createSequentialGroup()
-                        .addComponent(BalanceLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(DepositBtn))
                     .addGroup(StatusPanelLayout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addGap(4, 4, 4)
@@ -562,7 +596,12 @@ public class HunterGUI extends javax.swing.JFrame {
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(CurrentddlLabel)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(StatusPanelLayout.createSequentialGroup()
+                        .addComponent(BalanceLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(DepositBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(9, 9, 9)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(TabbedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -614,17 +653,22 @@ public class HunterGUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        NameLabel.getAccessibleContext().setAccessibleName("");
         TabbedPanel.getAccessibleContext().setAccessibleName("");
+        TurnInButton.getAccessibleContext().setAccessibleName("");
 
         javax.swing.GroupLayout MainPanelLayout = new javax.swing.GroupLayout(MainPanel);
         MainPanel.setLayout(MainPanelLayout);
         MainPanelLayout.setHorizontalGroup(
             MainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(StatusPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(MainPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(StatusPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17))
         );
         MainPanelLayout.setVerticalGroup(
             MainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(StatusPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(StatusPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         getContentPane().add(MainPanel);
@@ -661,7 +705,19 @@ public class HunterGUI extends javax.swing.JFrame {
 
     private void TurnInButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TurnInButtonActionPerformed
         // TODO add your handling code here:
+        String field = currentMissionsList.getSelectedValue().toString().split("#")[0];
+        int mid = Integer.valueOf(currentMissionsList.getSelectedValue().toString().split("#")[1]);
+        if(field.trim().equals("ItemMission")){
+            turninItemMission(mid);
+        }else{
+            turninHuntingMission(mid);
+        }
+        //if()
     }//GEN-LAST:event_TurnInButtonActionPerformed
+
+    private void IMAcceptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IMAcceptButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_IMAcceptButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -708,12 +764,137 @@ public class HunterGUI extends javax.swing.JFrame {
 //        
 //    }
     
+    public void acceptHuntingMission(int hmid){
+        System.out.print("up!!");
+
+        LocalDateTime now = LocalDateTime.now();
+        String current =now.getYear()+"-"+now.getMonthValue()+"-"+now.getDayOfMonth();
+        System.out.print(now.getYear()+"-"+now.getMonth()+"-"+now.getDayOfMonth());
+        String acceptSql="UPDATE HUNTING_MISSIONS"+
+                " SET HUNTERID="+id+", ACCEPTTIME = "+current+
+                " WHERE HUNTINGMISSIONID="+hmid;
+        System.out.print(acceptSql);
+        try{
+            Connection con = Connector.getConnection();
+            Statement stmt = con.createStatement();
+            stmt.execute(acceptSql);
+            filltheHMList();
+            renderCurMissions(id);
+        }catch(SQLException ex){
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void acceptItemMission(int imid){
+        System.out.print("OHHup!!");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        LocalDateTime now = LocalDateTime.now();
+        String current =now.getYear()+"-"+now.getMonthValue()+"-"+now.getDayOfMonth();
+        System.out.print(now.getYear()+"-"+now.getMonth()+"-"+now.getDayOfMonth());
+        String acceptSql="UPDATE ITEM_FORAGING_MISSION"+
+                " SET HUNTERID = "+id+", ACCEPTTIME = "+current+
+                " WHERE ITEMMISSIONID = "+imid;
+        System.out.print(acceptSql);
+        try{
+            Connection con = Connector.getConnection();
+            Statement stmt = con.createStatement();
+            stmt.execute(acceptSql);
+            filltheIMList();
+            renderCurMissions(id);
+        }catch(SQLException ex){
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void turninHuntingMission(int hmid){
+        int addedBalance = 0;
+        int addedExp = 0;
+        int finalBalance = balance;
+        int finalexp = exp;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        LocalDateTime now = LocalDateTime.now();
+        String current =now.getYear()+"-"+now.getMonthValue()+"-"+now.getDayOfMonth();
+        System.out.print(now.getYear()+"-"+now.getMonth()+"-"+now.getDayOfMonth());
+        String acceptSql="UPDATE HUNTING_MISSIONS"+
+                " SET HUNTERID = "+id+", COMPLETIONTIME = "+current+
+                " WHERE HUNTINGMISSIONID = "+hmid;
+        System.out.print(acceptSql);
+        try{
+            Connection con = Connector.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(acceptSql);
+            while(rs.next()){
+                addedBalance = rs.getInt("GOLDREWARD");
+                addedExp = rs.getInt("EXPREWARD");
+            }
+            
+        }catch(SQLException ex){
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finalBalance = balance+addedBalance;
+        finalexp=exp+addedExp;
+        try{
+            Connection con = Connector.getConnection();
+            Statement stmt = con.createStatement();
+            String updatesql="UPDATE HUNTER"+
+                " SET GOLDBALANCE = "+finalBalance+", EXPERIENCE = "+finalexp+
+                " WHERE HUNTERID = "+id;
+            stmt.executeQuery(updatesql);
+            display(id);
+        }catch(SQLException ex){
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        renderCurMissions(id);
+    }
+    
+     public void turninItemMission(int imid){
+         System.out.print("I am turn in item missions right now");
+        int addedBalance = 0;
+        int addedExp = 0;
+        int finalBalance = balance;
+        int finalexp = exp;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        LocalDateTime now = LocalDateTime.now();
+        String current =now.getYear()+"-"+now.getMonthValue()+"-"+now.getDayOfMonth();
+        System.out.print(now.getYear()+"-"+now.getMonth()+"-"+now.getDayOfMonth());
+        String acceptSql="UPDATE ITEM_FORAGING_MISSION"+
+                " SET HUNTERID = "+id+", COMPLETETIME = "+current+
+                " WHERE ITEMMISSIONID = "+imid;
+        System.out.print(acceptSql);
+        try{
+            Connection con = Connector.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(acceptSql);
+            while(rs.next()){
+                addedBalance = rs.getInt("GOLDREWARD");
+                addedExp = rs.getInt("EXPREWARD");
+            }
+            
+        }catch(SQLException ex){
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finalBalance = balance+addedBalance;
+        finalexp=exp+addedExp;
+        try{
+            Connection con = Connector.getConnection();
+            Statement stmt = con.createStatement();
+            String updatesql="UPDATE HUNTER"+
+                " SET GOLDBALANCE = "+finalBalance+", EXPERIENCE = "+finalexp+
+                " WHERE HUNTERID = "+id;
+            stmt.executeQuery(updatesql);
+            display(id);
+        }catch(SQLException ex){
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void hmChangedUpdate(int hmid){
         try{
             Connection con = Connector.getConnection();
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM HUNTING_MISSIONS"+
-                    " WHERE HUNTINGMISSIONID="+hmid); 
+                    " WHERE HUNTINGMISSIONID = "+hmid); 
             while(rs.next()){
                //int temphid = rs.getInt("HUNTERID");
                String tempddl = rs.getString("DEADLINE");
@@ -759,6 +940,30 @@ public class HunterGUI extends javax.swing.JFrame {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public String findDescription(String field, int id){
+        String description ="";
+        try{
+            Connection con = Connector.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs;
+            
+            if(field.equals("ItemMission")){
+                rs = stmt.executeQuery("SELECT * FROM ITEM_FORAGING_MISSION"+
+                    " WHERE ITEMMISSIONID="+id); 
+            }else{
+                rs = stmt.executeQuery("SELECT * FROM HUNTING_MISSIONS"+
+                    " WHERE HUNTINGMISSIONID="+id);
+            }
+            while(rs.next()){
+                description = rs.getString("DESCRIPTION");
+            }
+    
+        }catch(SQLException ex){
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return description;
+    }
     public void renderCurMissions(int hid){
         ArrayList Hmids = new ArrayList();
         ArrayList Hdescriptions = new ArrayList();
@@ -770,7 +975,10 @@ public class HunterGUI extends javax.swing.JFrame {
            Connection con = Connector.getConnection();
            Statement stmt = con.createStatement();
            ResultSet rs2 = stmt.executeQuery("SELECT * FROM HUNTING_MISSIONS"+
-                    " WHERE HUNTERID="+hid); 
+                    " WHERE HUNTERID = "+hid+
+                   " INTERSECT "+
+                   "SELECT * FROM HUNTING_MISSIONS"+
+                   " WHERE COMPLETIONTIME IS NULL"); 
           
            while(rs2.next()){
                int tempmid = rs2.getInt("HUNTINGMISSIONID");
@@ -791,9 +999,12 @@ public class HunterGUI extends javax.swing.JFrame {
             Connection con = Connector.getConnection();
             Statement stmt = con.createStatement();
             ResultSet rs3 = stmt.executeQuery("SELECT * FROM ITEM_FORAGING_MISSION"+
-                    " WHERE HUNTERID="+hid); 
+                    " WHERE HUNTERID = "+hid+
+                   " INTERSECT "+
+                   "SELECT * FROM ITEM_FORAGING_MISSION"+
+                   " WHERE COMPLETETIME IS NULL"); 
             while(rs3.next()){
-               int tempmid = rs3.getInt("HUNTINGMISSIONID");
+               int tempmid = rs3.getInt("ITEMMISSIONID");
                int temphid = rs3.getInt("HUNTERID");
                String tempddl = rs3.getString("DEADLINE");
                String tempdesc = rs3.getString("DESCRIPTION");
@@ -873,16 +1084,13 @@ public class HunterGUI extends javax.swing.JFrame {
         }
     }
     
-    public void turninMission(int mid){
-        
-    }
-    
+   
+   
     public void display(int hid){
         String hname;
         int goldbalance = 0;
         String level;
         int Ranking;
-        int exp;
         String team;
         String teamRank;
         String[] curMissions;
@@ -898,6 +1106,7 @@ public class HunterGUI extends javax.swing.JFrame {
                 hname=rs.getString("NAME");
                 exp=rs.getInt("EXPERIENCE");
                 goldbalance=rs.getInt("GOLDBALANCE");
+                balance=goldbalance;
                 BalanceLabel.setText("GoldBalance: "+String.valueOf(goldbalance));
                 level=calculateLevel(exp);
                 NameLabel.setText("Welcome  "+hname);
@@ -935,7 +1144,7 @@ public class HunterGUI extends javax.swing.JFrame {
     private javax.swing.JProgressBar ExpProgressBar;
     private javax.swing.JLabel ExperienceLabel;
     private javax.swing.JButton ForfeitButton;
-    private javax.swing.JButton HMAcceptButton;
+    public javax.swing.JButton HMAcceptButton;
     private javax.swing.JList<String> HMList;
     private javax.swing.JLabel HMReleaseTimeLabel;
     private javax.swing.JTextArea HMdescText;
