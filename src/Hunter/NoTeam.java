@@ -39,7 +39,7 @@ public class NoTeam extends JFrame {
                 Statement statement;
                 ResultSet rs;
                 ResultSet rs2;
-                if (e.getValueIsAdjusting()) {
+
                     try {
                         statement = connection.createStatement();
                         rs = statement.executeQuery("SELECT * FROM TEAM WHERE TEAMNAME = '" + teamList.getSelectedValue() + "'");
@@ -54,7 +54,7 @@ public class NoTeam extends JFrame {
                     } catch (Exception excp) {
                         excp.printStackTrace();
                     }
-                }
+
             }
         });
         Connection connection = getConnection();
