@@ -125,7 +125,7 @@ public class TeamExists {
                 idList.add(rs.getInt(1));
             }
 
-            rs = statement.executeQuery("SELECT * FROM Hunting_missions h WHERE h.teamName = '" + teamNameString + "'");
+            rs = statement.executeQuery("SELECT * FROM Hunting_missions WHERE teamName = '" + teamNameString + "'");
             while (rs.next()) {
                 missionListModel.addElement("Hunting Mission: " + rs.getInt(1));
             }
