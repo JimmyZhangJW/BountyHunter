@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 public class Main {
 
     public static void main(String[] args) {
-        NoTeam nt = new NoTeam();
+        NoTeam nt = new NoTeam(0);
        /* JFrame mainframe = new signup();
         mainframe.setVisible(true);*/
 

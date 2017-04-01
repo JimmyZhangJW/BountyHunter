@@ -1,9 +1,13 @@
 package Hunter;
 
+import com.sun.org.apache.regexp.internal.RE;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,7 +27,7 @@ public class NoTeam extends JFrame {
     private JLabel teamCaptain;
     private JLabel teamName;
 
-    public NoTeam() {
+    public NoTeam(int id) {
         $$$setupUI$$$();
         this.add($$$getRootComponent$$$());
         this.setSize(400, 550);
@@ -40,23 +44,38 @@ public class NoTeam extends JFrame {
                 ResultSet rs;
                 ResultSet rs2;
 
-                    try {
-                        statement = connection.createStatement();
-                        rs = statement.executeQuery("SELECT * FROM TEAM WHERE TEAMNAME = '" + teamList.getSelectedValue() + "'");
-                        while (rs.next()) {
-                            teamName.setText(rs.getString(1));
-                            teamRank.setText(rs.getString(2));
-                            int id = rs.getInt(3);
-                            rs2 = statement.executeQuery("SELECT name FROM HUNTER WHERE HUNTERID = " + id);
-                            rs2.next();
-                            teamCaptain.setText(rs2.getString(1));
-                        }
-                    } catch (Exception excp) {
-                        excp.printStackTrace();
+                try {
+                    statement = connection.createStatement();
+                    rs = statement.executeQuery("SELECT * FROM TEAM WHERE TEAMNAME = '" + teamList.getSelectedValue() + "'");
+                    while (rs.next()) {
+                        teamName.setText(rs.getString(1));
+                        teamRank.setText(rs.getString(2));
+                        int id = rs.getInt(3);
+                        rs2 = statement.executeQuery("SELECT name FROM HUNTER WHERE HUNTERID = " + id);
+                        rs2.next();
+                        teamCaptain.setText(rs2.getString(1));
                     }
+                } catch (Exception excp) {
+                    excp.printStackTrace();
+                }
 
             }
         });
+        ActionListener buttonListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Connection connection = getConnection();
+                Statement statement;
+                ResultSet rs;
+                try {
+                    statement = connection.createStatement();
+                    rs = statement.executeQuery("UPDATE HUNTER SET TEAMNAME = '" + teamList.getSelectedValue() + "' WHERE HUNTERID = " + id);
+                } catch (SQLException excp) {
+                    excp.printStackTrace();
+                }
+            }
+        };
+        joinTeamButton.addActionListener(buttonListener);
         Connection connection = getConnection();
         Statement statement;
         ResultSet rs;
