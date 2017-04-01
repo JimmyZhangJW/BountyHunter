@@ -7,9 +7,11 @@ package MissionHolder;
 
 
 import Main.*;
+import static Main.signup.drawErrorDialog;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -35,8 +37,20 @@ public class ItemMission extends javax.swing.JFrame {
         initComponents();
        
         con=Connector.getConnection();
-    }
+        try{
+            stmt = con.createStatement();
+            String itemQuery = "select ItemName from Item_Name";
+            rs = stmt.executeQuery(itemQuery);
+            while(rs.next()){
+                itembox.addItem(rs.getString("itemName"));
+            }
+           
 
+        }catch(SQLException err){
+            System.out.print(err);
+            drawErrorDialog(err.toString(), "SQL Exception");
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,7 +67,6 @@ public class ItemMission extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        itemname = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         des = new javax.swing.JTextPane();
         diff = new javax.swing.JTextField();
@@ -62,6 +75,8 @@ public class ItemMission extends javax.swing.JFrame {
         deadline = new javax.swing.JTextField();
         createmoney = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        itembox = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,12 +100,6 @@ public class ItemMission extends javax.swing.JFrame {
         jLabel2.setText("Mission Description:");
 
         jLabel6.setText("Gold needed to Create:");
-
-        itemname.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemnameActionPerformed(evt);
-            }
-        });
 
         jScrollPane1.setViewportView(des);
 
@@ -132,6 +141,19 @@ public class ItemMission extends javax.swing.JFrame {
             }
         });
 
+        itembox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemboxActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Create Your Item");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -144,19 +166,24 @@ public class ItemMission extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel5)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(deadline, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE))
+                            .addComponent(deadline))
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel4)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(diff))
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel3)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(itemname))
+                            .addGap(21, 21, 21)
+                            .addComponent(itembox, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(0, 0, Short.MAX_VALUE))
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGap(0, 0, Short.MAX_VALUE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                            .addGap(16, 16, 16)
+                            .addComponent(jButton1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -202,14 +229,16 @@ public class ItemMission extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(itemname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(8, 8, 8)
+                            .addComponent(itembox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(diff, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(8, 8, 8))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(10, 10, 10)
                         .addComponent(submit)
                         .addGap(15, 15, 15)))
@@ -235,10 +264,6 @@ public class ItemMission extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void itemnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemnameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_itemnameActionPerformed
 
     private void deadlineFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_deadlineFocusGained
         // TODO add your handling code here:
@@ -277,7 +302,8 @@ public class ItemMission extends javax.swing.JFrame {
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
         // TODO add your handling code here:
         String description=des.getText();
-        String itemid=itemname.getText();
+        String itemid=itembox.getItemAt(0).toString();
+        //TODO
         String difficult=diff.getText();
         String dl=deadline.getText();
         String insertIMission="insert into Item_Foraging_Mission(itemMissionId,missionHolderID,deadline,description,expReward,goldReward,startTime) values(?,?,?,?,?,?,?)";
@@ -305,7 +331,7 @@ public class ItemMission extends javax.swing.JFrame {
                 pst.setInt(6, 100);
             }
             Calendar cal = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String data=sdf.format(cal.getTime());
             pst.setString(7, data);
             pst.execute();
@@ -320,6 +346,15 @@ public class ItemMission extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_deadlineActionPerformed
 
+    private void itemboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemboxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_itemboxActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        new createItem().setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel createmoney;
@@ -327,7 +362,8 @@ public class ItemMission extends javax.swing.JFrame {
     private javax.swing.JTextField deadline;
     private javax.swing.JTextPane des;
     private javax.swing.JTextField diff;
-    private javax.swing.JTextField itemname;
+    private javax.swing.JComboBox<String> itembox;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
