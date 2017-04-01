@@ -13,7 +13,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 
-public class TeamExists extends JFrame {
+public class TeamExists {
     private JPanel mainWindow;
     private JPanel teamInfoPanel;
     private JLabel teamNameLabel;
@@ -125,7 +125,7 @@ public class TeamExists extends JFrame {
                 idList.add(rs.getInt(1));
             }
 
-            rs = statement.executeQuery("SELECT * FROM Hunting_missions h WHERE h.teamName = '" + teamNameString + "'");
+            rs = statement.executeQuery("SELECT * FROM Hunting_missions WHERE teamName = '" + teamNameString + "'");
             while (rs.next()) {
                 missionListModel.addElement("Hunting Mission: " + rs.getInt(1));
             }
@@ -140,11 +140,6 @@ public class TeamExists extends JFrame {
             //TODO Proper logger message
             e.printStackTrace();
         }
-        this.add(mainWindow);
-        this.setVisible(true);
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setSize(434, 550);
-        this.setResizable(false);
     }
 
     /**

@@ -20,20 +20,17 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
-import javax.swing.JList;
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import static Main.Connector.getConnection;
 
 /**
  *
  * @author jingweizhang
  */
 public class HunterGUI extends javax.swing.JFrame {
-
-    public HunterGUI() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     
 
@@ -85,6 +82,42 @@ public class HunterGUI extends javax.swing.JFrame {
         filltheIMList();
         renderCurMissions(hid);
         filltheItemList(hid);
+
+
+        try{
+            Connection connection = getConnection();
+            Statement statement;
+            ResultSet rs;
+            statement = connection.createStatement();
+
+            rs = statement.executeQuery("SELECT TEAMNAME FROM HUNTER WHERE HUNTERID = "+hid);
+            if(rs.next())
+            {
+                TeamExists te = new TeamExists(hid);
+                teamPanel = te.$$$getRootComponent$$$();
+            }
+            else
+            {
+                NoTeam nt = new NoTeam(hid);
+                teamPanel = nt.$$$getRootComponent$$$();
+            }
+        }
+        catch (SQLException e)
+        {
+            Logger.getLogger(e.getLocalizedMessage());
+        }
+        javax.swing.GroupLayout TeamPanelLayout = new javax.swing.GroupLayout(TeamPanel);
+        TeamPanel.setLayout(TeamPanelLayout);
+        TeamPanelLayout.setHorizontalGroup(
+                TeamPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(TeamPanelLayout.createSequentialGroup()
+                                .addComponent(teamPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
+                                .addContainerGap())
+        );
+        TeamPanelLayout.setVerticalGroup(
+                TeamPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(teamPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
+        );
     }
 
     /**
@@ -732,7 +765,7 @@ public class HunterGUI extends javax.swing.JFrame {
                 " WHERE HUNTINGMISSIONID="+hmid;
         System.out.print(acceptSql);
         try{
-            Connection con = Connector.getConnection();
+            Connection con = getConnection();
             Statement stmt = con.createStatement();
             stmt.execute(acceptSql);
             filltheHMList();
@@ -753,7 +786,7 @@ public class HunterGUI extends javax.swing.JFrame {
                 " WHERE ITEMMISSIONID = "+imid;
         System.out.print(acceptSql);
         try{
-            Connection con = Connector.getConnection();
+            Connection con = getConnection();
             Statement stmt = con.createStatement();
             stmt.execute(acceptSql);
             filltheIMList();
@@ -777,7 +810,7 @@ public class HunterGUI extends javax.swing.JFrame {
                 " WHERE HUNTINGMISSIONID = "+hmid;
         System.out.print(acceptSql);
         try{
-            Connection con = Connector.getConnection();
+            Connection con = getConnection();
             Statement stmt = con.createStatement();
             stmt.executeQuery(acceptSql);
             String gettingsql ="SELECT * FROM HUNTING_MISSIONS"+
@@ -794,7 +827,7 @@ public class HunterGUI extends javax.swing.JFrame {
         finalBalance = balance+addedBalance;
         finalexp=exp+addedExp;
         try{
-            Connection con = Connector.getConnection();
+            Connection con = getConnection();
             Statement stmt = con.createStatement();
             String updatesql="UPDATE HUNTER"+
                 " SET GOLDBALANCE = "+finalBalance+", EXPERIENCE = "+finalexp+
@@ -823,7 +856,7 @@ public class HunterGUI extends javax.swing.JFrame {
                 "' WHERE ITEMMISSIONID = "+imid;
         System.out.print(acceptSql);
         try{
-            Connection con = Connector.getConnection();
+            Connection con = getConnection();
             Statement stmt =  con.createStatement();
             stmt.executeQuery(acceptSql);
             String gettingsql ="SELECT * FROM ITEM_FORAGING_MISSION"+
@@ -844,7 +877,7 @@ public class HunterGUI extends javax.swing.JFrame {
         finalBalance = balance+addedBalance;
         finalexp=exp+addedExp;
         try{
-            Connection con = Connector.getConnection();
+            Connection con = getConnection();
             Statement stmt = con.createStatement();
             String updatesql="UPDATE HUNTER"+
                 " SET GOLDBALANCE = "+finalBalance+", EXPERIENCE = "+finalexp+
@@ -858,7 +891,7 @@ public class HunterGUI extends javax.swing.JFrame {
     
     public void hmChangedUpdate(int hmid){
         try{
-            Connection con = Connector.getConnection();
+            Connection con = getConnection();
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM HUNTING_MISSIONS"+
                     " WHERE HUNTINGMISSIONID = "+hmid); 
@@ -883,7 +916,7 @@ public class HunterGUI extends javax.swing.JFrame {
     
     public void imChangedUpdate(int imid){
         try{
-            Connection con = Connector.getConnection();
+            Connection con = getConnection();
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM ITEM_FORAGING_MISSION"+
                     " WHERE ITEMMISSIONID="+imid); 
@@ -911,7 +944,7 @@ public class HunterGUI extends javax.swing.JFrame {
     public String findDescription(String field, int id){
         String description ="";
         try{
-            Connection con = Connector.getConnection();
+            Connection con = getConnection();
             Statement stmt = con.createStatement();
             ResultSet rs;
             
@@ -939,7 +972,7 @@ public class HunterGUI extends javax.swing.JFrame {
         ArrayList Idescriptions = new ArrayList();
         ArrayList Iddls = new ArrayList();
         try{
-           Connection con = Connector.getConnection();
+           Connection con = getConnection();
            Statement stmt = con.createStatement();
            ResultSet rs2 = stmt.executeQuery("SELECT * FROM HUNTING_MISSIONS"+
                     " WHERE HUNTERID = "+hid+
@@ -963,7 +996,7 @@ public class HunterGUI extends javax.swing.JFrame {
            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
        }
         try{
-            Connection con = Connector.getConnection();
+            Connection con = getConnection();
             Statement stmt = con.createStatement();
             ResultSet rs3 = stmt.executeQuery("SELECT * FROM ITEM_FORAGING_MISSION"+
                     " WHERE HUNTERID = "+hid+
@@ -997,7 +1030,7 @@ public class HunterGUI extends javax.swing.JFrame {
     
     public void filltheIMList(){
         try{
-            Connection con = Connector.getConnection();
+            Connection con = getConnection();
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM ITEM_FORAGING_MISSION"); 
             DefaultListModel listModel = new DefaultListModel();
@@ -1016,7 +1049,7 @@ public class HunterGUI extends javax.swing.JFrame {
     }
     public void filltheHMList(){
         try{
-            Connection con = Connector.getConnection();
+            Connection con = getConnection();
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM HUNTING_MISSIONS"); 
             DefaultListModel listModel = new DefaultListModel();
@@ -1035,7 +1068,7 @@ public class HunterGUI extends javax.swing.JFrame {
     }
     public void filltheItemList(int hid){
         try{
-            Connection con = Connector.getConnection();
+            Connection con = getConnection();
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM ITEM "+
                     "WHERE HUNTERID="+hid);
@@ -1063,7 +1096,7 @@ public class HunterGUI extends javax.swing.JFrame {
         Object[] items;
         
         
-        Connection con = Connector.getConnection();
+        Connection con = getConnection();
         try {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM HUNTER"+
@@ -1164,5 +1197,6 @@ public class HunterGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
+    private JComponent teamPanel;
     // End of variables declaration//GEN-END:variables
 }
