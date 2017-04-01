@@ -146,19 +146,39 @@ public class Admin extends javax.swing.JFrame {
         );
 
         jPanel2.setBackground(new java.awt.Color(246, 245, 245));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         BalanceText.setText("Balance: 999,999,999,999");
-        jPanel2.add(BalanceText, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 115, 190, -1));
 
         agetext.setText("Level: S");
-        jPanel2.add(agetext, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 74, -1, -1));
 
         IDtext.setText("Age: 22");
-        jPanel2.add(IDtext, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 40, 98, -1));
 
         NameText.setText("Priority: S");
-        jPanel2.add(NameText, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 143, -1));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(NameText, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(IDtext, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(agetext)
+                    .addComponent(BalanceText, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(NameText)
+                .addGap(19, 19, 19)
+                .addComponent(IDtext)
+                .addGap(19, 19, 19)
+                .addComponent(agetext)
+                .addGap(26, 26, 26)
+                .addComponent(BalanceText))
+        );
 
         refresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MissionHolder/075fbc8094149.560b71bb6d238.png"))); // NOI18N
         refresh.setBorder(null);
@@ -269,9 +289,6 @@ public class Admin extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-
-        
-
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

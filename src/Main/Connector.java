@@ -26,7 +26,7 @@ public class Connector {
     static String ORA_PASSWORD = "a46778156";
 
     private static Connection con;
-    
+
     static public Connection getConnection(){
         if(con == null){
             try{

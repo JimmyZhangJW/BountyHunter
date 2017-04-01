@@ -6,6 +6,7 @@
 package Leaderboard;
 
 import static Main.Connector.*;
+import static Main.signup.drawErrorDialog;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -82,8 +83,16 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
         mItemLeaderboardTable = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        mAverageTeamExpText = new javax.swing.JLabel();
-        mAverageHunterExpText = new javax.swing.JLabel();
+        mTeamExpText = new javax.swing.JLabel();
+        mHunterExpText = new javax.swing.JLabel();
+        mTeamExpCombo = new javax.swing.JComboBox<>();
+        mHunterExpCombo = new javax.swing.JComboBox<>();
+        mTeamGoldText = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        mHunterGoldCombo = new javax.swing.JComboBox<>();
+        mTeamGoldCombo = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        mHunterGoldText = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(1000, 600));
         setRequestFocusEnabled(false);
@@ -234,33 +243,68 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
 
         mItemLeaderboardTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null}
             },
             new String [] {
-                "Ranking", "Name", "Exp", "Level", "Gold", "Age", "Gender"
+                "Name", "Age", "Gender", "Exp", "Gold"
             }
         ));
         jScrollPane4.setViewportView(mItemLeaderboardTable);
 
-        jLabel5.setText("Average Team Experience: ");
+        jLabel5.setText("Team Experience: ");
 
-        jLabel6.setText("Average Hunter Experience:");
+        jLabel6.setText("Hunter Experience:");
 
-        mAverageTeamExpText.setText("none");
+        mTeamExpText.setText("none");
 
-        mAverageHunterExpText.setText("none");
+        mHunterExpText.setText("none");
+
+        mTeamExpCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Avg", "Max", "Min", "Sum" }));
+        mTeamExpCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mTeamExpComboActionPerformed(evt);
+            }
+        });
+
+        mHunterExpCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Avg", "Max", "Min", "Sum" }));
+        mHunterExpCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mHunterExpComboActionPerformed(evt);
+            }
+        });
+
+        mTeamGoldText.setText("none");
+
+        jLabel7.setText("Hunter GoldBalance:");
+
+        mHunterGoldCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Avg", "Max", "Min", "Sum" }));
+        mHunterGoldCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mHunterGoldComboActionPerformed(evt);
+            }
+        });
+
+        mTeamGoldCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Avg", "Max", "Min", "Sum" }));
+        mTeamGoldCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mTeamGoldComboActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Team Goldbalance: ");
+
+        mHunterGoldText.setText("none");
 
         javax.swing.GroupLayout mItemLeaderboardPanelLayout = new javax.swing.GroupLayout(mItemLeaderboardPanel);
         mItemLeaderboardPanel.setLayout(mItemLeaderboardPanelLayout);
         mItemLeaderboardPanelLayout.setHorizontalGroup(
             mItemLeaderboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mItemLeaderboardPanelLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(mItemLeaderboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mItemLeaderboardPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane4))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(mItemLeaderboardPanelLayout.createSequentialGroup()
-                        .addGap(348, 348, 348)
+                        .addGap(336, 336, 336)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(mItemSortbyCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -269,34 +313,65 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
                         .addGap(0, 375, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(mItemLeaderboardPanelLayout.createSequentialGroup()
-                .addGap(36, 36, 36)
+                .addGap(168, 168, 168)
+                .addGroup(mItemLeaderboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(mTeamExpCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mHunterExpCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mItemLeaderboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(jLabel6))
                 .addGap(25, 25, 25)
                 .addGroup(mItemLeaderboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(mAverageTeamExpText)
-                    .addComponent(mAverageHunterExpText))
+                    .addComponent(mTeamExpText)
+                    .addComponent(mHunterExpText))
+                .addGap(70, 70, 70)
+                .addGroup(mItemLeaderboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(mTeamGoldCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mHunterGoldCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(mItemLeaderboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel7))
+                .addGap(18, 18, 18)
+                .addGroup(mItemLeaderboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(mTeamGoldText)
+                    .addComponent(mHunterGoldText))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         mItemLeaderboardPanelLayout.setVerticalGroup(
             mItemLeaderboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mItemLeaderboardPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(mItemLeaderboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(mAverageTeamExpText))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(mItemLeaderboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(mAverageHunterExpText))
-                .addGap(22, 22, 22)
+                .addGroup(mItemLeaderboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(mItemLeaderboardPanelLayout.createSequentialGroup()
+                        .addGroup(mItemLeaderboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(mTeamExpText)
+                            .addComponent(mTeamExpCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(mItemLeaderboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(mHunterExpText)
+                            .addComponent(mHunterExpCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(mItemLeaderboardPanelLayout.createSequentialGroup()
+                        .addGroup(mItemLeaderboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(mItemLeaderboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel8)
+                                .addComponent(mTeamGoldCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(mTeamGoldText, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(mItemLeaderboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(mHunterGoldCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(mHunterGoldText))))
+                .addGap(18, 18, 18)
                 .addGroup(mItemLeaderboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
                     .addComponent(mItemSortbyCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -338,6 +413,26 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
         updateGeneralTable();
     }//GEN-LAST:event_mItemSortbyComboActionPerformed
 
+    private void mTeamExpComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mTeamExpComboActionPerformed
+        // TODO add your handling code here:
+        updateGeneralStats();
+    }//GEN-LAST:event_mTeamExpComboActionPerformed
+
+    private void mHunterExpComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mHunterExpComboActionPerformed
+        // TODO add your handling code here:
+        updateGeneralStats();
+    }//GEN-LAST:event_mHunterExpComboActionPerformed
+
+    private void mHunterGoldComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mHunterGoldComboActionPerformed
+        // TODO add your handling code here:
+        updateGeneralStats();
+    }//GEN-LAST:event_mHunterGoldComboActionPerformed
+
+    private void mTeamGoldComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mTeamGoldComboActionPerformed
+        // TODO add your handling code here:
+        updateGeneralStats();
+    }//GEN-LAST:event_mTeamGoldComboActionPerformed
+
     private void updateTeamTable(){
                 String selection = (String) mTeamSortbyCombo.getSelectedItem();
         String searchText = (String) mTeamSearchText.getText();
@@ -377,6 +472,7 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
             tableModel.fireTableDataChanged();
         } catch (SQLException ex) {
             Logger.getLogger(LeaderBoardPanel.class.getName()).log(Level.SEVERE, null, ex);
+            drawErrorDialog(ex.toString(), "SQL Exception");
         }
         closeConnection();
     }
@@ -408,17 +504,24 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
             tableModel.fireTableDataChanged();
         } catch (SQLException ex) {
             Logger.getLogger(LeaderBoardPanel.class.getName()).log(Level.SEVERE, null, ex);
+            drawErrorDialog(ex.toString(), "SQL Exception");
+
         }
         closeConnection();
     }
     
     private void updateGeneralStats(){
+        String hunterAgro = (String) mHunterExpCombo.getSelectedItem();
+        String teamAgro = (String) mTeamExpCombo.getSelectedItem();
+        String teamAgroGold = (String) mTeamGoldCombo.getSelectedItem();
+        String hunterAgroGold = (String) mHunterGoldCombo.getSelectedItem();
+
         Connection con = getConnection();
         Statement stmt;
         try {
             stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(
-                    "SELECT AVG(AvgExp) AvgTeamExp " +
+                    "SELECT " + teamAgro + "(AvgExp) AvgTeamExp " +
                     "FROM(" +
                     "SELECT T.TEAMNAME, AVG(H.EXPERIENCE) AvgExp "  +
                     "FROM HUNTER H, TEAM T " +
@@ -426,17 +529,36 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
                     "GROUP BY T.TEAMNAME)");
             
             rs.next();
-            mAverageTeamExpText.setText(rs.getString(1));
+            mTeamExpText.setText(rs.getString(1));
             
             rs = stmt.executeQuery(
-                    "SELECT AVG(H.EXPERIENCE) " +
+                    "SELECT "+hunterAgro+"(H.EXPERIENCE) " +
                     "FROM HUNTER H");
             
             rs.next();
-            mAverageHunterExpText.setText(rs.getString(1));
+            mHunterExpText.setText(rs.getString(1));
+            
+            rs = stmt.executeQuery("SELECT " + teamAgroGold + "(gold) " +
+                    "FROM(" +
+                    "SELECT T.TEAMNAME, SUM(H.GOLDBALANCE) gold "  +
+                    "FROM HUNTER H, TEAM T " +
+                    "WHERE H.TEAMNAME = T.TEAMNAME " +
+                    "GROUP BY T.TEAMNAME)");
+            
+            rs.next();
+            mTeamGoldText.setText(rs.getString(1));
+            
+            rs = stmt.executeQuery(
+                    "SELECT "+hunterAgroGold+"(H.GOLDBALANCE) " +
+                    "FROM HUNTER H");
+            
+            rs.next();
+            mHunterGoldText.setText(rs.getString(1));
+          
             
         } catch (SQLException ex) {
             Logger.getLogger(LeaderBoardPanel.class.getName()).log(Level.SEVERE, null, ex);
+            drawErrorDialog(ex.toString(), "SQL Exception");
         }
         closeConnection();
     }
@@ -469,6 +591,8 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
             tableModel.fireTableDataChanged();
         } catch (SQLException ex) {
             Logger.getLogger(LeaderBoardPanel.class.getName()).log(Level.SEVERE, null, ex);
+            drawErrorDialog(ex.toString(), "SQL Exception");
+
         }
         closeConnection();
     }
@@ -481,11 +605,15 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JLabel mAverageHunterExpText;
-    private javax.swing.JLabel mAverageTeamExpText;
+    private javax.swing.JComboBox<String> mHunterExpCombo;
+    private javax.swing.JLabel mHunterExpText;
+    private javax.swing.JComboBox<String> mHunterGoldCombo;
+    private javax.swing.JLabel mHunterGoldText;
     private javax.swing.JPanel mHunterLeaderboardPanel;
     private javax.swing.JTable mHunterLeaderboardTable;
     private javax.swing.JTextField mHunterSearchText;
@@ -494,6 +622,10 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
     private javax.swing.JTable mItemLeaderboardTable;
     private javax.swing.JComboBox<String> mItemSortbyCombo;
     private javax.swing.JTabbedPane mLeaderBoardTabs;
+    private javax.swing.JComboBox<String> mTeamExpCombo;
+    private javax.swing.JLabel mTeamExpText;
+    private javax.swing.JComboBox<String> mTeamGoldCombo;
+    private javax.swing.JLabel mTeamGoldText;
     private javax.swing.JPanel mTeamLeaderboardPanel;
     private javax.swing.JTable mTeamLeaderboardTable;
     private javax.swing.JTextField mTeamSearchText;
