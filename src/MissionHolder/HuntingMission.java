@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -31,7 +32,7 @@ public class HuntingMission extends javax.swing.JFrame {
     public HuntingMission(int id) {
         this.id=id;
         initComponents();
-        
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         con=Connector.getConnection();
     }
 
