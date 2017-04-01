@@ -58,7 +58,7 @@ public class ItemMission extends javax.swing.JFrame {
     }
 
 
-        }catch(SQLException err){
+        catch(SQLException err){
             System.out.print(err);
             drawErrorDialog(err.toString(), "SQL Exception");
         }
@@ -156,8 +156,10 @@ public class ItemMission extends javax.swing.JFrame {
 
         jButton1.setText("Create Your Item");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                                       public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                           jButton1ActionPerformed(evt);
+                                       }
+                                   });
 
         diff.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "S", "A", "B", "C", "D" }));
         diff.addActionListener(new java.awt.event.ActionListener() {
