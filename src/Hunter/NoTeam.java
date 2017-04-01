@@ -70,6 +70,8 @@ public class NoTeam extends JFrame {
                 try {
                     statement = connection.createStatement();
                     rs = statement.executeQuery("UPDATE HUNTER SET TEAMNAME = '" + teamList.getSelectedValue() + "' WHERE HUNTERID = " + id);
+                    JOptionPane.showMessageDialog(mainWindow, "Done!");
+                    mainWindow.setVisible(false);
                 } catch (SQLException excp) {
                     excp.printStackTrace();
                 }
