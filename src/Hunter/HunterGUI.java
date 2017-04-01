@@ -8,18 +8,32 @@ package Hunter;
 import Main.Connector;
 import Main.Main;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  *
  * @author jingweizhang
  */
 public class HunterGUI extends javax.swing.JFrame {
+
+    public HunterGUI() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     
 
@@ -59,9 +73,18 @@ public class HunterGUI extends javax.swing.JFrame {
     /**
      * Creates new form HunterGUI
      */
-    public HunterGUI(int id) {
+
+    int uniqueid;
+    int exp=0;
+    int balance=0;
+    public HunterGUI(int hid) {
+        uniqueid=hid;
         initComponents();
-        display(id);
+        display(uniqueid);
+        filltheHMList();
+        filltheIMList();
+        renderCurMissions(hid);
+        filltheItemList(hid);
     }
 
     /**
@@ -93,36 +116,37 @@ public class HunterGUI extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         itemsList = new javax.swing.JList<>();
         jScrollPane10 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
-        AcceptButton = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        MissionDescriptionText = new javax.swing.JTextArea();
+        ForfeitButton = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        CurrentddlLabel = new javax.swing.JLabel();
         TabbedPanel = new javax.swing.JTabbedPane();
         TeamPanel = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         ItemMissonsPanel = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jList4 = new javax.swing.JList<>();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
+        ItemMissionsList = new javax.swing.JList<>();
+        IMNameLabel = new javax.swing.JLabel();
+        ImDiffLabel = new javax.swing.JLabel();
+        ImExpRewardLabel = new javax.swing.JLabel();
+        IMGoldRewardLabel = new javax.swing.JLabel();
+        ImReleaseTimeLabel = new javax.swing.JLabel();
+        ImRddlLabel = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
-        jButton3 = new javax.swing.JButton();
+        ImDescriptionsText = new javax.swing.JTextArea();
+        IMAcceptButton = new javax.swing.JButton();
         HuntingMissionPanel = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jList5 = new javax.swing.JList<>();
-        jLabel1 = new javax.swing.JLabel();
+        HMList = new javax.swing.JList<>();
+        HmNameLabel = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        HMdescText = new javax.swing.JTextArea();
+        HmDiffLabel = new javax.swing.JLabel();
+        HmexpRewardLabel = new javax.swing.JLabel();
+        HmGoldRewardLabel = new javax.swing.JLabel();
+        HmddlRlabel = new javax.swing.JLabel();
+        HMReleaseTimeLabel = new javax.swing.JLabel();
+        HMAcceptButton = new javax.swing.JButton();
         LeaderBoardPanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jList3 = new javax.swing.JList<>();
@@ -130,26 +154,29 @@ public class HunterGUI extends javax.swing.JFrame {
         jLabel24 = new javax.swing.JLabel();
         jScrollPane9 = new javax.swing.JScrollPane();
         jList6 = new javax.swing.JList<>();
+        TurnInButton = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         BackgroundLabel = new javax.swing.JLabel();
 
         jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(800, 400));
+        setMinimumSize(new java.awt.Dimension(800, 600));
         setSize(new java.awt.Dimension(800, 600));
         getContentPane().setLayout(null);
 
         MainPanel.setOpaque(false);
+        MainPanel.setPreferredSize(new java.awt.Dimension(800, 600));
 
         StatusPanel.setOpaque(false);
 
         NameLabel.setFont(new java.awt.Font("Luminari", 0, 16)); // NOI18N
+        NameLabel.setForeground(new java.awt.Color(255, 255, 255));
         NameLabel.setText("Welcome,  JINGWEI");
 
+        BalanceLabel.setForeground(new java.awt.Color(255, 255, 255));
         BalanceLabel.setText("Balance: 20342");
 
-        DepositBtn.setForeground(new java.awt.Color(51, 51, 51));
         DepositBtn.setText("Deposit");
         DepositBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -158,24 +185,31 @@ public class HunterGUI extends javax.swing.JFrame {
         });
 
         LevelLabel.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        LevelLabel.setForeground(new java.awt.Color(255, 255, 255));
         LevelLabel.setText("Level: SS");
 
         RankingLabel.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        RankingLabel.setForeground(new java.awt.Color(255, 255, 255));
         RankingLabel.setText("Ranking:6024");
 
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("EXP:");
 
         ExpProgressBar.setValue(80);
 
         ExperienceLabel.setFont(new java.awt.Font("Lucida Grande", 0, 10)); // NOI18N
+        ExperienceLabel.setForeground(new java.awt.Color(255, 255, 255));
         ExperienceLabel.setText("4560/6402");
 
         TeamLabel.setFont(new java.awt.Font("Malayalam Sangam MN", 0, 13)); // NOI18N
+        TeamLabel.setForeground(new java.awt.Color(255, 255, 255));
         TeamLabel.setText("Team: Gecko Express ");
 
         TeamRankingLabel.setFont(new java.awt.Font("Malayalam Sangam MN", 0, 13)); // NOI18N
+        TeamRankingLabel.setForeground(new java.awt.Color(255, 255, 255));
         TeamRankingLabel.setText("Team Ranking: 001 ");
 
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("CurrentMissions:");
 
         jScrollPane1.setOpaque(false);
@@ -188,7 +222,23 @@ public class HunterGUI extends javax.swing.JFrame {
         currentMissionsList.setOpaque(false);
         jScrollPane1.setOpaque(false);
         jScrollPane1.setViewportView(currentMissionsList);
+        currentMissionsList.addListSelectionListener(new ListSelectionListener(){
+            @Override
+            public void valueChanged(ListSelectionEvent arg0){
+                if(!arg0.getValueIsAdjusting()){
+                    if(currentMissionsList.getSelectedValue()==null){
 
+                    }else{
+                        int id =Integer.valueOf(currentMissionsList.getSelectedValue().toString().split("#")[1]);
+                        String what = currentMissionsList.getSelectedValue().toString().split("#")[0];
+                        MissionDescriptionText.setText(findDescription(what,id));
+                    }
+
+                }
+            }
+        });
+
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Your Items:");
 
         jScrollPane2.setOpaque(false);
@@ -200,104 +250,18 @@ public class HunterGUI extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(itemsList);
 
-        jTextArea3.setColumns(20);
-        jTextArea3.setRows(5);
-        jScrollPane10.setViewportView(jTextArea3);
+        MissionDescriptionText.setEditable(false);
+        MissionDescriptionText.setColumns(20);
+        MissionDescriptionText.setRows(5);
+        jScrollPane10.setViewportView(MissionDescriptionText);
 
-        AcceptButton.setText("Accept");
-        AcceptButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AcceptButtonActionPerformed(evt);
-            }
-        });
+        ForfeitButton.setText("Forfeit");
 
-        jButton4.setText("Forfeit");
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Deadline:");
 
-        javax.swing.GroupLayout StatusPanelLayout = new javax.swing.GroupLayout(StatusPanel);
-        StatusPanel.setLayout(StatusPanelLayout);
-        StatusPanelLayout.setHorizontalGroup(
-            StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, StatusPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(StatusPanelLayout.createSequentialGroup()
-                        .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane2)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, StatusPanelLayout.createSequentialGroup()
-                                .addComponent(BalanceLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(DepositBtn))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, StatusPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(4, 4, 4)
-                                .addComponent(ExperienceLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ExpProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addContainerGap())
-                    .addGroup(StatusPanelLayout.createSequentialGroup()
-                        .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(NameLabel, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(TeamLabel, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(TeamRankingLabel, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, StatusPanelLayout.createSequentialGroup()
-                                .addComponent(LevelLabel)
-                                .addGap(27, 27, 27)
-                                .addComponent(RankingLabel)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(StatusPanelLayout.createSequentialGroup()
-                        .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(StatusPanelLayout.createSequentialGroup()
-                                .addComponent(AcceptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-        );
-        StatusPanelLayout.setVerticalGroup(
-            StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(StatusPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(NameLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BalanceLabel)
-                    .addComponent(DepositBtn))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(LevelLabel)
-                    .addComponent(RankingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(ExperienceLabel)
-                        .addComponent(jLabel6))
-                    .addComponent(ExpProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(TeamLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(TeamRankingLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(StatusPanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel11))
-                    .addGroup(StatusPanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(AcceptButton)
-                            .addComponent(jButton4))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        CurrentddlLabel.setForeground(new java.awt.Color(255, 255, 255));
+        CurrentddlLabel.setText("2017.02.02");
 
         TabbedPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         TabbedPanel.setName(""); // NOI18N
@@ -310,13 +274,13 @@ public class HunterGUI extends javax.swing.JFrame {
         TeamPanel.setLayout(TeamPanelLayout);
         TeamPanelLayout.setHorizontalGroup(
             TeamPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TeamPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
+            .addGroup(TeamPanelLayout.createSequentialGroup()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
                 .addContainerGap())
         );
         TeamPanelLayout.setVerticalGroup(
             TeamPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
+            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
         );
 
         TabbedPanel.addTab("Team", TeamPanel);
@@ -325,105 +289,161 @@ public class HunterGUI extends javax.swing.JFrame {
 
         jScrollPane4.setOpaque(false);
 
-        jList4.setModel(new javax.swing.AbstractListModel<String>() {
+        ItemMissionsList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane4.setViewportView(jList4);
+        jScrollPane4.setViewportView(ItemMissionsList);
+        ItemMissionsList.addListSelectionListener(new ListSelectionListener(){
+            @Override
+            public void valueChanged(ListSelectionEvent arg0){
+                if(!arg0.getValueIsAdjusting()){
+                    String id = (String) ItemMissionsList.getSelectedValue();
+                    if(id==null){
 
-        jLabel17.setText("MissionName:");
+                    }else{
+                        String tempid = id.split("#")[1];
+                        imChangedUpdate(Integer.valueOf(tempid));
+                    }
+                    //System.out.print(ItemMissionsList.getSelectedValue());
 
-        jLabel18.setText("Difficulty:");
+                }
+            }
+        });
 
-        jLabel19.setText("Experience Reward:");
+        IMNameLabel.setForeground(new java.awt.Color(255, 255, 255));
+        IMNameLabel.setText("MissionID:");
 
-        jLabel20.setText("Gold Reward:");
+        ImDiffLabel.setForeground(new java.awt.Color(255, 255, 255));
+        ImDiffLabel.setText("Difficulty:");
 
-        jLabel21.setText("Release Time:");
+        ImExpRewardLabel.setForeground(new java.awt.Color(255, 255, 255));
+        ImExpRewardLabel.setText("Experience Reward:");
 
-        jLabel22.setText("Deadline:");
+        IMGoldRewardLabel.setForeground(new java.awt.Color(255, 255, 255));
+        IMGoldRewardLabel.setText("Gold Reward:");
 
-        jTextArea2.setEditable(false);
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane8.setViewportView(jTextArea2);
+        ImReleaseTimeLabel.setForeground(new java.awt.Color(255, 255, 255));
+        ImReleaseTimeLabel.setText("Release Time:");
 
-        jButton3.setText("jButton3");
+        ImRddlLabel.setForeground(new java.awt.Color(255, 255, 255));
+        ImRddlLabel.setText("Deadline:");
+
+        ImDescriptionsText.setEditable(false);
+        ImDescriptionsText.setColumns(20);
+        ImDescriptionsText.setRows(100);
+        jScrollPane8.setViewportView(ImDescriptionsText);
+
+        IMAcceptButton.setLabel("Accept");
+        IMAcceptButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                IMAcceptButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout ItemMissonsPanelLayout = new javax.swing.GroupLayout(ItemMissonsPanel);
         ItemMissonsPanel.setLayout(ItemMissonsPanelLayout);
         ItemMissonsPanelLayout.setHorizontalGroup(
             ItemMissonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ItemMissonsPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(ItemMissonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(ItemMissonsPanelLayout.createSequentialGroup()
-                        .addGroup(ItemMissonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel17)
-                            .addComponent(jLabel18)
-                            .addComponent(jLabel19)
-                            .addComponent(jLabel20)
-                            .addComponent(jLabel21)
-                            .addComponent(jLabel22))
-                        .addContainerGap())
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(ItemMissonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(ImExpRewardLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(IMGoldRewardLabel)
+                        .addComponent(ImReleaseTimeLabel)
+                        .addComponent(ImDiffLabel)
+                        .addComponent(IMNameLabel))
+                    .addComponent(ImRddlLabel)
+                    .addComponent(IMAcceptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         ItemMissonsPanelLayout.setVerticalGroup(
             ItemMissonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addComponent(jScrollPane4)
             .addGroup(ItemMissonsPanelLayout.createSequentialGroup()
-                .addComponent(jLabel17)
+                .addComponent(IMNameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel18)
+                .addComponent(ImDiffLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel19)
+                .addComponent(ImExpRewardLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(IMGoldRewardLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel20)
+                .addComponent(ImReleaseTimeLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel21)
+                .addComponent(ImRddlLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel22)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(IMAcceptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+
+        IMAcceptButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                String id = (String) ItemMissionsList.getSelectedValue().split("#")[1];
+                System.out.print("Pressed!!!"+id);
+                acceptItemMission(Integer.valueOf(id));
+            }
+        });
 
         TabbedPanel.addTab("ItemMissions", ItemMissonsPanel);
 
         HuntingMissionPanel.setOpaque(false);
 
-        jList5.setModel(new javax.swing.AbstractListModel<String>() {
+        HMList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane5.setViewportView(jList5);
+        jScrollPane5.setViewportView(HMList);
+        HMList.addListSelectionListener(new ListSelectionListener(){
+            @Override
+            public void valueChanged(ListSelectionEvent arg0){
+                if(!arg0.getValueIsAdjusting()){
+                    String temp = (String) HMList.getSelectedValue();
+                    if(temp ==null){
 
-        jLabel1.setText("MissionName:");
+                    }else{
+                        int id = Integer.valueOf(temp.split("#")[1]);
+                        hmChangedUpdate(id);
+                    }
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane7.setViewportView(jTextArea1);
+                }
+            }
+        });
 
-        jLabel12.setText("Difficulty:");
+        HmNameLabel.setForeground(new java.awt.Color(255, 255, 255));
+        HmNameLabel.setText("MissionID:");
 
-        jLabel13.setText("Experience Reward:");
+        HMdescText.setEditable(false);
+        HMdescText.setColumns(20);
+        HMdescText.setRows(100);
+        jScrollPane7.setViewportView(HMdescText);
 
-        jLabel14.setText("Gold Reward:");
+        HmDiffLabel.setForeground(new java.awt.Color(255, 255, 255));
+        HmDiffLabel.setText("Difficulty:");
 
-        jLabel15.setText("Deadline:");
+        HmexpRewardLabel.setForeground(new java.awt.Color(255, 255, 255));
+        HmexpRewardLabel.setText("Experience Reward:");
 
-        jLabel16.setText("Release Time:");
+        HmGoldRewardLabel.setForeground(new java.awt.Color(255, 255, 255));
+        HmGoldRewardLabel.setText("Gold Reward:");
 
-        jButton2.setLabel("Accept");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        HmddlRlabel.setForeground(new java.awt.Color(255, 255, 255));
+        HmddlRlabel.setText("Deadline:");
+
+        HMReleaseTimeLabel.setForeground(new java.awt.Color(255, 255, 255));
+        HMReleaseTimeLabel.setText("Release Time:");
+
+        HMAcceptButton.setLabel("Accept");
+        HMAcceptButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                HMAcceptButtonActionPerformed(evt);
             }
         });
 
@@ -432,24 +452,19 @@ public class HunterGUI extends javax.swing.JFrame {
         HuntingMissionPanelLayout.setHorizontalGroup(
             HuntingMissionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(HuntingMissionPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(HuntingMissionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(HuntingMissionPanelLayout.createSequentialGroup()
-                        .addGroup(HuntingMissionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel13)
-                            .addComponent(jLabel14)
-                            .addComponent(jLabel15)
-                            .addComponent(jLabel16))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, HuntingMissionPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(HuntingMissionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
+                .addGroup(HuntingMissionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(HmNameLabel)
+                    .addComponent(HmDiffLabel)
+                    .addComponent(HmexpRewardLabel)
+                    .addComponent(HmGoldRewardLabel)
+                    .addComponent(HmddlRlabel)
+                    .addComponent(HMReleaseTimeLabel)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(HMAcceptButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(59, 59, Short.MAX_VALUE))
         );
         HuntingMissionPanelLayout.setVerticalGroup(
             HuntingMissionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -457,25 +472,31 @@ public class HunterGUI extends javax.swing.JFrame {
                 .addGroup(HuntingMissionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 556, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(HuntingMissionPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(HmNameLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel12)
+                        .addComponent(HmDiffLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel13)
+                        .addComponent(HmexpRewardLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel14)
+                        .addComponent(HmGoldRewardLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel16)
+                        .addComponent(HMReleaseTimeLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel15)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(HmddlRlabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(HMAcceptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jButton2.getAccessibleContext().setAccessibleName("");
+        HMAcceptButton.getAccessibleContext().setAccessibleName("\"\"");
+        HMAcceptButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                String id = (String) HMList.getSelectedValue().split("#")[1];
+                acceptHuntingMission(Integer.valueOf(id));
+            }
+        });
 
         TabbedPanel.addTab("HuntingMissions", HuntingMissionPanel);
 
@@ -506,7 +527,7 @@ public class HunterGUI extends javax.swing.JFrame {
         LeaderBoardPanel.setLayout(LeaderBoardPanelLayout);
         LeaderBoardPanelLayout.setHorizontalGroup(
             LeaderBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
             .addGroup(LeaderBoardPanelLayout.createSequentialGroup()
                 .addGroup(LeaderBoardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel23)
@@ -523,40 +544,144 @@ public class HunterGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel24)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE))
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE))
         );
 
         TabbedPanel.addTab("LeaderBoard", LeaderBoardPanel);
+
+        TurnInButton.setText("Turn in");
+        TurnInButton.setLabel("Turn In");
+        TurnInButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TurnInButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout StatusPanelLayout = new javax.swing.GroupLayout(StatusPanel);
+        StatusPanel.setLayout(StatusPanelLayout);
+        StatusPanelLayout.setHorizontalGroup(
+            StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, StatusPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(StatusPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(4, 4, 4)
+                        .addComponent(ExperienceLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ExpProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(StatusPanelLayout.createSequentialGroup()
+                        .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(StatusPanelLayout.createSequentialGroup()
+                                .addComponent(TurnInButton, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ForfeitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane2)
+                    .addGroup(StatusPanelLayout.createSequentialGroup()
+                        .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(NameLabel)
+                            .addComponent(TeamLabel)
+                            .addComponent(TeamRankingLabel)
+                            .addGroup(StatusPanelLayout.createSequentialGroup()
+                                .addComponent(LevelLabel)
+                                .addGap(27, 27, 27)
+                                .addComponent(RankingLabel))
+                            .addGroup(StatusPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(CurrentddlLabel)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(StatusPanelLayout.createSequentialGroup()
+                        .addComponent(BalanceLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(DepositBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(9, 9, 9)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(TabbedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        StatusPanelLayout.setVerticalGroup(
+            StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(StatusPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(TabbedPanel)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, StatusPanelLayout.createSequentialGroup()
+                        .addComponent(NameLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(BalanceLabel)
+                            .addComponent(DepositBtn))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(LevelLabel)
+                            .addComponent(RankingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(ExperienceLabel)
+                                .addComponent(jLabel6))
+                            .addComponent(ExpProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(TeamLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(TeamRankingLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel2)
+                            .addComponent(CurrentddlLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(StatusPanelLayout.createSequentialGroup()
+                                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(TurnInButton, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                                    .addComponent(ForfeitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(StatusPanelLayout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel11)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        NameLabel.getAccessibleContext().setAccessibleName("");
+        TabbedPanel.getAccessibleContext().setAccessibleName("");
+        TurnInButton.getAccessibleContext().setAccessibleName("");
 
         javax.swing.GroupLayout MainPanelLayout = new javax.swing.GroupLayout(MainPanel);
         MainPanel.setLayout(MainPanelLayout);
         MainPanelLayout.setHorizontalGroup(
             MainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MainPanelLayout.createSequentialGroup()
-                .addComponent(StatusPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(TabbedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 466, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(StatusPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17))
         );
         MainPanelLayout.setVerticalGroup(
             MainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(StatusPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(MainPanelLayout.createSequentialGroup()
-                .addComponent(TabbedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(StatusPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
-
-        TabbedPanel.getAccessibleContext().setAccessibleName("");
 
         getContentPane().add(MainPanel);
         MainPanel.setBounds(0, 0, 800, 600);
 
-        jPanel5.setBackground(new Color(0,0,0,150));
+        jPanel5.setBackground(new Color(0,0,0,200));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addGap(0, 820, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -564,7 +689,7 @@ public class HunterGUI extends javax.swing.JFrame {
         );
 
         getContentPane().add(jPanel5);
-        jPanel5.setBounds(0, 0, 800, 600);
+        jPanel5.setBounds(0, 0, 820, 600);
 
         BackgroundLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Hunter/u=3614819154,3895031968&fm=214&gp=0.jpg"))); // NOI18N
         getContentPane().add(BackgroundLabel);
@@ -575,32 +700,363 @@ public class HunterGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_DepositBtnActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void HMAcceptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HMAcceptButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_HMAcceptButtonActionPerformed
 
-    private void AcceptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AcceptButtonActionPerformed
+    private void TurnInButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TurnInButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_AcceptButtonActionPerformed
+        String field = currentMissionsList.getSelectedValue().toString().split("#")[0];
+        int mid = Integer.valueOf(currentMissionsList.getSelectedValue().toString().split("#")[1]);
+        if(field.trim().equals("ItemMission")){
+            turninItemMission(mid);
+        }else{
+            turninHuntingMission(mid);
+        }
+        //if()
+    }//GEN-LAST:event_TurnInButtonActionPerformed
 
-   
-//    public void renderCurMissions(int hid){
-//        try{
-//           Connection con = Connector.getConnection();
-//           Statement stmt = con.createStatement();
-//           ResultSet rs2 = stmt.executeQuery("SELECT * FROM HUNTER_MISSIONS"+
-//                    " WHERE HUNTERID="+hid); 
-//       }catch(SQLException ex){
-//           Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-//       }
-//    }
+    private void IMAcceptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IMAcceptButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_IMAcceptButtonActionPerformed
+
     
+    public void acceptHuntingMission(int hmid){
+        System.out.print("up!!");
+
+        LocalDateTime now = LocalDateTime.now();
+        String current =now.getYear()+"-"+now.getMonthValue()+"-"+now.getDayOfMonth();
+        System.out.print(now.getYear()+"-"+now.getMonth()+"-"+now.getDayOfMonth());
+        String acceptSql="UPDATE HUNTING_MISSIONS"+
+                " SET HUNTERID="+uniqueid+", ACCEPTTIME = "+current+
+                " WHERE HUNTINGMISSIONID="+hmid;
+        System.out.print(acceptSql);
+        try{
+            Connection con = Connector.getConnection();
+            Statement stmt = con.createStatement();
+            stmt.execute(acceptSql);
+            filltheHMList();
+            renderCurMissions(uniqueid);
+        }catch(SQLException ex){
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void acceptItemMission(int imid){
+        System.out.print("OHHup!!");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        LocalDateTime now = LocalDateTime.now();
+        String current =now.getYear()+"-"+now.getMonthValue()+"-"+now.getDayOfMonth();
+        System.out.print(now.getYear()+"-"+now.getMonth()+"-"+now.getDayOfMonth());
+        String acceptSql="UPDATE ITEM_FORAGING_MISSION"+
+                " SET HUNTERID = "+uniqueid+", ACCEPTTIME = "+current+
+                " WHERE ITEMMISSIONID = "+imid;
+        System.out.print(acceptSql);
+        try{
+            Connection con = Connector.getConnection();
+            Statement stmt = con.createStatement();
+            stmt.execute(acceptSql);
+            filltheIMList();
+            renderCurMissions(uniqueid);
+        }catch(SQLException ex){
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void turninHuntingMission(int hmid){
+        int addedBalance = 0;
+        int addedExp = 0;
+        int finalBalance = balance;
+        int finalexp = exp;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        LocalDateTime now = LocalDateTime.now();
+        String current =now.getYear()+"-"+now.getMonthValue()+"-"+now.getDayOfMonth();
+        System.out.print(now.getYear()+"-"+now.getMonth()+"-"+now.getDayOfMonth());
+        String acceptSql="UPDATE HUNTING_MISSIONS"+
+                " SET HUNTERID = "+uniqueid+", COMPLETIONTIME = "+current+
+                " WHERE HUNTINGMISSIONID = "+hmid;
+        System.out.print(acceptSql);
+        try{
+            Connection con = Connector.getConnection();
+            Statement stmt = con.createStatement();
+            stmt.executeQuery(acceptSql);
+            String gettingsql ="SELECT * FROM HUNTING_MISSIONS"+
+                    " WHERE HUNTINGMISSIONID="+hmid;
+            
+            ResultSet rs = stmt.executeQuery(gettingsql);
+            while(rs.next()){
+                addedBalance = rs.getInt("GOLDREWARD");
+                addedExp = rs.getInt("EXPREWARD");
+            }
+        }catch(SQLException ex){
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finalBalance = balance+addedBalance;
+        finalexp=exp+addedExp;
+        try{
+            Connection con = Connector.getConnection();
+            Statement stmt = con.createStatement();
+            String updatesql="UPDATE HUNTER"+
+                " SET GOLDBALANCE = "+finalBalance+", EXPERIENCE = "+finalexp+
+                " WHERE HUNTERID = "+uniqueid;
+            //stmt.executeQuery(updatesql);
+            display(uniqueid);
+        }catch(SQLException ex){
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        renderCurMissions(uniqueid);
+    }
+    
+     public void turninItemMission(int imid){
+         System.out.print("I am turn in item missions right now");
+        int addedBalance = 0;
+        int addedExp = 0;
+        int finalBalance = balance;
+        int finalexp = exp;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        LocalDateTime now = LocalDateTime.now();
+        String current =now.getYear()+"-"+now.getMonthValue()+"-"+now.getDayOfMonth();
+        System.out.print(now.getYear()+"-"+now.getMonth()+"-"+now.getDayOfMonth());
+        String acceptSql="UPDATE ITEM_FORAGING_MISSION"+
+                " SET HUNTERID = "+uniqueid+", COMPLETETIME = '"+current+
+                "' WHERE ITEMMISSIONID = "+imid;
+        System.out.print(acceptSql);
+        try{
+            Connection con = Connector.getConnection();
+            Statement stmt =  con.createStatement();
+            stmt.executeQuery(acceptSql);
+            String gettingsql ="SELECT * FROM ITEM_FORAGING_MISSION"+
+                    " WHERE ITEMMISSIONID="+imid;
+            
+            ResultSet rs = stmt.executeQuery(gettingsql);
+            while(rs.next()){
+                addedBalance = rs.getInt("GOLDREWARD");
+                addedExp = rs.getInt("EXPREWARD");
+            }
+            
+        }catch(SQLException ex){
+            ex.printStackTrace();
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        finalBalance = balance+addedBalance;
+        finalexp=exp+addedExp;
+        try{
+            Connection con = Connector.getConnection();
+            Statement stmt = con.createStatement();
+            String updatesql="UPDATE HUNTER"+
+                " SET GOLDBALANCE = "+finalBalance+", EXPERIENCE = "+finalexp+
+                " WHERE HUNTERID = "+uniqueid;
+            //stmt.executeQuery(updatesql);
+            display(uniqueid);
+        }catch(SQLException ex){
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void hmChangedUpdate(int hmid){
+        try{
+            Connection con = Connector.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM HUNTING_MISSIONS"+
+                    " WHERE HUNTINGMISSIONID = "+hmid); 
+            while(rs.next()){
+               //int temphid = rs.getInt("HUNTERID");
+               String tempddl = rs.getString("DEADLINE");
+               String tempdesc = rs.getString("DESCRIPTION");
+               int tempexpReward = rs.getInt("EXPREWARD");
+               int tempgoldReward = rs.getInt("GOLDREWARD");
+               String tempstartTime = rs.getString("STARTTIME");
+               HmNameLabel.setText("MissionID: "+ String.valueOf(hmid));
+               HmexpRewardLabel.setText("Experience Reward: "+String.valueOf(tempexpReward));
+               HmGoldRewardLabel.setText("Gold Reward: "+String.valueOf(tempgoldReward));
+               HMReleaseTimeLabel.setText("Release Time: "+tempstartTime);
+               HmddlRlabel.setText("Deadline: "+tempddl);
+               HMdescText.setText(tempdesc);
+            }
+        }catch(SQLException ex){
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void imChangedUpdate(int imid){
+        try{
+            Connection con = Connector.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM ITEM_FORAGING_MISSION"+
+                    " WHERE ITEMMISSIONID="+imid); 
+            while(rs.next()){
+               //int tempmid = rs.getInt("HUNTINGMISSIONID");
+               //int temphid = rs.getInt("HUNTERID");
+               String tempddl = rs.getString("DEADLINE");
+               String tempdesc = rs.getString("DESCRIPTION");
+               int tempexpReward = rs.getInt("EXPREWARD");
+               int tempgoldReward = rs.getInt("GOLDREWARD");
+               String tempstartTime = rs.getString("STARTTIME");
+               IMNameLabel.setText("MissionID: "+ String.valueOf(imid));
+               ImExpRewardLabel.setText("Experience Reward: "+String.valueOf(tempexpReward));
+               IMGoldRewardLabel.setText("Gold Reward: "+String.valueOf(tempgoldReward));
+               ImReleaseTimeLabel.setText("Release Time: "+tempstartTime);
+               ImRddlLabel.setText("Deadline: "+tempddl);
+               ImDescriptionsText.setText(tempdesc);
+            }
+           
+        }catch(SQLException ex){
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public String findDescription(String field, int id){
+        String description ="";
+        try{
+            Connection con = Connector.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs;
+            
+            if(field.equals("ItemMission")){
+                rs = stmt.executeQuery("SELECT * FROM ITEM_FORAGING_MISSION"+
+                    " WHERE ITEMMISSIONID="+id); 
+            }else{
+                rs = stmt.executeQuery("SELECT * FROM HUNTING_MISSIONS"+
+                    " WHERE HUNTINGMISSIONID="+id);
+            }
+            while(rs.next()){
+                description = rs.getString("DESCRIPTION");
+            }
+    
+        }catch(SQLException ex){
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return description;
+    }
+    public void renderCurMissions(int hid){
+        ArrayList Hmids = new ArrayList();
+        ArrayList Hdescriptions = new ArrayList();
+        ArrayList Hddls = new ArrayList();
+        ArrayList Imids = new ArrayList();
+        ArrayList Idescriptions = new ArrayList();
+        ArrayList Iddls = new ArrayList();
+        try{
+           Connection con = Connector.getConnection();
+           Statement stmt = con.createStatement();
+           ResultSet rs2 = stmt.executeQuery("SELECT * FROM HUNTING_MISSIONS"+
+                    " WHERE HUNTERID = "+hid+
+                   " INTERSECT "+
+                   "SELECT * FROM HUNTING_MISSIONS"+
+                   " WHERE COMPLETIONTIME IS NULL"); 
+          
+           while(rs2.next()){
+               int tempmid = rs2.getInt("HUNTINGMISSIONID");
+               int temphid = rs2.getInt("HUNTERID");
+               String tempddl = rs2.getString("DEADLINE");
+               String tempdesc = rs2.getString("DESCRIPTION");
+               if(temphid==hid){
+                  Hmids.add(tempmid);
+                  Hdescriptions.add(tempdesc);
+                  Hddls.add(tempddl);
+               }
+           }
+         
+       }catch(SQLException ex){
+           Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+       }
+        try{
+            Connection con = Connector.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs3 = stmt.executeQuery("SELECT * FROM ITEM_FORAGING_MISSION"+
+                    " WHERE HUNTERID = "+hid+
+                   " INTERSECT "+
+                   "SELECT * FROM ITEM_FORAGING_MISSION"+
+                   " WHERE COMPLETETIME IS NULL"); 
+            while(rs3.next()){
+               int tempmid = rs3.getInt("ITEMMISSIONID");
+               int temphid = rs3.getInt("HUNTERID");
+               String tempddl = rs3.getString("DEADLINE");
+               String tempdesc = rs3.getString("DESCRIPTION");
+               if(temphid==hid){
+                  Imids.add(tempmid);
+                  Idescriptions.add(tempdesc);
+                  Iddls.add(tempddl);
+               }
+            }
+           DefaultListModel listModel = new DefaultListModel();
+           for(int i=0;i<Hmids.size();i++){
+               listModel.addElement("HuntingMission #"+Hmids.get(i));
+           }
+           for(int in=0;in<Imids.size();in++){
+               listModel.addElement("ItemMission #"+Imids.get(in));
+           }
+           //System.out.print(Hmids.get(0));
+           currentMissionsList.setModel(listModel);
+        }catch(SQLException ex){
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void filltheIMList(){
+        try{
+            Connection con = Connector.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM ITEM_FORAGING_MISSION"); 
+            DefaultListModel listModel = new DefaultListModel();
+            while(rs.next()){
+                int tempid = rs.getInt("ITEMMISSIONID");
+                String tempacceptTime = rs.getString("ACCEPTTIME");
+                if(tempacceptTime ==null){
+                    listModel.addElement("ItemMission#"+tempid);
+                }
+            }
+            System.out.print("WOW");
+            ItemMissionsList.setModel(listModel);
+        }catch(SQLException ex){
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void filltheHMList(){
+        try{
+            Connection con = Connector.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM HUNTING_MISSIONS"); 
+            DefaultListModel listModel = new DefaultListModel();
+            while(rs.next()){
+                int tempid = rs.getInt("HUNTINGMISSIONID");
+                String tempacceptTime = rs.getString("ACCEPTTIME");
+                if(tempacceptTime ==null){
+                    listModel.addElement("HuntingMission#"+tempid);
+                }
+            }
+            System.out.print("WOW2");
+            HMList.setModel(listModel);
+        }catch(SQLException ex){
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void filltheItemList(int hid){
+        try{
+            Connection con = Connector.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM ITEM "+
+                    "WHERE HUNTERID="+hid);
+            DefaultListModel listModel = new DefaultListModel();
+            while(rs.next()){
+                String itemnm = rs.getString("ITEMNAME");
+                listModel.addElement(itemnm);
+            }
+            System.out.print("WOWITEM");
+            itemsList.setModel(listModel);
+        }catch(SQLException ex){
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+   
+   
     public void display(int hid){
         String hname;
         int goldbalance = 0;
         String level;
         int Ranking;
-        int exp;
         String team;
         String teamRank;
         String[] curMissions;
@@ -611,11 +1067,12 @@ public class HunterGUI extends javax.swing.JFrame {
         try {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM HUNTER"+
-                    " WHERE HUNTERID=0"); 
+                    " WHERE HUNTERID="+hid); 
             while(rs.next()){
                 hname=rs.getString("NAME");
                 exp=rs.getInt("EXPERIENCE");
                 goldbalance=rs.getInt("GOLDBALANCE");
+                balance=goldbalance;
                 BalanceLabel.setText("GoldBalance: "+String.valueOf(goldbalance));
                 level=calculateLevel(exp);
                 NameLabel.setText("Welcome  "+hname);
@@ -623,7 +1080,7 @@ public class HunterGUI extends javax.swing.JFrame {
                 ExperienceLabel.setText(String.valueOf(exp)+"/"+String.valueOf(findTheExp(exp)));
                 ExpProgressBar.setMinimum(0);
                 ExpProgressBar.setMaximum(100);
-                double ratio = (100*9286/10000);
+                double ratio = (100*exp/10000);
                 System.out.println(exp);
                 System.out.println(findTheExp(exp));
                 System.out.println(ratio);
@@ -641,22 +1098,42 @@ public class HunterGUI extends javax.swing.JFrame {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-       //renderCurMissions(hid);
+       renderCurMissions(hid);
         
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AcceptButton;
     private javax.swing.JLabel BackgroundLabel;
     private javax.swing.JLabel BalanceLabel;
+    private javax.swing.JLabel CurrentddlLabel;
     private javax.swing.JButton DepositBtn;
     private javax.swing.JProgressBar ExpProgressBar;
     private javax.swing.JLabel ExperienceLabel;
+    private javax.swing.JButton ForfeitButton;
+    public javax.swing.JButton HMAcceptButton;
+    private javax.swing.JList<String> HMList;
+    private javax.swing.JLabel HMReleaseTimeLabel;
+    private javax.swing.JTextArea HMdescText;
+    private javax.swing.JLabel HmDiffLabel;
+    private javax.swing.JLabel HmGoldRewardLabel;
+    private javax.swing.JLabel HmNameLabel;
+    private javax.swing.JLabel HmddlRlabel;
+    private javax.swing.JLabel HmexpRewardLabel;
     private javax.swing.JPanel HuntingMissionPanel;
+    private javax.swing.JButton IMAcceptButton;
+    private javax.swing.JLabel IMGoldRewardLabel;
+    private javax.swing.JLabel IMNameLabel;
+    private javax.swing.JTextArea ImDescriptionsText;
+    private javax.swing.JLabel ImDiffLabel;
+    private javax.swing.JLabel ImExpRewardLabel;
+    private javax.swing.JLabel ImRddlLabel;
+    private javax.swing.JLabel ImReleaseTimeLabel;
+    private javax.swing.JList<String> ItemMissionsList;
     private javax.swing.JPanel ItemMissonsPanel;
     private javax.swing.JPanel LeaderBoardPanel;
     private javax.swing.JLabel LevelLabel;
     private javax.swing.JPanel MainPanel;
+    private javax.swing.JTextArea MissionDescriptionText;
     private javax.swing.JLabel NameLabel;
     private javax.swing.JLabel RankingLabel;
     private javax.swing.JPanel StatusPanel;
@@ -664,31 +1141,16 @@ public class HunterGUI extends javax.swing.JFrame {
     private javax.swing.JLabel TeamLabel;
     private javax.swing.JPanel TeamPanel;
     private javax.swing.JLabel TeamRankingLabel;
+    private javax.swing.JButton TurnInButton;
     private javax.swing.JList<String> currentMissionsList;
     private javax.swing.JList<String> itemsList;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JList<String> jList3;
-    private javax.swing.JList<String> jList4;
-    private javax.swing.JList<String> jList5;
     private javax.swing.JList<String> jList6;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel5;
@@ -702,8 +1164,5 @@ public class HunterGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextArea jTextArea3;
     // End of variables declaration//GEN-END:variables
 }
