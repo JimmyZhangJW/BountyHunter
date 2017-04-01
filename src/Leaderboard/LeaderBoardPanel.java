@@ -44,6 +44,7 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
                     case(2):
                         updateGeneralTable();
                         updateGeneralStats();
+                        
                         break;
                 }
           }
