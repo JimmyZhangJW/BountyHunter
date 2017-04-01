@@ -222,6 +222,7 @@ public class signup extends javax.swing.JFrame {
               MissionHolderHome haha=new MissionHolderHome(Integer.parseInt(fullname.getText()));
               haha.setVisible(true);
         }else if(signas == "Hunter"){
+            
         
         }else if(signas == "Admin"){
         
