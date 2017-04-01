@@ -15,7 +15,7 @@ import java.sql.Statement;
 
 import static Main.Connector.getConnection;
 
-public class NoTeam extends JFrame {
+public class NoTeam {
     private JPanel mainWindow;
     private JList teamList;
     private JButton joinTeamButton;
@@ -29,9 +29,6 @@ public class NoTeam extends JFrame {
 
     public NoTeam(int id) {
         $$$setupUI$$$();
-        this.add($$$getRootComponent$$$());
-        this.setSize(400, 550);
-        this.setResizable(false);
         DefaultListModel teamListModel = new DefaultListModel();
         teamList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         teamList.setModel(teamListModel);
@@ -92,7 +89,6 @@ public class NoTeam extends JFrame {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        this.setVisible(true);
 
     }
 

@@ -81,6 +81,7 @@ public class HunterGUI extends javax.swing.JFrame {
         uniqueid=hid;
         initComponents();
         display(uniqueid);
+
         filltheHMList();
         filltheIMList();
         renderCurMissions(hid);
