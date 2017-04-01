@@ -73,13 +73,13 @@ public class HunterGUI extends javax.swing.JFrame {
     /**
      * Creates new form HunterGUI
      */
-    int id;
+    int uniqueid;
     int exp=0;
     int balance=0;
     public HunterGUI(int hid) {
-        id=hid;
+        uniqueid=hid;
         initComponents();
-        display(id);
+        display(uniqueid);
         filltheHMList();
         filltheIMList();
         renderCurMissions(hid);
@@ -771,7 +771,7 @@ public class HunterGUI extends javax.swing.JFrame {
         String current =now.getYear()+"-"+now.getMonthValue()+"-"+now.getDayOfMonth();
         System.out.print(now.getYear()+"-"+now.getMonth()+"-"+now.getDayOfMonth());
         String acceptSql="UPDATE HUNTING_MISSIONS"+
-                " SET HUNTERID="+id+", ACCEPTTIME = "+current+
+                " SET HUNTERID="+uniqueid+", ACCEPTTIME = "+current+
                 " WHERE HUNTINGMISSIONID="+hmid;
         System.out.print(acceptSql);
         try{
@@ -779,7 +779,7 @@ public class HunterGUI extends javax.swing.JFrame {
             Statement stmt = con.createStatement();
             stmt.execute(acceptSql);
             filltheHMList();
-            renderCurMissions(id);
+            renderCurMissions(uniqueid);
         }catch(SQLException ex){
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -792,7 +792,7 @@ public class HunterGUI extends javax.swing.JFrame {
         String current =now.getYear()+"-"+now.getMonthValue()+"-"+now.getDayOfMonth();
         System.out.print(now.getYear()+"-"+now.getMonth()+"-"+now.getDayOfMonth());
         String acceptSql="UPDATE ITEM_FORAGING_MISSION"+
-                " SET HUNTERID = "+id+", ACCEPTTIME = "+current+
+                " SET HUNTERID = "+uniqueid+", ACCEPTTIME = "+current+
                 " WHERE ITEMMISSIONID = "+imid;
         System.out.print(acceptSql);
         try{
@@ -800,7 +800,7 @@ public class HunterGUI extends javax.swing.JFrame {
             Statement stmt = con.createStatement();
             stmt.execute(acceptSql);
             filltheIMList();
-            renderCurMissions(id);
+            renderCurMissions(uniqueid);
         }catch(SQLException ex){
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -816,18 +816,21 @@ public class HunterGUI extends javax.swing.JFrame {
         String current =now.getYear()+"-"+now.getMonthValue()+"-"+now.getDayOfMonth();
         System.out.print(now.getYear()+"-"+now.getMonth()+"-"+now.getDayOfMonth());
         String acceptSql="UPDATE HUNTING_MISSIONS"+
-                " SET HUNTERID = "+id+", COMPLETIONTIME = "+current+
+                " SET HUNTERID = "+uniqueid+", COMPLETIONTIME = "+current+
                 " WHERE HUNTINGMISSIONID = "+hmid;
         System.out.print(acceptSql);
         try{
             Connection con = Connector.getConnection();
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(acceptSql);
+            stmt.executeQuery(acceptSql);
+            String gettingsql ="SELECT * FROM HUNTING_MISSIONS"+
+                    " WHERE HUNTINGMISSIONID="+hmid;
+            
+            ResultSet rs = stmt.executeQuery(gettingsql);
             while(rs.next()){
                 addedBalance = rs.getInt("GOLDREWARD");
                 addedExp = rs.getInt("EXPREWARD");
             }
-            
         }catch(SQLException ex){
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -838,14 +841,14 @@ public class HunterGUI extends javax.swing.JFrame {
             Statement stmt = con.createStatement();
             String updatesql="UPDATE HUNTER"+
                 " SET GOLDBALANCE = "+finalBalance+", EXPERIENCE = "+finalexp+
-                " WHERE HUNTERID = "+id;
-            stmt.executeQuery(updatesql);
-            display(id);
+                " WHERE HUNTERID = "+uniqueid;
+            //stmt.executeQuery(updatesql);
+            display(uniqueid);
         }catch(SQLException ex){
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        renderCurMissions(id);
+        renderCurMissions(uniqueid);
     }
     
      public void turninItemMission(int imid){
@@ -859,21 +862,28 @@ public class HunterGUI extends javax.swing.JFrame {
         String current =now.getYear()+"-"+now.getMonthValue()+"-"+now.getDayOfMonth();
         System.out.print(now.getYear()+"-"+now.getMonth()+"-"+now.getDayOfMonth());
         String acceptSql="UPDATE ITEM_FORAGING_MISSION"+
-                " SET HUNTERID = "+id+", COMPLETETIME = "+current+
-                " WHERE ITEMMISSIONID = "+imid;
+                " SET HUNTERID = "+uniqueid+", COMPLETETIME = '"+current+
+                "' WHERE ITEMMISSIONID = "+imid;
         System.out.print(acceptSql);
         try{
             Connection con = Connector.getConnection();
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(acceptSql);
+            Statement stmt =  con.createStatement();
+            stmt.executeQuery(acceptSql);
+            String gettingsql ="SELECT * FROM ITEM_FORAGING_MISSION"+
+                    " WHERE ITEMMISSIONID="+imid;
+            
+            ResultSet rs = stmt.executeQuery(gettingsql);
             while(rs.next()){
                 addedBalance = rs.getInt("GOLDREWARD");
                 addedExp = rs.getInt("EXPREWARD");
             }
             
         }catch(SQLException ex){
+            ex.printStackTrace();
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
         finalBalance = balance+addedBalance;
         finalexp=exp+addedExp;
         try{
@@ -881,9 +891,9 @@ public class HunterGUI extends javax.swing.JFrame {
             Statement stmt = con.createStatement();
             String updatesql="UPDATE HUNTER"+
                 " SET GOLDBALANCE = "+finalBalance+", EXPERIENCE = "+finalexp+
-                " WHERE HUNTERID = "+id;
-            stmt.executeQuery(updatesql);
-            display(id);
+                " WHERE HUNTERID = "+uniqueid;
+            //stmt.executeQuery(updatesql);
+            display(uniqueid);
         }catch(SQLException ex){
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1114,7 +1124,7 @@ public class HunterGUI extends javax.swing.JFrame {
                 ExperienceLabel.setText(String.valueOf(exp)+"/"+String.valueOf(findTheExp(exp)));
                 ExpProgressBar.setMinimum(0);
                 ExpProgressBar.setMaximum(100);
-                double ratio = (100*9286/10000);
+                double ratio = (100*exp/10000);
                 System.out.println(exp);
                 System.out.println(findTheExp(exp));
                 System.out.println(ratio);
