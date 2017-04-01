@@ -10,9 +10,12 @@ import Main.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -20,7 +23,7 @@ import javax.swing.JOptionPane;
  * @author MalcolmChen
  */
 public class ItemMission extends javax.swing.JFrame {
-    private static int itemMission=2000;
+    private static int itemMission;
     
     private Connection con;
     private Statement stmt;
@@ -35,6 +38,7 @@ public class ItemMission extends javax.swing.JFrame {
         initComponents();
        
         con=Connector.getConnection();
+        itemMission = getMaxItemMissionId();
     }
 
     /**
@@ -56,12 +60,12 @@ public class ItemMission extends javax.swing.JFrame {
         itemname = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         des = new javax.swing.JTextPane();
-        diff = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         deadline = new javax.swing.JTextField();
         createmoney = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        diff = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -94,22 +98,11 @@ public class ItemMission extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(des);
 
-        diff.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                diffFocusLost(evt);
-            }
-        });
-        diff.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                diffActionPerformed(evt);
-            }
-        });
-
         jLabel5.setText("Deadline:");
 
         jLabel1.setText("Mission Type: Item-Related");
 
-        deadline.setText("(e.g. 1997/04/03)");
+        deadline.setText("(e.g. 2017-05-03)");
         deadline.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 deadlineFocusGained(evt);
@@ -132,6 +125,8 @@ public class ItemMission extends javax.swing.JFrame {
             }
         });
 
+        diff.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "S", "A", "B", "C", "D" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -148,7 +143,8 @@ public class ItemMission extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel4)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(diff))
+                            .addComponent(diff, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(0, 0, Short.MAX_VALUE))
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel3)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -203,11 +199,11 @@ public class ItemMission extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(itemname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(8, 8, 8)
+                        .addGap(5, 5, 5)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(diff, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(8, 8, 8))
+                        .addGap(6, 6, 6))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10)
@@ -245,40 +241,16 @@ public class ItemMission extends javax.swing.JFrame {
          deadline.setText("");
     }//GEN-LAST:event_deadlineFocusGained
 
-    private void diffFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_diffFocusLost
-        // TODO add your handling code here:
-        
-        if(diff.getText().equals("s")||diff.getText().equals("S")){
-            createmoney.setText("1000000");
-        }else if(diff.getText().equals("A")||diff.getText().equals("a")){
-            createmoney.setText("500000");
-        }else if(diff.getText().equals("B")||diff.getText().equals("b")){
-            createmoney.setText("250000");
-        } else if(diff.getText().equals("C")||diff.getText().equals("c")){
-            createmoney.setText("100000");
-        } else if(diff.getText().equals("D")||diff.getText().equals("d")){
-            createmoney.setText("50000");
-        }else{
-            JOptionPane.showMessageDialog(null, "Difficulty should be one of s,a,b,c,d");
-        }
-        
-        
-    }//GEN-LAST:event_diffFocusLost
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void diffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diffActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_diffActionPerformed
-
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
         // TODO add your handling code here:
         String description=des.getText();
         String itemid=itemname.getText();
-        String difficult=diff.getText();
+        String difficult= (String) diff.getSelectedItem();
         String dl=deadline.getText();
         String insertIMission="insert into Item_Foraging_Mission(itemMissionId,missionHolderID,deadline,description,expReward,goldReward,startTime) values(?,?,?,?,?,?,?)";
         try{
@@ -288,24 +260,24 @@ public class ItemMission extends javax.swing.JFrame {
             pst.setInt(2, id);
             pst.setString(3, dl);
             pst.setString(4, description);
-            if (diff.getText().equals("s") || diff.getText().equals("S")) {
+            if (difficult.equals("S")) {
                 pst.setInt(5,100000);
                 pst.setInt(6, 500000);
-            } else if (diff.getText().equals("A") || diff.getText().equals("a")) {
+            } else if (difficult.equals("A")) {
                 pst.setInt(5,50000);
                 pst.setInt(6, 50000);
-            } else if (diff.getText().equals("B") || diff.getText().equals("b")) {
+            } else if (difficult.equals("B")) {
                 pst.setInt(5,10000);
                 pst.setInt(6, 10000);
-            } else if (diff.getText().equals("C") || diff.getText().equals("c")) {
+            } else if (difficult.equals("C")) {
                 pst.setInt(5,1000);
                 pst.setInt(6, 1000);
-            } else if (diff.getText().equals("D") || diff.getText().equals("d")) {
+            } else if (difficult.equals("D")) {
                 pst.setInt(5,100);
                 pst.setInt(6, 100);
             }
             Calendar cal = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String data=sdf.format(cal.getTime());
             pst.setString(7, data);
             pst.execute();
@@ -316,6 +288,18 @@ public class ItemMission extends javax.swing.JFrame {
         setVisible(false);
     }//GEN-LAST:event_submitActionPerformed
 
+    private int getMaxItemMissionId() {
+        try {
+            stmt = con.createStatement();
+            stmt.executeQuery("SELECT MAX(ITEMMISSIONID) FROM ITEM_FORAGING_MISSION");
+            rs = stmt.getResultSet();
+            rs.next();
+            return rs.getInt(1);
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemMission.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 2000;
+    }
     private void deadlineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deadlineActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_deadlineActionPerformed
@@ -326,7 +310,7 @@ public class ItemMission extends javax.swing.JFrame {
     private javax.swing.JLabel createmoney2;
     private javax.swing.JTextField deadline;
     private javax.swing.JTextPane des;
-    private javax.swing.JTextField diff;
+    private javax.swing.JComboBox<String> diff;
     private javax.swing.JTextField itemname;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
