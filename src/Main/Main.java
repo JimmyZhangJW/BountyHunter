@@ -13,7 +13,6 @@ public class Main {
     public static void main(String[] args) {        
 //        JFrame mainframe = new signup();
 //        mainframe.setVisible(true);
-        HunterGUI hunterGui = new HunterGUI(0);
-        hunterGui.setVisible(true);
+
     }
 }
