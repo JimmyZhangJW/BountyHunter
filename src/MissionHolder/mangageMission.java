@@ -45,6 +45,7 @@ public class mangageMission extends javax.swing.JFrame {
         try{
             stmt= con.createStatement();
             String imissionQuery="select * from Item_Foraging_Mission where  missionHolderID="+id;
+            item1.setRowCount(0);
             rs=stmt.executeQuery(imissionQuery);
             while(rs.next()){
                 item1data[0]=rs.getInt(1);
@@ -67,7 +68,7 @@ public class mangageMission extends javax.swing.JFrame {
              //for current HunterMission
             String hmissionQuery="select * from Hunting_missions where  missionHolderID="+id;
             ResultSet rs = stmt.executeQuery(hmissionQuery);
-            
+            hunter1.setRowCount(0);
             while(rs.next()){
                 item1data[0]=rs.getInt(1);
                 Integer count = null;

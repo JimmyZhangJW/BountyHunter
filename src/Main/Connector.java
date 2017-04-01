@@ -22,8 +22,8 @@ public class Connector {
     
        // --- FILL THESE IN ---
 
-    static String ORA_ACCOUNT = "ora_n9k0b";
-    static String ORA_PASSWORD = "a46778156";
+    static String ORA_ACCOUNT = "ora_j5k0b";
+    static String ORA_PASSWORD = "a36579143";
 
     private static Connection con;
 
