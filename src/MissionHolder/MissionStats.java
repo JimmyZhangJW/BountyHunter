@@ -150,7 +150,7 @@ public class MissionStats extends javax.swing.JFrame {
             stmt= con.createStatement();
             String Query="(SELECT M.ITEMMISSIONID ID, M.DESCRIPTION, M.DEADLINE\n" +
 "FROM ITEM_FORAGING_MISSION M " +
-"WHERE M.MISSIONHOLDERID = "+ id +"  AND M.COMPLETETIME IS NULL ) " +
+"WHERE M.MISSIONHOLDERID = "+ id +"  AND M.COMPLETETIME IS NULL) " +
 "UNION(  " +
 "SELECT M2.HUNTINGMISSIONID ID, M2.DESCRIPTION , M2.DEADLINE " +
 "FROM HUNTING_MISSIONS M2 " +

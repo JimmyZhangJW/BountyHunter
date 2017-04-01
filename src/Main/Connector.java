@@ -22,11 +22,11 @@ public class Connector {
     
        // --- FILL THESE IN ---
 
-    static String ORA_ACCOUNT = "ora_j5k0b";
-    static String ORA_PASSWORD = "a36579143";
+    static String ORA_ACCOUNT = "ora_l5l0b";
+    static String ORA_PASSWORD = "a55941158";
 
     private static Connection con;
-    
+
     static public Connection getConnection(){
         if(con == null){
             try{
