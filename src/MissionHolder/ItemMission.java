@@ -7,6 +7,7 @@ package MissionHolder;
 
 
 import Main.*;
+import static Main.Connector.getConnection;
 import static Main.signup.drawErrorDialog;
 import static Main.signup.isNumeric;
 import static MissionHolder.MissionStats.isPastDeadline;
@@ -298,7 +299,7 @@ public class ItemMission extends javax.swing.JFrame {
         String dl= year.getText() + "-"+ month.getText() +"-"+ day.getText();
         String insertIMission="insert into Item_Foraging_Mission(itemMissionId,missionHolderID,deadline,description,expReward,goldReward,startTime) values(?,?,?,?,?,?,?)";        
         
-        if(!hasFunds(Integer.parseInt(createmoney.getText()))){
+        if(!hasFunds(Integer.parseInt(createmoney.getText()), id)){
              drawErrorDialog("You do not have enough money to create "
                                 + "this mission", "Insufficient funds");
             return;
@@ -310,9 +311,14 @@ public class ItemMission extends javax.swing.JFrame {
             return;
         }
        
-        if(!isValidDate(dl)){
+        if(isPastDeadline(dl)){
             drawErrorDialog("Deadline must be a date in the future in the form "
                     + "YYYY-MM-DD", "Invalid Date");
+            return;
+        }
+        
+        if(!isValidItem(itemid)){
+             drawErrorDialog("An item with that ID does not exist", "Invalid Item");
             return;
         }
         
@@ -359,7 +365,18 @@ public class ItemMission extends javax.swing.JFrame {
         
         setVisible(false);
     }//GEN-LAST:event_submitActionPerformed
-
+   
+    private boolean isValidItem(String itemID){
+        try {
+            stmt = con.createStatement();
+            stmt.executeQuery("SELECT ITEMID FROM ITEM WHERE ITEMID="+itemID);
+            rs = stmt.getResultSet();
+            return rs.next();
+        } catch (SQLException ex) {
+        }
+        return false;
+    }
+   
     private int getMaxItemMissionId() {
         try {
             stmt = con.createStatement();
@@ -373,13 +390,15 @@ public class ItemMission extends javax.swing.JFrame {
         return 2000;
     }
     
-    private boolean hasFunds(int purchaseAmount){
+    public static boolean hasFunds(int purchaseAmount,int missionHolderId){
         int funds; 
-        
+        Connection connect = getConnection();
         try {
-            stmt = con.createStatement();
-            stmt.executeQuery("SELECT GOLDBALANCE FROM MISSIONHOLDER WHERE MISSIONHOLDERID="+id);
-            funds = rs.getInt(1);
+            Statement state = connect.createStatement();
+            state.executeQuery("SELECT GOLDBALANCE FROM MISSIONHOLDER WHERE MISSIONHOLDERID="+missionHolderId);
+            ResultSet results = state.getResultSet();
+            results.next();
+            funds = results.getInt(1);
             if(funds > purchaseAmount)
                 return true;
         } catch (SQLException ex) {
@@ -413,15 +432,6 @@ public class ItemMission extends javax.swing.JFrame {
         }
     }
     
-    public boolean isValidDate(String date){
-        if(!isNumeric(date)){
-            return false;
-        }
-        if(isPastDeadline(date)){
-            return false;
-        }
-        return true;
-    }
     private void yearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yearActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_yearActionPerformed
