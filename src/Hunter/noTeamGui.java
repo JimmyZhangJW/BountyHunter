@@ -16,7 +16,9 @@ public class noTeamGui extends JFrame {
     private JTextField textField1;
 
     public noTeamGui() {
+      
         Connection c = getConnection();
+
         joinTeamButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //TODO WRITE UPDATE JOIN CODE QUERY HERE

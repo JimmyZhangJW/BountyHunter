@@ -6,6 +6,7 @@
 package Leaderboard;
 
 import static Main.Connector.*;
+import static Main.signup.drawErrorDialog;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -377,6 +378,7 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
             tableModel.fireTableDataChanged();
         } catch (SQLException ex) {
             Logger.getLogger(LeaderBoardPanel.class.getName()).log(Level.SEVERE, null, ex);
+            drawErrorDialog(ex.toString(), "SQL Exception");
         }
         closeConnection();
     }
@@ -408,6 +410,8 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
             tableModel.fireTableDataChanged();
         } catch (SQLException ex) {
             Logger.getLogger(LeaderBoardPanel.class.getName()).log(Level.SEVERE, null, ex);
+            drawErrorDialog(ex.toString(), "SQL Exception");
+
         }
         closeConnection();
     }
@@ -437,6 +441,7 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
             
         } catch (SQLException ex) {
             Logger.getLogger(LeaderBoardPanel.class.getName()).log(Level.SEVERE, null, ex);
+            drawErrorDialog(ex.toString(), "SQL Exception");
         }
         closeConnection();
     }
@@ -469,6 +474,8 @@ public class LeaderBoardPanel extends javax.swing.JPanel {
             tableModel.fireTableDataChanged();
         } catch (SQLException ex) {
             Logger.getLogger(LeaderBoardPanel.class.getName()).log(Level.SEVERE, null, ex);
+            drawErrorDialog(ex.toString(), "SQL Exception");
+
         }
         closeConnection();
     }
