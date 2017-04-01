@@ -10,9 +10,16 @@ import java.util.logging.Logger;
 
 public class Main {
 
-    public static void main(String[] args) {    
-        JFrame mainframe = new signup();
-        mainframe.setVisible(true);
+<<<<<<< HEAD
+    public static void main(String[] args) {        
+//        JFrame mainframe = new signup();
+//        mainframe.setVisible(true);
+=======
+    public static void main(String[] args) {
+        NoTeam nt = new NoTeam(0);
+       /* JFrame mainframe = new signup();
+        mainframe.setVisible(true);*/
+>>>>>>> master
 
     }
 }
