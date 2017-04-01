@@ -114,7 +114,9 @@
             <children>
               <component id="f69cf" class="javax.swing.JList" binding="currentMissionList">
                 <constraints/>
-                <properties/>
+                <properties>
+                  <selectionMode value="0"/>
+                </properties>
               </component>
             </children>
           </scrollpane>
@@ -139,7 +141,7 @@
               <component id="caef1" class="javax.swing.JList" binding="teamMemberList">
                 <constraints/>
                 <properties>
-                  <selectionMode value="0"/>
+                  <selectionMode value="1"/>
                 </properties>
               </component>
             </children>

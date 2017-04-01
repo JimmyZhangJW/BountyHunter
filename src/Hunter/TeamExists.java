@@ -2,12 +2,15 @@ package Hunter;
 
 import static Main.Connector.getConnection;
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.xml.transform.Result;
 import java.awt.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 
 public class TeamExists extends JFrame {
@@ -43,15 +46,35 @@ public class TeamExists extends JFrame {
 // >>> IMPORTANT!! <<<
 // DO NOT EDIT OR ADD ANY CODE HERE!
         $$$setupUI$$$();
-        DefaultListModel<String> teamListModel = new DefaultListModel<>();
-        DefaultListModel<String> missionListModel = new DefaultListModel<>();
-        teamMemberList.setModel(teamListModel);
-        currentMissionList.setModel(teamListModel);
-
-
         Connection connection = getConnection();
         ResultSet rs;
         Statement statement;
+        ArrayList idList = new ArrayList();
+        DefaultListModel<String> teamListModel = new DefaultListModel<>();
+        DefaultListModel<String> missionListModel = new DefaultListModel<>();
+        teamMemberList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        currentMissionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        teamMemberList.setModel(teamListModel);
+        currentMissionList.setModel(missionListModel);
+        teamMemberList.addListSelectionListener(new ListSelectionListener() {
+
+            public void valueChanged(ListSelectionEvent e) {
+                Connection connection = getConnection();
+                ResultSet rs;
+                try {
+                    Statement statement = connection.createStatement();
+                    rs = statement.executeQuery("SELECT * FROM HUNTER WHERE HUNTERID = " + idList.get(e.getFirstIndex()));
+                    rs.next();
+                    memberName.setText(rs.getString(2));
+                    memberRank.setText(rs.getString());
+
+                } catch (SQLException excp) {
+                    excp.printStackTrace();
+                }
+
+            }
+        });
+
         /*TODO
         With the passed in Result set (should be just singleton) find out Name,Rank and the missions they are on. Oh fuck
          */
@@ -102,20 +125,20 @@ public class TeamExists extends JFrame {
                 String hunterName = rs.getString(2);
                 teamLeadName.setText(hunterName);
                 teamListModel.addElement(hunterName);
+                idList.add(rs.getInt(1));
             }
 
             rs = statement.executeQuery("SELECT * FROM Hunting_missions h WHERE h.teamName = '" + teamNameString + "'");
             while (rs.next()) {
-                missionListModel.addElement(rs.getString("teamName"));
+                missionListModel.addElement("Hunting Mission: " + rs.getInt(1));
             }
 
             rs = statement.executeQuery("SELECT  * FROM Item_Foraging_Mission WHERE teamName = '" + teamNameString + "'");
             while (rs.next()) {
 
-                missionListModel.addElement(rs.getString("teamName"));
+                missionListModel.addElement("Item Mission: " + rs.getInt(1));
             }
 
-            connection.close();
         } catch (Exception e) {
             //TODO Proper logger message
             e.printStackTrace();
@@ -243,6 +266,7 @@ public class TeamExists extends JFrame {
         gbc.fill = GridBagConstraints.BOTH;
         currentMissionsPanel.add(currentMissionPane, gbc);
         currentMissionList = new JList();
+        currentMissionList.setSelectionMode(0);
         currentMissionPane.setViewportView(currentMissionList);
         teamMemberPanel = new JPanel();
         teamMemberPanel.setLayout(new GridBagLayout());
@@ -263,7 +287,7 @@ public class TeamExists extends JFrame {
         gbc.fill = GridBagConstraints.BOTH;
         teamMemberPanel.add(teamMemberPane, gbc);
         teamMemberList = new JList();
-        teamMemberList.setSelectionMode(0);
+        teamMemberList.setSelectionMode(1);
         teamMemberPane.setViewportView(teamMemberList);
         teamMemberLabel = new JLabel();
         teamMemberLabel.setText("Team Members:");
