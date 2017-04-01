@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JFrame;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -38,7 +39,8 @@ public class manageMission extends javax.swing.JFrame {
     public manageMission(int id) {
         initComponents();
         this.id=id;
-        
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+
         tabbed.addChangeListener(new ChangeListener(){
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -79,7 +81,7 @@ public class manageMission extends javax.swing.JFrame {
             String hMissionQuery="SELECT M.HUNTINGMISSIONID, M.DESCRIPTION, mon.NAME, M.STARTTIME, M.DEADLINE, M.ACCEPTTIME " +
                     "FROM HUNTING_MISSIONS M, MMISSION_HAS_MONSTER mHM, MONSTER mon " +
                     "WHERE M.MISSIONHOLDERID =" +id+" AND mHM.HUNTINGMISSIONID = M.HUNTINGMISSIONID "
-                    + "AND mon.MONSTERID = mHM.MONSTERID AND M.ACCEPTTIME IS NOT NULL";
+                    + "AND mon.MONSTERID = mHM.MONSTERID ";
          
             hunterTable.setRowCount(0);
             rs=stmt.executeQuery(hMissionQuery);
@@ -120,17 +122,10 @@ public class manageMission extends javax.swing.JFrame {
                     "FROM ITEM_FORAGING_MISSION M, IMISSION_HAS_ITEM mHI, ITEM I " +
                     "WHERE "+ "M.MISSIONHOLDERID  = "+id 
                     + " AND mHI.ITEMMISSIONID = M.ITEMMISSIONID AND "
-                    + "I.ITEMID = mHI.ITEMID AND M.ACCEPTTIME IS NOT NULL";
+                    + "I.ITEMID = mHI.ITEMID";
          
             itemTable.setRowCount(0);
             Object itemData[]=new Object[6];
-            itemData[0]="haha";
-            itemData[1]="hehe";
-            itemData[2]="hihi";
-            itemData[3]="dsa";
-            itemData[4]="dsa";
-            itemData[5]="dsa";
-            itemTable.addRow(itemData);
             rs=stmt.executeQuery(imissionQuery);
             while(rs.next()){
                 itemData[0]=rs.getString(1); // itemMissionID
@@ -564,7 +559,13 @@ public class manageMission extends javax.swing.JFrame {
         
         try{
             stmt = con.createStatement();
-            String updateQuery = "UPDATE Item_Foraging_Mission SET description ='"+desc+"', deadline = '" +dl+ "' where itemMissionId=" + mid;
+            String updateQuery;
+            if(tabbed.getSelectedIndex()==0){
+            updateQuery= "UPDATE Item_Foraging_Mission SET description ='"+desc+"', deadline = '" +dl+ "' where itemMissionId=" + mid;
+            }else{
+          updateQuery= "UPDATE Hunting_missions SET description ='"+desc+"', deadline = '" +dl+ "' where huntingMissionID=" + mid;
+            }
+            
             int row = stmt.executeUpdate(updateQuery);
             DefaultTableModel modelTable = (DefaultTableModel) ItemTable1.getModel();
             int index = ItemTable1.getSelectedRow();
